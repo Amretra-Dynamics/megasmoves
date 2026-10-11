@@ -50,6 +50,10 @@ PUBLIC_ENDPOINTS = frozenset({
     "github.com", "www.github.com", "megasmoves.io", "www.megasmoves.io",
     "t.me", "pypi.org", "www.python.org", "docs.python.org",
     "localhost", "127.0.0.1", "example.com", "example.org",
+    # Explicitly reviewed public agent-vendor documentation and package registries.
+    "api.github.com", "antigravity.google", "kiro.dev", "www.moonshot.cn",
+    "open.bigmodel.cn", "docs.cline.bot", "static.devin.ai", "cli.devin.ai",
+    "kilo.ai", "x.ai", "registry.npmjs.org",
 })
 
 EXEMPT_EMAIL_DOMAINS = {"example.com", "example.org", "example.net", "invalid", "localhost", "github.com", "users.noreply.github.com", "noreply.github.com"}
