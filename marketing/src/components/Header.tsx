@@ -10,7 +10,7 @@ type Theme = "dark" | "light";
 
 const navigation = [
   { href: "/#product", label: "How it works" },
-  { href: "/pricing", label: "Megas WoW" },
+  { href: "/wow", label: "Megas WoW" },
   { href: "/docs", label: "Docs" },
   { href: "/legal", label: "Legal" },
 ];
@@ -76,8 +76,8 @@ export default function Header() {
             <Sun className="theme-icon theme-icon--sun" aria-hidden="true" />
             <Moon className="theme-icon theme-icon--moon" aria-hidden="true" />
           </button>
-          <Link href="/download" className="button button--primary site-header__cta">
-            Explore Community
+          <Link href="/wow" className="button button--primary site-header__cta">
+            WoW early access
             <ArrowRight aria-hidden="true" />
           </Link>
           <button
@@ -101,8 +101,8 @@ export default function Header() {
               <ArrowRight aria-hidden="true" />
             </Link>
           ))}
-          <Link href="/download" onClick={() => setMenuOpen(false)}>
-            Explore Community
+          <Link href="/wow" onClick={() => setMenuOpen(false)}>
+            WoW early access
             <ArrowRight aria-hidden="true" />
           </Link>
         </nav>
