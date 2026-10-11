@@ -29,6 +29,7 @@ jobs:
       - run: megasmoves --version
       - run: megas browser status
       - run: python -m pip wheel --no-deps -w dist .
+      - run: python tools/audit_wheel.py dist
   source-safety:
     name: Block private data before publication
     runs-on: ubuntu-latest

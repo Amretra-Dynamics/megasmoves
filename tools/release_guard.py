@@ -15,9 +15,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ALLOWED_SUFFIXES = {
     ".py", ".md", ".txt", ".html", ".css", ".yml", ".yaml", ".toml",
-    ".json", ".js", ".ts", ".tsx", ".xml", ".sh", ".ps1", ".cs", ".kt",
+    ".json", ".js", ".ts", ".tsx", ".xml", ".sh", ".ps1", ".cs", ".kt", ".ini", ".cfg", ".conf", ".properties", ".gradle",
 }
-ALLOWED_BASENAMES = {"LICENSE", ".gitignore"}
+ALLOWED_BASENAMES = {"LICENSE", ".gitignore", "Dockerfile", "CMakeLists.txt"}
+SENSITIVE_BASENAMES = {".pypirc", ".npmrc", ".netrc", "id_rsa", "id_ed25519", "credentials.json", "service-account.json"}
+SENSITIVE_SUFFIXES = {".jks", ".keystore", ".p12", ".pfx", ".pem", ".key", ".sqlite", ".db", ".kdbx"}
 MAX_TEXT_BYTES = 2_000_000
 
 
@@ -80,6 +82,16 @@ def _inspect(name: str, data: bytes) -> list[str]:
     return labels
 
 
+def _is_sensitive_path(name: str) -> bool:
+    candidate = Path(name)
+    basename = candidate.name.lower()
+    if basename in SENSITIVE_BASENAMES or candidate.suffix.lower() in SENSITIVE_SUFFIXES:
+        return True
+    if basename == ".env" or (basename.startswith(".env.") and not basename.endswith(".example")):
+        return True
+    return False
+
+
 def _is_text_path(name: str) -> bool:
     candidate = Path(name)
     return candidate.suffix.lower() in ALLOWED_SUFFIXES or candidate.name in ALLOWED_BASENAMES
@@ -92,6 +104,8 @@ def scan_tree() -> list[tuple[str, str]]:
         if not raw:
             continue
         name = raw.decode("utf-8", "surrogateescape")
+        if _is_sensitive_path(name):
+            findings.append((name, "sensitive_file_type"))
         if not _is_text_path(name):
             continue
         path = ROOT / name
@@ -111,6 +125,8 @@ def scan_history() -> list[tuple[str, str]]:
         if not raw_name:
             continue
         name = raw_name.decode("utf-8", "replace")
+        if _is_sensitive_path(name):
+            findings.append((name, "sensitive_file_type"))
         if not _is_text_path(name) or sha in seen:
             continue
         seen.add(sha)
