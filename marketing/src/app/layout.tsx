@@ -14,7 +14,13 @@ const inter = Inter({
   weight: ["400", "600", "700", "800", "900"],
 });
 
+const publicAssetPrefix = process.env.NEXT_PUBLIC_MEGAS_PAGES_BASE_PATH ?? "/megasmoves";
+
 export const metadata: Metadata = {
+  icons: {
+    icon: [{ url: `${publicAssetPrefix}/megas-logo.png`, type: "image/png" }],
+    apple: [{ url: `${publicAssetPrefix}/megas-logo.png`, type: "image/png" }],
+  },
   title: "MegasMoves | Your always-on SI agent for all your devices",
   description: "MegasMoves connects SI agents with device and workspace capabilities through MCP and permission-aware execution.",
   keywords: [
