@@ -118,7 +118,10 @@ class TrustStore:
     def add(self, raw_path: str) -> dict[str, str]:
         if not raw_path or not raw_path.strip():
             raise ValueError("workspace path is required")
-        root = Path(raw_path).expanduser().resolve(strict=True)
+        try:
+            root = Path(raw_path).expanduser().resolve(strict=True)
+        except (OSError, RuntimeError) as exc:
+            raise ValueError("workspace must be an existing directory") from exc
         if not root.is_dir():
             raise ValueError("workspace must be an existing directory")
         record = {"id": hashlib.sha256(str(root).encode()).hexdigest()[:16], "path": str(root)}
