@@ -54,6 +54,7 @@ python -m unittest discover -s tests -v
 - [Security policy](SECURITY.md)
 - [Threat model](docs/THREAT_MODEL.md)
 - [Provenance of source files](docs/PROVENANCE.md)
+- [Source scope](docs/SOURCE_SCOPE.md)
 - [Public release checklist](docs/RELEASE_CHECKLIST.md)
 - [Contributing](CONTRIBUTING.md)
 
