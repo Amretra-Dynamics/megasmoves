@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "megasmoves-community"
+version = "0.1.0"
+description = "A read-only, local-first preview of MegasMoves trusted workspace discovery and MCP tools"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Amretra Dynamics"}]
+dependencies = []
+
+[project.scripts]
+megas = "megas_community.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
