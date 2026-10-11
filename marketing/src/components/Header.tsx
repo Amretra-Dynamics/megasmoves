@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { ArrowRight, Menu, Moon, Sun, X } from "lucide-react";
 import { useState } from "react";
 
+const megasLogoPath = `${process.env.NEXT_PUBLIC_MEGAS_PAGES_BASE_PATH ?? "/megasmoves"}/megas-mark.svg`;
+
 type Theme = "dark" | "light";
 
 const navigation = [
@@ -37,7 +39,7 @@ export default function Header() {
         <Link href="/" className="site-brand" aria-label="MegasMoves home">
           <span className="site-brand__mark" aria-hidden="true">
             <Image
-              src="/megasmoves/megas-mark.svg"
+              src={megasLogoPath}
               alt=""
               width={44}
               height={44}
