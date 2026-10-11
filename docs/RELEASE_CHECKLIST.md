@@ -10,6 +10,8 @@ Status: **NOT APPROVED FOR PUBLICATION**
 - [ ] Verify copyright and third-party code licenses, including the three sourced modules
 - [ ] Scan the entire branch content **and history** for credentials, PII and internal infrastructure
 - [ ] Independently review the final feature claims and installation guide
+- [ ] Exclude private-product integrations and their APIs, settings, data, documentation and assets from the public edition
+- [ ] Pass automated exclusion regression tests on public-source changes
 
 ## Security and platform tests
 - [ ] Perform manual source review of trust boundaries, race conditions and error surfaces
@@ -20,7 +22,7 @@ Status: **NOT APPROVED FOR PUBLICATION**
 - [ ] Verify executable packaging if binaries are promised
 
 ## Launch
-- [ ] Verify site privacy/support statements, domain configuration, and all links
+- [ ] Verify site privacy/support statements, domain configuration, and all links (including https://t.me/megasmovesSI)
 - [ ] Obtain founder sign-off for the exact release commit
 - [ ] Change **this organization repository only** from private to public
 - [ ] Confirm outside users can access GitHub, install instructions and artifacts
