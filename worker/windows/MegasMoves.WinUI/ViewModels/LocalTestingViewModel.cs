@@ -394,7 +394,6 @@ public partial class LocalTestingViewModel : ObservableObject
 
         if (snapshot.TryGetProperty("account", out var account))
         {
-            MegasMovesState = Bool(account, "megas_target_ready") ? "MegasMoves: Linked" : "MegasMoves: Local Only";
         }
 
         SelectedDevice = !string.IsNullOrWhiteSpace(selectedSerial)

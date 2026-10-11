@@ -665,7 +665,6 @@ public partial class MainWindowViewModel : ObservableObject
         if (snapshot.TryGetProperty("account", out var account))
         {
             AccountAuthenticated = Bool(account, "amretra_authenticated");
-            MegasMovesState = Bool(account, "megas_target_ready") ? "MegasMoves: Linked" : "MegasMoves: Local Only";
             if (account.TryGetProperty("user", out var user))
             {
                 var fullName = Text(user, "full_name");
