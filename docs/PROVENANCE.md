@@ -1,18 +1,15 @@
 # Source provenance
 
-This organization repository is a curated release candidate with independent Git history. It is not a mirror or fork of the private source repository.
+This organization repository is an independently curated source release candidate. Its history does not include the internal development history.
 
-Private reference: abhinavmusrif/megasmoves
-Reference commit: b8ac7a5d3d04a9b8c6387c857057f1775fabd603 (October 7, 2026)
-
-## Files selected from internal code
+The following modules were individually selected from the private MegasMoves implementation as of October 7, 2026:
 
 - worker/megas/bounded_io.py -> src/megas_community/bounded_io.py
 - worker/megas/terminal_parse.py -> src/megas_community/terminal_parse.py
 - worker/megas/mcp/secret_policy.py -> src/megas_community/secret_policy.py
 
-These specific modules were inspected for common credential patterns before transfer. This was not a comprehensive audit or third-party licensing certification.
+These specific modules were inspected for common credential signatures before transfer. That does not constitute a complete security, copyright or third-party licensing audit. A source-to-source review and ownership confirmation remain part of the release gate.
 
-The human-approved workspace registry, CLI, read-only MCP preview and their tests are newly implemented as a minimal public-source candidate. They do **not** represent the entire internal operator implementation.
+The CLI, trusted workspace registry, read-only MCP server, and initial test suite are newly implemented for the Community preview. They do not represent the complete internal MegasMoves operator.
 
-Every later source import must carry source path and commit, copyright/dependency review, secret scanning, reproducible tests and owner approval. Do not transfer the internal repository's Git history, production deployment configuration, runtime state or customer data.
+Every future internal import must include internally recorded source paths/commit hashes, owner approval, dependency/license review, secret scans and platform tests. Never copy internal Git history, credentials, deployment secrets, customer data or private operations transcripts to this repository.
