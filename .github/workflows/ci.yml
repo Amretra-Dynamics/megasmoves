@@ -2,8 +2,7 @@ name: Community checks
 
 on:
   push:
-    branches: [main, release/community-preview]
-  pull_request:
+    branches: [main]
 
 permissions:
   contents: read

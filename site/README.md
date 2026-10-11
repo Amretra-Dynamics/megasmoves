@@ -1,6 +1,6 @@
 # Website release staging
 
-The files in this directory are a dependency-free, static promotional landing page. They are intentionally **not deployed** by this release branch.
+The files in this directory are a dependency-free, static promotional landing page. They are intentionally **not deployed** by this private repository.
 
 Publication steps for the organization owner:
 1. Verify all feature and plan claims against real product behavior.

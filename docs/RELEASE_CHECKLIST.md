@@ -1,14 +1,14 @@
 # Public release gate
 
 Repository: Amretra-Dynamics/megasmoves
-Candidate branch: release/community-preview
+Development branch: main (direct commits; no release PR required)
 License: MIT
 Status: **NOT APPROVED FOR PUBLICATION**
 
 ## Scope and hygiene
 - [ ] Confirm this limited Community preview is sufficient for the desired public launch, or add more reviewed product functionality
 - [ ] Verify copyright and third-party code licenses, including the three sourced modules
-- [ ] Scan the entire branch content **and history** for credentials, PII and internal infrastructure
+- [ ] Scan the entire main branch content **and history** for credentials, PII and internal infrastructure
 - [ ] Independently review the final feature claims and installation guide
 - [ ] Exclude private-product integrations and their APIs, settings, data, documentation and assets from the public edition
 - [ ] Pass automated exclusion regression tests on public-source changes
