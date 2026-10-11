@@ -1,0 +1,20 @@
+import Link from "next/link";
+import { ArrowRight, Cloud, Globe2, Laptop2, ShieldCheck, Sparkles, Smartphone, Terminal } from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+export const metadata = { title: "Megas WoW Cloud | Early Access", description: "Join the Megas WoW Cloud early-access interest list. Your always-on SI agent for all your devices, planned at $20 per month." };
+const email = "mailto:master@megasmoves.io?subject=Megas%20WoW%20Cloud%20early%20access&body=Hello%20MegasMoves%20team%2C%0A%0AI%27m%20interested%20in%20Megas%20WoW%20Cloud%20early%20access.%0A%0AMy%20use%20case%3A%20%0ADevices%20I%20use%3A%20%0A%0AThanks%21";
+export default function WowPage() {return <div className="site-surface min-h-screen"><Header /><main className="mx-auto w-full max-w-6xl px-6 py-16 md:py-24"><p className="eyebrow"><Cloud className="h-4 w-4" /> MEGAS WOW / CLOUD</p>
+<h1 className="mt-6 max-w-5xl text-5xl font-extrabold tracking-[-0.06em] md:text-7xl">Your always-on <span className="text-[var(--accent)]">SI agent</span> for all your devices.</h1>
+<p className="mt-8 max-w-3xl text-lg leading-8 text-[var(--text-soft)]">We're building the managed MegasMoves experience for the next generation of connected device workflows. The Community release lays the groundwork; Megas WoW Cloud is the planned always-on layer.</p>
+<div className="mt-12 grid gap-5 sm:grid-cols-3">
+ <div className="rounded-xl border border-[var(--line)] bg-[var(--surface-1)] p-6"><Laptop2 className="h-7 w-7 text-[var(--accent)]" /><h2 className="mt-5 text-lg font-bold">Your computers</h2><p className="mt-2 text-sm leading-7 text-[var(--text-soft)]">Local capabilities with explicit workspace and device boundaries.</p></div>
+ <div className="rounded-xl border border-[var(--line)] bg-[var(--surface-1)] p-6"><Smartphone className="h-7 w-7 text-[var(--accent)]" /><h2 className="mt-5 text-lg font-bold">Your devices</h2><p className="mt-2 text-sm leading-7 text-[var(--text-soft)]">Aiming for cross-device operation that remains observable and authorized.</p></div>
+ <div className="rounded-xl border border-[var(--line)] bg-[var(--surface-1)] p-6"><Globe2 className="h-7 w-7 text-[var(--accent)]" /><h2 className="mt-5 text-lg font-bold">Your agent workflows</h2><p className="mt-2 text-sm leading-7 text-[var(--text-soft)]">Connecting compatible SI agents to the tools where work happens.</p></div>
+</div>
+<section className="mt-14 rounded-2xl border border-[var(--accent)] bg-[var(--surface-2)] p-7 md:p-12"><div className="flex flex-wrap items-center justify-between gap-5"><div><p className="text-xs font-extrabold uppercase tracking-[0.14em] text-[var(--accent)]">EARLY ACCESS INTEREST LIST</p><h2 className="mt-3 text-4xl font-extrabold">Megas WoW Cloud</h2><p className="mt-4 text-lg"><span className="text-4xl font-black">$20</span> / month <span className="text-sm text-[var(--muted)]">· target price, not on sale</span></p></div><Sparkles className="h-14 w-14 text-[var(--accent)]" aria-hidden="true" /></div>
+<p className="mt-6 max-w-3xl text-sm leading-7 text-[var(--text-soft)]">Request an invitation and tell us which device workflows you care about. This static site opens your email app with a prefilled request; sending the message is what places your interest with our team.</p>
+<a href={email} className="button button--primary mt-8">Request early access by email <ArrowRight className="h-4 w-4" /></a>
+<p className="mt-4 text-xs leading-6 text-[var(--muted)]">No automatic sign-up is recorded on this website, no card is required, and an invitation is not guaranteed. You choose whether to send the email.</p></section>
+<div className="mt-10 flex flex-wrap gap-3"><Link href="/docs" className="button button--quiet"><Terminal className="h-4 w-4" /> Read documentation</Link><Link href="/privacy" className="button button--quiet"><ShieldCheck className="h-4 w-4" /> Privacy</Link></div>
+</main><Footer /></div>}
