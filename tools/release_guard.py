@@ -35,15 +35,15 @@ def _pattern_rules() -> dict[str, re.Pattern[str]]:
         "user_email": re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.I),
         "tunnel_token": re.compile(r"\b(?:TUNNEL_TOKEN|CLOUDFLARE_TOKEN|NGROK_AUTHTOKEN|TAILSCALE_AUTHKEY)\s*[:=]\s*[\"'][A-Za-z0-9_=-]{10,}[\"']", re.I),
         "private_ip": re.compile(r"\b(?:10(?:\.\d{1,3}){3}|192\.168(?:\.\d{1,3}){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2})\b"),
-        "url_embedded_credentials": re.compile(r"https?://[^\\s/'\"@:]+:[^\\s/'\"@]+@[^\\s/'\"@]+", re.I),
-        "phone_number": re.compile(r"(?<!\\d)(?:\\+91[- ]?)?[6-9]\\d{9}(?!\\d)"),
-        "tunnel_id_assignment": re.compile(r"\\b(?:tunnel[_-]?id|account[_-]?id|cloudflare[_-]?tunnel[_-]?id)\\s*[:=]\\s*['\"][0-9a-f-]{30,}['\"]", re.I),
+        "url_embedded_credentials": re.compile(r"https?://[^\s/'\"@:]+:[^\s/'\"@]+@[^\s/'\"@]+", re.I),
+        "phone_number": re.compile(r"(?<!\d)(?:\+91[- ]?)?[6-9]\d{9}(?!\d)"),
+        "tunnel_id_assignment": re.compile(r"\b(?:tunnel[_-]?id|account[_-]?id|cloudflare[_-]?tunnel[_-]?id)\s*[:=]\s*['\"][0-9a-f-]{30,}['\"]", re.I),
 
     }
 
 
 RULES = _pattern_rules()
-URL_PATTERN = re.compile(r"https?://(?:[^\\s/\"'@]+@)?([a-z0-9.-]+)", re.I)
+URL_PATTERN = re.compile(r"https?://(?:[^\s/\"'@]+@)?([a-z0-9.-]+)", re.I)
 PUBLIC_ENDPOINTS = frozenset({
     "github.com", "www.github.com", "megasmoves.io", "www.megasmoves.io",
     "t.me", "pypi.org", "www.python.org", "docs.python.org",
