@@ -53,10 +53,10 @@ def check(dist: Path) -> int:
         cfg = configparser.ConfigParser()
         cfg.read_string(archive.read(dist_info + "/entry_points.txt").decode("utf-8"))
         console = dict(cfg.items("console_scripts")) if cfg.has_section("console_scripts") else {}
-        if console.get("megas") != "megas_community.cli:main" or console.get("megasmoves") != "megas_community.cli:main":
-            print("Package gate failed: missing or inconsistent MegasMoves CLI entrypoints.")
+        if console != {"megas": "megas_community.cli:main"}:
+            print("Package gate failed: unexpected entrypoints: only the megas console command is allowed.")
             return 1
-    print("PASS: verified wheel scope and both console entrypoints; no additional runtime files.")
+    print("PASS: verified wheel scope and the megas console entrypoint; no additional runtime files.")
     return 0
 
 

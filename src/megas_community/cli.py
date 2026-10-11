@@ -1,4 +1,4 @@
-"""MegasMoves CLI entry point: both megas and megasmoves launch this interface."""
+"""MegasMoves CLI entry point for the megas command."""
 from __future__ import annotations
 
 import argparse

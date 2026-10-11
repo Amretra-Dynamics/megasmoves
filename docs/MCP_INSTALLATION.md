@@ -1,6 +1,8 @@
 # Installation and activation
 
-Pip install megasmoves installs the Python package, its dependencies, both terminal launchers, the action engine, browser control capability and the MegasMCP stdio service.
+Pip install megasmoves installs the Python package, its dependencies, the `megas` terminal command, the action engine, browser control capability and the MegasMCP stdio service.
+
+The PyPI package name is `megasmoves`; the sole executable command is `megas`.
 
 The Python packaging ecosystem intentionally provides no portable automatic post-install hook for configuring external apps or starting background services. Therefore:
 

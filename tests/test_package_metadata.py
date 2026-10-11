@@ -7,9 +7,9 @@ class PackagingTests(unittest.TestCase):
         dist = md.distribution("megasmoves")
         self.assertEqual(dist.metadata["Name"].lower(), "megasmoves")
 
-    def test_both_entry_points_use_same_callable(self):
+    def test_only_megas_console_command(self):
         entries = {e.name: e.value for e in md.entry_points(group="console_scripts") if e.name in {"megas", "megasmoves"}}
-        self.assertEqual(entries, {"megas": "megas_community.cli:main", "megasmoves": "megas_community.cli:main"})
+        self.assertEqual(entries, {"megas": "megas_community.cli:main"})
 
 
 if __name__ == "__main__":

@@ -30,7 +30,6 @@ Issues = "https://github.com/Amretra-Dynamics/megasmoves/issues"
 
 [project.scripts]
 megas = "megas_community.cli:main"
-megasmoves = "megas_community.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
