@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <RootNamespace>MegasMoves</RootNamespace>
+    <AssemblyName>MegasMoves</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <UseWinUI>true</UseWinUI>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <SelfContained>true</SelfContained>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <PublishTrimmed>false</PublishTrimmed>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.4.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\**\*"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Runtime\MegasMoves.Core.exe"
+             Condition="Exists('Runtime\MegasMoves.Core.exe')"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Runtime\megas_native.dll"
+             Condition="Exists('Runtime\megas_native.dll')"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Runtime\browser\**\*"
+             Condition="Exists('Runtime\browser')"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="$(MEGAS_UPDATE_PUBLIC_KEY_FILE)"
+             Condition="'$(MEGAS_UPDATE_PUBLIC_KEY_FILE)' != '' and Exists('$(MEGAS_UPDATE_PUBLIC_KEY_FILE)')"
+             Link="Runtime\update-public-key.pem"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <Target Name="RequireUpdateTrustAnchorForSignedRelease" BeforeTargets="Build"
+          Condition="'$(MEGAS_REQUIRE_SIGNING)' == '1' or '$(MEGAS_REQUIRE_SIGNING)' == 'true'">
+    <Error Condition="'$(MEGAS_UPDATE_PUBLIC_KEY_FILE)' == ''"
+           Text="Signed MegasMoves releases require MEGAS_UPDATE_PUBLIC_KEY_FILE so update metadata can be verified after installation." />
+    <Error Condition="'$(MEGAS_UPDATE_PUBLIC_KEY_FILE)' != '' and !Exists('$(MEGAS_UPDATE_PUBLIC_KEY_FILE)')"
+           Text="MEGAS_UPDATE_PUBLIC_KEY_FILE does not exist." />
+  </Target>
+</Project>

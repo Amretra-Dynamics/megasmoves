@@ -1,0 +1,536 @@
+<Application
+    x:Class="MegasMoves.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- MegasMoves design system: quiet Windows-native neutrals with one
+                 product accent. Shell/workbench resources deliberately reuse the
+                 same identity instead of introducing a second prototype theme. -->
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <!-- MegasMoves Canonical Palette (Obsidian Dark) -->
+                    <SolidColorBrush x:Key="MegasAccentBrush" Color="#00DCE8" />
+                    <SolidColorBrush x:Key="MegasAccentStrongBrush" Color="#21B7FF" />
+                    <SolidColorBrush x:Key="MegasAccentSoftBrush" Color="#1A00DCE8" />
+                    <SolidColorBrush x:Key="MegasSurfaceBrush" Color="#030810" />
+                    <SolidColorBrush x:Key="MegasCardBrush" Color="#07111C" />
+                    <SolidColorBrush x:Key="MegasBorderBrush" Color="#1B3040" />
+                    <SolidColorBrush x:Key="MegasTextBrush" Color="#F4F7F8" />
+                    <SolidColorBrush x:Key="MegasTextSoftBrush" Color="#C7D1D6" />
+                    <SolidColorBrush x:Key="MegasMutedBrush" Color="#91A1AA" />
+                    <SolidColorBrush x:Key="MegasSuccessBrush" Color="#18D889" />
+                    <SolidColorBrush x:Key="MegasWarningBrush" Color="#FF9A3D" />
+                    <SolidColorBrush x:Key="MegasDangerBrush" Color="#FF6F70" />
+
+                    <!-- Materials and background -->
+                    <SolidColorBrush x:Key="MegasCardGlassBrush" Color="#0A1624" />
+                    <SolidColorBrush x:Key="MegasCardGlassBorderBrush" Color="#1B3040" />
+                    <SolidColorBrush x:Key="MegasHeroGlassBrush" Color="#0D1E30" />
+                    <SolidColorBrush x:Key="MegasPillBrush" Color="#1A00DCE8" />
+                    <SolidColorBrush x:Key="MegasTitleBarGlassBrush" Color="#050C16" />
+
+                    <SolidColorBrush x:Key="MegasWorkbenchChromeBrush" Color="#050C16" />
+                    <SolidColorBrush x:Key="MegasWorkbenchPanelBrush" Color="#040A14" />
+                    <SolidColorBrush x:Key="MegasWorkbenchLineBrush" Color="#1B3040" />
+                    <SolidColorBrush x:Key="MegasWorkbenchHoverBrush" Color="#1400DCE8" />
+                    <SolidColorBrush x:Key="MegasWorkbenchSelectedBrush" Color="#2600DCE8" />
+                    <SolidColorBrush x:Key="MegasWorkbenchStatusBrush" Color="#040A13" />
+
+                    <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush" Color="#07111C" />
+                    <SolidColorBrush x:Key="SubtleFillColorTertiaryBrush" Color="#0A1824" />
+
+                    <!-- CleanMyMac Iconic Gradient Brushes -->
+                    <LinearGradientBrush x:Key="MegasAccentGradientBrush" StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#00DCE8" Offset="0.0" />
+                        <GradientStop Color="#21B7FF" Offset="1.0" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="MegasHeroGlassGradientBrush" StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#0D2034" Offset="0.0" />
+                        <GradientStop Color="#06101B" Offset="1.0" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="MegasDialGlowBrush" StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#4D00DCE8" Offset="0.0" />
+                        <GradientStop Color="#1A21B7FF" Offset="0.5" />
+                        <GradientStop Color="#0500DCE8" Offset="1.0" />
+                    </LinearGradientBrush>
+
+                    <!-- Status Badges -->
+                    <SolidColorBrush x:Key="MegasBadgeBgBrush" Color="#0A1824" />
+                    <SolidColorBrush x:Key="MegasBadgeBorderBrush" Color="#1B3040" />
+                    <SolidColorBrush x:Key="MegasBadgeTextBrush" Color="#C7D1D6" />
+                    <SolidColorBrush x:Key="MegasSuccessBadgeBgBrush" Color="#1A18D889" />
+                    <SolidColorBrush x:Key="MegasSuccessBadgeBorderBrush" Color="#3318D889" />
+                    <SolidColorBrush x:Key="MegasSuccessBadgeTextBrush" Color="#18D889" />
+
+                    <!-- Control styling overrides -->
+                    <CornerRadius x:Key="ControlCornerRadius">6</CornerRadius>
+                    <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+                    <CornerRadius x:Key="ButtonCornerRadius">6</CornerRadius>
+                    <CornerRadius x:Key="NavigationViewItemCornerRadius">6</CornerRadius>
+
+                    <!-- Built-in button overrides -->
+                    <SolidColorBrush x:Key="ButtonBackground" Color="#0A1824" />
+                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#102231" />
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#152B3C" />
+                    <SolidColorBrush x:Key="ButtonForeground" Color="#F4F7F8" />
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="ButtonBorderBrush" Color="#1B3040" />
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#334B5D" />
+                    <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#00DCE8" />
+
+                    <!-- Built-in accent button overrides -->
+                    <SolidColorBrush x:Key="AccentButtonBackground" Color="#00DCE8" />
+                    <SolidColorBrush x:Key="AccentButtonBackgroundPointerOver" Color="#21B7FF" />
+                    <SolidColorBrush x:Key="AccentButtonBackgroundPressed" Color="#00B4C0" />
+                    <SolidColorBrush x:Key="AccentButtonForeground" Color="#001116" />
+                    <SolidColorBrush x:Key="AccentButtonForegroundPointerOver" Color="#001116" />
+                    <SolidColorBrush x:Key="AccentButtonForegroundPressed" Color="#001116" />
+                    <SolidColorBrush x:Key="AccentButtonBorderBrush" Color="Transparent" />
+                    <SolidColorBrush x:Key="AccentButtonBorderBrushPointerOver" Color="Transparent" />
+                    <SolidColorBrush x:Key="AccentButtonBorderBrushPressed" Color="Transparent" />
+
+                    <!-- Built-in navigation item overrides -->
+                    <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#00DCE8" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackgroundSelected" Color="#1A00DCE8" />
+                    <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="#00DCE8" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="#0DFFFFFF" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackgroundPressed" Color="#14FFFFFF" />
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Dark">
+                    <!-- MegasMoves Canonical Palette (Obsidian Dark) -->
+                    <SolidColorBrush x:Key="MegasAccentBrush" Color="#00DCE8" />
+                    <SolidColorBrush x:Key="MegasAccentStrongBrush" Color="#21B7FF" />
+                    <SolidColorBrush x:Key="MegasAccentSoftBrush" Color="#1A00DCE8" />
+                    <SolidColorBrush x:Key="MegasSurfaceBrush" Color="#030810" />
+                    <SolidColorBrush x:Key="MegasCardBrush" Color="#07111C" />
+                    <SolidColorBrush x:Key="MegasBorderBrush" Color="#1B3040" />
+                    <SolidColorBrush x:Key="MegasTextBrush" Color="#F4F7F8" />
+                    <SolidColorBrush x:Key="MegasTextSoftBrush" Color="#C7D1D6" />
+                    <SolidColorBrush x:Key="MegasMutedBrush" Color="#91A1AA" />
+                    <SolidColorBrush x:Key="MegasSuccessBrush" Color="#18D889" />
+                    <SolidColorBrush x:Key="MegasWarningBrush" Color="#FF9A3D" />
+                    <SolidColorBrush x:Key="MegasDangerBrush" Color="#FF6F70" />
+
+                    <!-- Materials and background -->
+                    <SolidColorBrush x:Key="MegasCardGlassBrush" Color="#0A1624" />
+                    <SolidColorBrush x:Key="MegasCardGlassBorderBrush" Color="#1B3040" />
+                    <SolidColorBrush x:Key="MegasHeroGlassBrush" Color="#0D1E30" />
+                    <SolidColorBrush x:Key="MegasPillBrush" Color="#1A00DCE8" />
+                    <SolidColorBrush x:Key="MegasTitleBarGlassBrush" Color="#050C16" />
+
+                    <SolidColorBrush x:Key="MegasWorkbenchChromeBrush" Color="#050C16" />
+                    <SolidColorBrush x:Key="MegasWorkbenchPanelBrush" Color="#040A14" />
+                    <SolidColorBrush x:Key="MegasWorkbenchLineBrush" Color="#1B3040" />
+                    <SolidColorBrush x:Key="MegasWorkbenchHoverBrush" Color="#1400DCE8" />
+                    <SolidColorBrush x:Key="MegasWorkbenchSelectedBrush" Color="#2600DCE8" />
+                    <SolidColorBrush x:Key="MegasWorkbenchStatusBrush" Color="#040A13" />
+
+                    <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush" Color="#07111C" />
+                    <SolidColorBrush x:Key="SubtleFillColorTertiaryBrush" Color="#0A1824" />
+
+                    <!-- CleanMyMac Iconic Gradient Brushes -->
+                    <LinearGradientBrush x:Key="MegasAccentGradientBrush" StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#00DCE8" Offset="0.0" />
+                        <GradientStop Color="#21B7FF" Offset="1.0" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="MegasHeroGlassGradientBrush" StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#0D2034" Offset="0.0" />
+                        <GradientStop Color="#06101B" Offset="1.0" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="MegasDialGlowBrush" StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#4D00DCE8" Offset="0.0" />
+                        <GradientStop Color="#1A21B7FF" Offset="0.5" />
+                        <GradientStop Color="#0500DCE8" Offset="1.0" />
+                    </LinearGradientBrush>
+
+                    <!-- Status Badges -->
+                    <SolidColorBrush x:Key="MegasBadgeBgBrush" Color="#0A1824" />
+                    <SolidColorBrush x:Key="MegasBadgeBorderBrush" Color="#1B3040" />
+                    <SolidColorBrush x:Key="MegasBadgeTextBrush" Color="#C7D1D6" />
+                    <SolidColorBrush x:Key="MegasSuccessBadgeBgBrush" Color="#1A18D889" />
+                    <SolidColorBrush x:Key="MegasSuccessBadgeBorderBrush" Color="#3318D889" />
+                    <SolidColorBrush x:Key="MegasSuccessBadgeTextBrush" Color="#18D889" />
+
+                    <!-- Control styling overrides -->
+                    <CornerRadius x:Key="ControlCornerRadius">6</CornerRadius>
+                    <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+                    <CornerRadius x:Key="ButtonCornerRadius">6</CornerRadius>
+                    <CornerRadius x:Key="NavigationViewItemCornerRadius">6</CornerRadius>
+
+                    <!-- Built-in button overrides -->
+                    <SolidColorBrush x:Key="ButtonBackground" Color="#0A1824" />
+                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#102231" />
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#152B3C" />
+                    <SolidColorBrush x:Key="ButtonForeground" Color="#F4F7F8" />
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="ButtonBorderBrush" Color="#1B3040" />
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#334B5D" />
+                    <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#00DCE8" />
+
+                    <!-- Built-in accent button overrides -->
+                    <SolidColorBrush x:Key="AccentButtonBackground" Color="#00DCE8" />
+                    <SolidColorBrush x:Key="AccentButtonBackgroundPointerOver" Color="#21B7FF" />
+                    <SolidColorBrush x:Key="AccentButtonBackgroundPressed" Color="#00B4C0" />
+                    <SolidColorBrush x:Key="AccentButtonForeground" Color="#001116" />
+                    <SolidColorBrush x:Key="AccentButtonForegroundPointerOver" Color="#001116" />
+                    <SolidColorBrush x:Key="AccentButtonForegroundPressed" Color="#001116" />
+                    <SolidColorBrush x:Key="AccentButtonBorderBrush" Color="Transparent" />
+                    <SolidColorBrush x:Key="AccentButtonBorderBrushPointerOver" Color="Transparent" />
+                    <SolidColorBrush x:Key="AccentButtonBorderBrushPressed" Color="Transparent" />
+
+                    <!-- Built-in navigation item overrides -->
+                    <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#00DCE8" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackgroundSelected" Color="#1A00DCE8" />
+                    <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="#00DCE8" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="#0DFFFFFF" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackgroundPressed" Color="#14FFFFFF" />
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Light">
+                    <!-- MegasMoves Canonical Palette (Warm Mineral Light) -->
+                    <SolidColorBrush x:Key="MegasAccentBrush" Color="#007F91" />
+                    <SolidColorBrush x:Key="MegasAccentStrongBrush" Color="#006779" />
+                    <SolidColorBrush x:Key="MegasAccentSoftBrush" Color="#D6EEEB" />
+                    <SolidColorBrush x:Key="MegasSurfaceBrush" Color="#EFEEE8" />
+                    <SolidColorBrush x:Key="MegasCardBrush" Color="#FFFDF8" />
+                    <SolidColorBrush x:Key="MegasBorderBrush" Color="#C4D2CF" />
+                    <SolidColorBrush x:Key="MegasTextBrush" Color="#10242D" />
+                    <SolidColorBrush x:Key="MegasTextSoftBrush" Color="#29434C" />
+                    <SolidColorBrush x:Key="MegasMutedBrush" Color="#4D646B" />
+                    <SolidColorBrush x:Key="MegasSuccessBrush" Color="#087C56" />
+                    <SolidColorBrush x:Key="MegasWarningBrush" Color="#B85D00" />
+                    <SolidColorBrush x:Key="MegasDangerBrush" Color="#A33E45" />
+
+                    <!-- Materials and background -->
+                    <SolidColorBrush x:Key="MegasCardGlassBrush" Color="#FFFDF8" />
+                    <SolidColorBrush x:Key="MegasCardGlassBorderBrush" Color="#C4D2CF" />
+                    <SolidColorBrush x:Key="MegasHeroGlassBrush" Color="#F2F8F6" />
+                    <SolidColorBrush x:Key="MegasPillBrush" Color="#0F000000" />
+                    <SolidColorBrush x:Key="MegasTitleBarGlassBrush" Color="#E8E5DD" />
+
+                    <SolidColorBrush x:Key="MegasWorkbenchChromeBrush" Color="#E8E5DD" />
+                    <SolidColorBrush x:Key="MegasWorkbenchPanelBrush" Color="#EAE7DF" />
+                    <SolidColorBrush x:Key="MegasWorkbenchLineBrush" Color="#C4D2CF" />
+                    <SolidColorBrush x:Key="MegasWorkbenchHoverBrush" Color="#0A000000" />
+                    <SolidColorBrush x:Key="MegasWorkbenchSelectedBrush" Color="#1A007F91" />
+                    <SolidColorBrush x:Key="MegasWorkbenchStatusBrush" Color="#EAE7DF" />
+
+                    <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush" Color="#F8F6EF" />
+                    <SolidColorBrush x:Key="SubtleFillColorTertiaryBrush" Color="#E3F1EE" />
+
+                    <!-- CleanMyMac Iconic Gradient Brushes -->
+                    <LinearGradientBrush x:Key="MegasAccentGradientBrush" StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#007F91" Offset="0.0" />
+                        <GradientStop Color="#006779" Offset="1.0" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="MegasHeroGlassGradientBrush" StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#FFFFFF" Offset="0.0" />
+                        <GradientStop Color="#F3F1EB" Offset="1.0" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="MegasDialGlowBrush" StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#26007F91" Offset="0.0" />
+                        <GradientStop Color="#0D007F91" Offset="1.0" />
+                    </LinearGradientBrush>
+
+                    <!-- Status Badges -->
+                    <SolidColorBrush x:Key="MegasBadgeBgBrush" Color="#E3F1EE" />
+                    <SolidColorBrush x:Key="MegasBadgeBorderBrush" Color="#C4D2CF" />
+                    <SolidColorBrush x:Key="MegasBadgeTextBrush" Color="#29434C" />
+                    <SolidColorBrush x:Key="MegasSuccessBadgeBgBrush" Color="#1A087C56" />
+                    <SolidColorBrush x:Key="MegasSuccessBadgeBorderBrush" Color="#33087C56" />
+                    <SolidColorBrush x:Key="MegasSuccessBadgeTextBrush" Color="#087C56" />
+
+                    <!-- Control styling overrides -->
+                    <CornerRadius x:Key="ControlCornerRadius">6</CornerRadius>
+                    <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+                    <CornerRadius x:Key="ButtonCornerRadius">6</CornerRadius>
+                    <CornerRadius x:Key="NavigationViewItemCornerRadius">6</CornerRadius>
+
+                    <!-- Built-in button overrides -->
+                    <SolidColorBrush x:Key="ButtonBackground" Color="#F8F6EF" />
+                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#E3F1EE" />
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#D4E6E5" />
+                    <SolidColorBrush x:Key="ButtonForeground" Color="#10242D" />
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#10242D" />
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#10242D" />
+                    <SolidColorBrush x:Key="ButtonBorderBrush" Color="#C4D2CF" />
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#8DA6A5" />
+                    <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#007F91" />
+
+                    <!-- Built-in accent button overrides -->
+                    <SolidColorBrush x:Key="AccentButtonBackground" Color="#007F91" />
+                    <SolidColorBrush x:Key="AccentButtonBackgroundPointerOver" Color="#006779" />
+                    <SolidColorBrush x:Key="AccentButtonBackgroundPressed" Color="#005160" />
+                    <SolidColorBrush x:Key="AccentButtonForeground" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="AccentButtonForegroundPointerOver" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="AccentButtonForegroundPressed" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="AccentButtonBorderBrush" Color="Transparent" />
+                    <SolidColorBrush x:Key="AccentButtonBorderBrushPointerOver" Color="Transparent" />
+                    <SolidColorBrush x:Key="AccentButtonBorderBrushPressed" Color="Transparent" />
+
+                    <!-- Built-in navigation item overrides -->
+                    <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#007F91" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackgroundSelected" Color="#1A007F91" />
+                    <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="#007F91" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="#0A000000" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackgroundPressed" Color="#12000000" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <FontFamily x:Key="MegasUiFontFamily">Segoe UI Variable Text</FontFamily>
+            <FontFamily x:Key="MegasDisplayFontFamily">Segoe UI Variable Display</FontFamily>
+            <FontFamily x:Key="MegasMonoFontFamily">Cascadia Mono, Cascadia Code</FontFamily>
+
+            <!-- Desktop Spatial System: Calm surfaces, subtle separators, high information density -->
+            <Style x:Key="DesktopSurfaceStyle" TargetType="Border">
+                <Setter Property="Background" Value="{ThemeResource MegasCardBrush}" />
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasWorkbenchLineBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="16" />
+                <Setter Property="Padding" Value="18" />
+            </Style>
+
+            <Style x:Key="DesktopSeparatorStyle" TargetType="Border">
+                <Setter Property="Height" Value="1" />
+                <Setter Property="Background" Value="{ThemeResource MegasWorkbenchLineBrush}" />
+                <Setter Property="Margin" Value="0,6" />
+            </Style>
+
+            <Style x:Key="DesktopTableRowBorderStyle" TargetType="Border">
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasWorkbenchLineBrush}" />
+                <Setter Property="BorderThickness" Value="0,0,0,1" />
+                <Setter Property="Padding" Value="14,10" />
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+
+            <!-- Card and Widget styles (CleanMyMac-inspired squircle cards) -->
+            <Style x:Key="CardBorderStyle" TargetType="Border">
+                <Setter Property="Background" Value="{ThemeResource MegasCardBrush}" />
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasWorkbenchLineBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="16" />
+                <Setter Property="Padding" Value="18" />
+            </Style>
+
+            <Style x:Key="StatCardStyle" TargetType="Border">
+                <Setter Property="Background" Value="{ThemeResource MegasCardBrush}" />
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasWorkbenchLineBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="16" />
+                <Setter Property="Padding" Value="18,16" />
+            </Style>
+
+            <Style x:Key="HeroCardStyle" TargetType="Border">
+                <Setter Property="Background" Value="{ThemeResource MegasHeroGlassGradientBrush}" />
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasCardGlassBorderBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="18" />
+                <Setter Property="Padding" Value="28,24" />
+            </Style>
+
+            <!-- Megas Status Badges (Clean, proportioned pill capsules) -->
+            <Style x:Key="BadgeBorderStyle" TargetType="Border">
+                <Setter Property="Height" Value="22" />
+                <Setter Property="CornerRadius" Value="11" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasBadgeBorderBrush}" />
+                <Setter Property="Background" Value="{ThemeResource MegasBadgeBgBrush}" />
+                <Setter Property="Padding" Value="8,0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <Style x:Key="PillBadgeBorderStyle" TargetType="Border">
+                <Setter Property="Height" Value="22" />
+                <Setter Property="CornerRadius" Value="11" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasBadgeBorderBrush}" />
+                <Setter Property="Background" Value="{ThemeResource MegasBadgeBgBrush}" />
+                <Setter Property="Padding" Value="8,0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <Style x:Key="SuccessPillBadgeBorderStyle" TargetType="Border">
+                <Setter Property="Height" Value="22" />
+                <Setter Property="CornerRadius" Value="11" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasSuccessBadgeBorderBrush}" />
+                <Setter Property="Background" Value="{ThemeResource MegasSuccessBadgeBgBrush}" />
+                <Setter Property="Padding" Value="8,0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <!-- CleanMyMac Iconic Scan Pill Button -->
+            <Style x:Key="CleanScanButtonStyle" TargetType="Button">
+                <Setter Property="Height" Value="46" />
+                <Setter Property="Padding" Value="32,0" />
+                <Setter Property="CornerRadius" Value="23" />
+                <Setter Property="Background" Value="{ThemeResource MegasAccentGradientBrush}" />
+                <Setter Property="Foreground" Value="#001116" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="FontFamily" Value="{StaticResource MegasUiFontFamily}" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+
+            <!-- Global Implicit Button Style: Native Windows 11 Desktop -->
+            <Style TargetType="Button">
+                <Setter Property="MinHeight" Value="30" />
+                <Setter Property="Padding" Value="12,5" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="FontFamily" Value="{StaticResource MegasUiFontFamily}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <!-- Accent Button Style -->
+            <Style x:Key="AccentButtonStyle" TargetType="Button">
+                <Setter Property="MinHeight" Value="30" />
+                <Setter Property="Padding" Value="14,5" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="Background" Value="{ThemeResource MegasAccentBrush}" />
+                <Setter Property="Foreground" Value="#001116" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="FontFamily" Value="{StaticResource MegasUiFontFamily}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <!-- Subtle / Ghost Button Style -->
+            <Style x:Key="SubtleButtonStyle" TargetType="Button">
+                <Setter Property="MinHeight" Value="30" />
+                <Setter Property="Padding" Value="12,5" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Foreground" Value="{ThemeResource MegasMutedBrush}" />
+                <Setter Property="FontWeight" Value="Medium" />
+                <Setter Property="FontFamily" Value="{StaticResource MegasUiFontFamily}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <!-- Pill and Capsule styles -->
+            <Style x:Key="PillButtonStyle" TargetType="Button">
+                <Setter Property="MinHeight" Value="30" />
+                <Setter Property="Padding" Value="12,5" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="FontFamily" Value="{StaticResource MegasUiFontFamily}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <Style x:Key="AccentPillButtonStyle" TargetType="Button">
+                <Setter Property="MinHeight" Value="30" />
+                <Setter Property="Padding" Value="14,5" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="Background" Value="{ThemeResource MegasAccentBrush}" />
+                <Setter Property="Foreground" Value="#001116" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="FontFamily" Value="{StaticResource MegasUiFontFamily}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <!-- Global Implicit TextBox & ComboBox Styles -->
+            <Style TargetType="TextBox">
+                <Setter Property="MinHeight" Value="32" />
+                <Setter Property="Padding" Value="10,5" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasBorderBrush}" />
+                <Setter Property="Background" Value="{ThemeResource MegasCardBrush}" />
+                <Setter Property="FontFamily" Value="{StaticResource MegasUiFontFamily}" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+
+            <Style TargetType="ComboBox">
+                <Setter Property="MinHeight" Value="32" />
+                <Setter Property="Padding" Value="10,5" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasBorderBrush}" />
+                <Setter Property="Background" Value="{ThemeResource MegasCardBrush}" />
+                <Setter Property="FontFamily" Value="{StaticResource MegasUiFontFamily}" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+
+            <Style TargetType="NavigationViewItem">
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Margin" Value="8,2" />
+                <Setter Property="MinHeight" Value="36" />
+                <Setter Property="FontFamily" Value="{StaticResource MegasUiFontFamily}" />
+                <Setter Property="FontSize" Value="13" />
+            </Style>
+
+            <!-- Command Palette / Search Box (Mac Spotlight Pill) -->
+            <Style x:Key="WorkbenchCommandBoxStyle" TargetType="AutoSuggestBox">
+                <Setter Property="Height" Value="30" />
+                <Setter Property="MinWidth" Value="220" />
+                <Setter Property="MaxWidth" Value="420" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasWorkbenchLineBrush}" />
+                <Setter Property="Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+                <Setter Property="FontFamily" Value="{StaticResource MegasUiFontFamily}" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+
+            <Style x:Key="IconButtonStyle" TargetType="Button">
+                <Setter Property="Width" Value="30" />
+                <Setter Property="Height" Value="30" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <Style x:Key="ProfileChipButtonStyle" TargetType="Button">
+                <Setter Property="MinHeight" Value="28" />
+                <Setter Property="Height" Value="28" />
+                <Setter Property="Padding" Value="10,3,12,3" />
+                <Setter Property="CornerRadius" Value="14" />
+                <Setter Property="Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+                <Setter Property="BorderBrush" Value="{ThemeResource MegasWorkbenchLineBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <Style x:Key="WorkbenchStatusButtonStyle" TargetType="Button">
+                <Setter Property="MinHeight" Value="22" />
+                <Setter Property="Height" Value="22" />
+                <Setter Property="Padding" Value="6,1" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="CornerRadius" Value="4" />
+                <Setter Property="FontFamily" Value="{StaticResource MegasMonoFontFamily}" />
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="Foreground" Value="{ThemeResource MegasMutedBrush}" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
