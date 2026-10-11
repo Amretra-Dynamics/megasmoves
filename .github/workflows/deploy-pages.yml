@@ -25,8 +25,14 @@ jobs:
           node-version: "22"
           cache: npm
           cache-dependency-path: marketing/package-lock.json
+      - name: Configure GitHub Pages and discover published base path
+        id: pages
+        uses: actions/configure-pages@v5
       - run: npm ci --no-audit --no-fund
       - name: Export marketing, docs, pricing and legal
+        env:
+          MEGAS_PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_MEGAS_PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: npm run build
       - name: Verify marketing export
         run: |
@@ -35,7 +41,6 @@ jobs:
           test -f out/pricing/index.html
           test -f out/wow/index.html
           test -f out/legal/index.html
-      - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: marketing/out
