@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="worker/windows/MegasMoves.WinUI/Assets/app.png" alt="MegasMoves logo" width="128" height="128">
+</p>
+
 # MegasMoves
 
 **Your always-on SI agent for all your devices.**
