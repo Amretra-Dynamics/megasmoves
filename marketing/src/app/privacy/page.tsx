@@ -1,0 +1,15 @@
+import Link from "next/link";
+import { ArrowRight, LockKeyhole, Mail } from "lucide-react";
+import Header from "@/components/Header"; import Footer from "@/components/Footer";
+export const metadata = { title:"Privacy Policy | MegasMoves Website", description:"Privacy notice for the public static MegasMoves marketing and early-access website." };
+const items=[
+{title:"What this website does",text:"This public site serves static pages about MegasMoves, documentation, product plans and legal information. It does not provide user login, account storage, subscriptions or payments."},
+{title:"Email-based early-access requests",text:"When you choose the Megas WoW Cloud early-access button, your device opens an email application with a prefilled message. Nothing is submitted by this webpage. If you send the email, the recipient will receive the information you include so the product team can respond to your inquiry."},
+{title:"Browser preferences and hosting",text:"The website's color-theme control can save a preference in your own browser storage. GitHub Pages and network providers may process standard connection data, including IP addresses and request information, under their own policies. This website does not intentionally embed analytics trackers or advertising pixels."},
+{title:"External websites",text:"GitHub, Telegram, email software and other linked destinations have independent privacy practices. Only follow links you trust, and review their notices before sharing information."},
+{title:"Contact and requests",text:"For a question about an early-access email or to request that your contact details not be used for further replies, contact master@megasmoves.io. Avoid including private credentials or device-control secrets."},
+];
+export default function Privacy(){return <div className="site-surface min-h-screen"><Header/><main className="mx-auto max-w-4xl px-6 py-16 md:py-24"><p className="eyebrow"><LockKeyhole className="h-4 w-4"/> WEBSITE PRIVACY</p><h1 className="mt-5 text-5xl font-extrabold tracking-[-0.05em] md:text-6xl">Privacy, without the guesswork.</h1><p className="mt-6 text-lg leading-8 text-[var(--text-soft)]">This notice describes the static marketing website operated for MegasMoves by Amretra Dynamics. It does not replace a separate privacy notice for any future managed product service.</p>
+<div className="mt-14 space-y-9">{items.map((x,i)=><section key={x.title} className="border-t border-[var(--line)] pt-7"><p className="text-xs font-extrabold tracking-wider text-[var(--accent)]">0{i+1}</p><h2 className="mt-3 text-2xl font-bold">{x.title}</h2><p className="mt-4 text-base leading-8 text-[var(--text-soft)]">{x.text}</p></section>)}</div>
+<div className="mt-12 flex flex-wrap gap-3"><a href="mailto:master@megasmoves.io" className="button button--primary"><Mail className="h-4 w-4"/> Contact us</a><Link href="/legal" className="button button--quiet">Legal center <ArrowRight className="h-4 w-4"/></Link></div>
+</main><Footer/></div>}
