@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "megasmoves"
 version = "0.1.0"
-description = "MegasMoves local SI-agent actions and MCP interface"
+description = "MegasMoves local SI agent, Megas actions, browser tools and MCP interface"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [{name = "Amretra Dynamics"}]
-keywords = ["megas", "megasmoves", "mcp", "agent", "actions", "local-first"]
+keywords = ["megas", "megasmoves", "mcp", "si-agent", "actions", "browser"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
@@ -20,18 +20,17 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = ["jsonschema>=4.23,<5"]
+dependencies = ["jsonschema>=4.23,<5", "playwright==1.61.0"]
 
 [project.urls]
 Homepage = "https://github.com/Amretra-Dynamics/megasmoves"
 Repository = "https://github.com/Amretra-Dynamics/megasmoves"
 Issues = "https://github.com/Amretra-Dynamics/megasmoves/issues"
-Documentation = "https://github.com/Amretra-Dynamics/megasmoves#readme"
 
 [project.scripts]
 megas = "megas_community.cli:main"
+megasmoves = "megas_community.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
