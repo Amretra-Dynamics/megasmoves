@@ -20,6 +20,8 @@ import {
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
+const megasLogoPath = `${process.env.NEXT_PUBLIC_MEGAS_PAGES_BASE_PATH ?? "/megasmoves"}/megas-mark.svg`;
+
 const featureRail = [
   {
     icon: ScanSearch,
@@ -119,7 +121,7 @@ export default function Home() {
               <span className="speed-node speed-node--two" />
               <span className="speed-node speed-node--three" />
               <div className="velocity-hero__mark">
-                <Image src="/megasmoves/megas-mark.svg" alt="" fill priority sizes="(max-width: 900px) 92vw, 54vw" />
+                <Image src={megasLogoPath} alt="" fill priority sizes="(max-width: 900px) 92vw, 54vw" />
               </div>
             </div>
           </div>
@@ -165,7 +167,7 @@ export default function Home() {
                 <span className="context-layer context-layer--back" />
                 <span className="context-layer context-layer--middle" />
                 <span className="context-layer context-layer--front">
-                  <Image src="/megasmoves/megas-mark.svg" alt="" width={76} height={76} />
+                  <Image src={megasLogoPath} alt="" width={76} height={76} />
                 </span>
                 <span className="stack-tool stack-tool--code"><Terminal /></span>
                 <span className="stack-tool stack-tool--terminal"><MessageSquareText /></span>
@@ -207,7 +209,7 @@ export default function Home() {
           <div className="phone-stage" aria-hidden="true">
             <div className="phone-shell">
               <span className="phone-shell__speaker" />
-              <div className="phone-shell__screen"><Image src="/megasmoves/megas-mark.svg" alt="" fill sizes="260px" /><span>SI agent interface</span></div>
+              <div className="phone-shell__screen"><Image src={megasLogoPath} alt="" fill sizes="260px" /><span>SI agent interface</span></div>
             </div>
           </div>
           <ol className="android-path">
