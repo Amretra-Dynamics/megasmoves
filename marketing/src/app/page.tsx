@@ -66,9 +66,9 @@ const workflowSteps = [
 
 const tiers = [
   { name: "Community", label: "Open source · available", description: "MIT-licensed Community source, a local CLI, and an MCP interface to explore.", action: "Explore Community", href: "/download", icon: Bot, accent: "cyan" },
-  { name: "Megas WoW", label: "$20 / month · planned", description: "Your always-on SI agent for all your devices. Managed service availability will be announced.", action: "Discover Megas WoW", href: "/pricing", icon: Radar, accent: "violet" },
+  { name: "Megas WoW Cloud", label: "$20 / month · planned", description: "Your always-on SI agent for all your devices. Request early access to the planned managed experience.", action: "Request early access", href: "/wow", icon: Radar, accent: "violet" },
   { name: "Documentation", label: "Get started", description: "Understand the CLI, MCP entrypoint, security boundaries and supported workflows.", action: "Read documentation", href: "/docs", icon: Workflow, accent: "green" },
-  { name: "Community", label: "Contribute", description: "Inspect the public project, propose improvements and share real-world feedback.", action: "Explore the source", href: "https://github.com/Amretra-Dynamics/megasmoves", icon: ShieldCheck, accent: "orange" },
+  { name: "Developer community", label: "Contribute", description: "Inspect the public project, propose improvements and share real-world feedback.", action: "Explore the source", href: "https://github.com/Amretra-Dynamics/megasmoves", icon: ShieldCheck, accent: "orange" },
 ];
 
 export default function Home() {
@@ -101,6 +101,10 @@ export default function Home() {
                 </Link>
                 <Link href="/docs" className="button button--quiet button--large">
                   Explore the docs
+                  <ArrowRight aria-hidden="true" />
+                </Link>
+                <Link href="/wow" className="button button--quiet button--large">
+                  Join Megas WoW waitlist
                   <ArrowRight aria-hidden="true" />
                 </Link>
               </div>
