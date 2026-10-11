@@ -1,0 +1,2 @@
+"""Megas Worker agent adapters."""
+
