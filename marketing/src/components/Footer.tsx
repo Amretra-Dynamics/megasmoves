@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Building2, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
 
+const megasLogoPath = `${process.env.NEXT_PUBLIC_MEGAS_PAGES_BASE_PATH ?? "/megasmoves"}/megas-mark.svg`;
+
 const linkGroups = [
   {
     title: "Product",
@@ -44,7 +46,7 @@ export default function Footer() {
       <div className="grid gap-10 px-1 py-12 sm:grid-cols-2 lg:grid-cols-[1.35fr_repeat(3,0.7fr)_1.15fr] lg:gap-7 lg:px-3">
         <div className="sm:col-span-2 lg:col-span-1">
           <Link href="/" className="inline-flex items-center gap-3 no-underline" aria-label="MegasMoves home">
-            <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg bg-[#020a10]" aria-hidden="true"><Image src="/megasmoves/megas-mark.svg" alt="" width={44} height={44} className="h-full w-full scale-110 object-cover" /></span>
+            <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg bg-[#020a10]" aria-hidden="true"><Image src={megasLogoPath} alt="" width={44} height={44} className="h-full w-full scale-110 object-cover" /></span>
             <span className="text-lg font-extrabold">MegasMoves</span>
           </Link>
           <p className="mt-5 max-w-md text-sm leading-7 text-[var(--muted)]">Your always-on SI agent for all your devices. Explore MCP-connected workflows with real execution and permission-aware boundaries.</p>
