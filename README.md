@@ -57,6 +57,12 @@ python -m unittest discover -s tests -v
 - [Public release checklist](docs/RELEASE_CHECKLIST.md)
 - [Contributing](CONTRIBUTING.md)
 
+## Community
+
+Join the official [MegasMoves Telegram community](https://t.me/megasmovesSI) to discuss the project and connect with other builders.
+
+The public edition is designed to stand alone. It excludes unrelated private-product integrations, account-specific data and private development infrastructure. Additional core components may be included once reviewed for security, licensing and functional correctness.
+
 ## Licensing and business
 
 This repository is **MIT licensed**. The MegasMoves and Amretra Dynamics names and logos are brand identifiers; copyright permission does not grant trademark rights.
