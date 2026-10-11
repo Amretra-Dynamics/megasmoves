@@ -50,7 +50,7 @@ PUBLIC_ENDPOINTS = frozenset({
     "localhost", "127.0.0.1", "example.com", "example.org",
 })
 
-EXEMPT_EMAIL_DOMAINS = {"example.com", "example.org", "example.net", "invalid", "localhost"}
+EXEMPT_EMAIL_DOMAINS = {"example.com", "example.org", "example.net", "invalid", "localhost", "github.com", "users.noreply.github.com", "noreply.github.com"}
 
 
 def _run_git(*args: str) -> bytes:
