@@ -3,6 +3,7 @@
 Publisher: Amretra Dynamics
 Product: MegasMoves
 GitHub: https://github.com/Amretra-Dynamics/megasmoves
+Telegram community: https://t.me/megasmovesSI
 Website: megasmoves.io (verify deployment and DNS first)
 
 ## Correct publication order
@@ -39,6 +40,7 @@ In this video, I introduce the project and its first Community source preview. T
 GitHub: https://github.com/Amretra-Dynamics/megasmoves
 Website: [only after URL works]
 MIT-licensed Community source.
+Telegram community: https://t.me/megasmovesSI
 Created by Abhinav Musrif.
 
 ## X launch copy
@@ -48,6 +50,7 @@ The MegasMoves Community source is now open under Amretra Dynamics.
 Starting local-first: trusted workspace folders, read-only project inspection and MCP tools. The bigger vision: your always-on SI agent for all your devices.
 
 Explore: https://github.com/Amretra-Dynamics/megasmoves
+Join the community: https://t.me/megasmovesSI
 
 Include video and website URLs only once verified. Do not claim public availability, independent audit completion, customers, or commercial checkout before those things actually exist.
 
