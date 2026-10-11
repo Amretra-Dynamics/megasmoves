@@ -1,6 +1,11 @@
 name: Deploy HQ MegasMoves marketing website
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "marketing/**"
+      - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 
 permissions:
