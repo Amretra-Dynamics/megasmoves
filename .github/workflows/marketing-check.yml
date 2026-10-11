@@ -1,0 +1,40 @@
+name: Validate MegasMoves HQ marketing site
+
+on:
+  push:
+    branches:
+      - marketing/hq-site-current-positioning
+    paths:
+      - "marketing/**"
+      - ".github/workflows/marketing-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: marketing
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: marketing/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - name: Build marketing pages only
+        run: npm run build
+      - name: Verify exported public routes
+        shell: bash
+        run: |
+          for route in index.html docs/index.html docs/getting-started/index.html docs/cli-reference/index.html docs/product-plans/index.html pricing/index.html wow/index.html download/index.html legal/index.html privacy/index.html terms/index.html; do
+            test -f "out/$route" || { echo "Missing: out/$route"; exit 1; }
+          done
+          if grep -R -E -l 'Megas Monitor|Megas Operate|Megas Secure|₹999|₹1,999|₹4,999|₹9,999' out --include='*.html'; then
+            echo "Obsolete marketing tier appeared in exported page"
+            exit 1
+          fi
