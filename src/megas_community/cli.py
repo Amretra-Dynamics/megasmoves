@@ -47,7 +47,7 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("gui", help="Start installed MegasMoves native desktop")
     sub.add_parser("status", help="Report local Megas capabilities")
 
-    group = sub.add_parser("actions", help="Original Megas local actions, no Chitraagni required")
+    group = sub.add_parser("actions", help="Original Megas local actions, no external account required")
     act = group.add_subparsers(dest="action")
     act.add_parser("list")
     get = act.add_parser("get")
@@ -119,7 +119,7 @@ def main(argv: list[str] | None = None) -> int:
                 value = {"removed": store.remove(args.workspace_id)}
             else:
                 value = {"version": __version__, "mcp_ready": True, "mcp_command": "megas connect",
-                         "browser": browser.status(), "megas_actions": True, "chitraagni_required": False}
+                         "browser": browser.status(), "megas_actions": True, "external_product_required": False}
         print(json.dumps(value, indent=2, sort_keys=True))
         return 0
     except Exception as exc:

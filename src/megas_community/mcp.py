@@ -49,7 +49,7 @@ def dispatch(method: str, params: Any, store: TrustStore) -> dict[str, Any] | No
         value = {"product": "MegasMoves Community", "version": __version__,
                  "transport": "local_stdio", "mcp_ready": True,
                  "trusted_workspaces": len(store.list()), "browser": browser.status(),
-                 "megas_actions": True, "chitraagni_required": False}
+                 "megas_actions": True, "external_product_required": False}
     elif name == "workspace_projects" and not args:
         value = {"projects": store.list()}
     elif name == "workspace_check" and set(args) == {"workspace_id"} and isinstance(args["workspace_id"], str):

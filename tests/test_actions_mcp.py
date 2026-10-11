@@ -21,7 +21,7 @@ class ActionsTests(unittest.TestCase):
         self.addCleanup(self.home_patch.stop)
         self.path = Path(self.tmp.name)
 
-    def test_standalone_megas_action_without_chitraagni(self):
+    def test_standalone_megas_action_without_external_account(self):
         action = MegasActions().call("megas_action_create", {"name": "Test",
             "description": "Local action", "paths": [str(self.path)]})["structuredContent"]
         self.assertTrue(action["id"].startswith("action_"))

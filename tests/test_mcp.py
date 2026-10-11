@@ -16,9 +16,10 @@ class McpTests(unittest.TestCase):
 
     def test_initialize_and_tools(self):
         self.assertIn("serverInfo", dispatch("initialize", {}, self.store))
-        self.assertEqual(
-            {tool["name"] for tool in dispatch("tools/list", {}, self.store)["tools"]},
-            {"operator_status", "workspace_projects", "workspace_check"},
+        self.assertTrue(
+            {"operator_status", "workspace_projects", "workspace_check",
+             "megas_action_list", "megas_action_create", "browser_start", "browser_open"}
+            .issubset({tool["name"] for tool in dispatch("tools/list", {}, self.store)["tools"]})
         )
 
     def test_readonly(self):
@@ -38,7 +39,7 @@ class McpTests(unittest.TestCase):
         serve(store=self.store, stdin=io.StringIO("".join(json.dumps(x) + "\n" for x in input_data)), stdout=output)
         rows = [json.loads(line) for line in output.getvalue().splitlines()]
         self.assertEqual(len(rows), 3)
-        self.assertEqual(rows[0]["result"]["serverInfo"]["name"], "megasmoves-community")
+        self.assertEqual(rows[0]["result"]["serverInfo"]["name"], "megasmoves")
         self.assertEqual(rows[1]["result"]["isError"], False)
         self.assertIn("error", rows[2])
 

@@ -1,7 +1,7 @@
 """Megas action containers in the existing local task authority.
 
 Paths are references, not executable commands. Editing never starts execution.
-Chitraagni project identities and authorization are independent of action membership.
+External project identities and authorization are independent of action membership.
 """
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ def tools():
         ("task_create", {"action_id": ID, "title": {"type": "string", "minLength": 1, "maxLength": 4000}},
          ["action_id", "title"], "Create an unassigned local task inside an action. Does not start execution."),
         ("task_move", {"action_id": ID, "task_id": {"type": "string", "pattern": "^task_[a-f0-9]{32}$"}},
-         ["action_id", "task_id"], "Move an existing task into an action without changing assignment or Chitraagni authority."),
+         ["action_id", "task_id"], "Move an existing task into an action without changing assignment or external project authority."),
     ]
     return [{"name": "megas_action_" + suffix, "description": description,
              "inputSchema": {"type": "object", "additionalProperties": False,
