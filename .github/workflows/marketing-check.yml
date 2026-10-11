@@ -3,7 +3,7 @@ name: Validate MegasMoves HQ marketing site
 on:
   push:
     branches:
-      - marketing/hq-site-current-positioning
+      - main
     paths:
       - "marketing/**"
       - ".github/workflows/marketing-check.yml"
@@ -28,6 +28,23 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - name: Build marketing pages only
         run: npm run build
+      - name: Check project-site preview asset paths
+        run: |
+          grep -q '/megasmoves/_next/' out/index.html
+          grep -q '/megasmoves/megas-mark.svg' out/index.html
+      - name: Build custom-domain root variant
+        env:
+          MEGAS_PAGES_BASE_PATH: ""
+          NEXT_PUBLIC_MEGAS_PAGES_BASE_PATH: ""
+        run: npm run build
+      - name: Check custom-domain asset paths
+        run: |
+          grep -q '/_next/' out/index.html
+          grep -q '/megas-mark.svg' out/index.html
+          if grep -q '/megasmoves/_next/' out/index.html || grep -q '/megasmoves/megas-mark.svg' out/index.html; then
+            echo "Custom-domain build unexpectedly contains project-site asset prefixes"
+            exit 1
+          fi
       - name: Verify exported public routes
         shell: bash
         run: |
