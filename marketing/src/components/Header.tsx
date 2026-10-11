@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { ArrowRight, Menu, Moon, Sun, X } from "lucide-react";
 import { useState } from "react";
 
-const megasLogoPath = `${process.env.NEXT_PUBLIC_MEGAS_PAGES_BASE_PATH ?? "/megasmoves"}/megas-mark.svg`;
+const megasLogoPath = `${process.env.NEXT_PUBLIC_MEGAS_PAGES_BASE_PATH ?? "/megasmoves"}/megas-logo.png`;
 
 type Theme = "dark" | "light";
 
