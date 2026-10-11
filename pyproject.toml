@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "megasmoves"
+version = "0.5.0"
+description = "MegasMoves SI agent: MegasMCP, local actions, browser and native device integration"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Amretra Dynamics"}]
+keywords = ["megasmoves", "megas", "mcp", "agents", "browser", "automation"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+  "httpx>=0.27,<1",
+  "jsonschema>=4.23,<5",
+  "cryptography>=43,<48",
+  "websockets==15.0.1",
+  "playwright==1.61.0",
+  "aiortc>=1.14,<2",
+  "winrt-Windows.Media.Ocr==3.2.1; sys_platform == 'win32'",
+  "winrt-Windows.Graphics.Imaging==3.2.1; sys_platform == 'win32'",
+  "winrt-Windows.Storage.Streams==3.2.1; sys_platform == 'win32'",
+]
+
+[project.urls]
+Homepage = "https://megasmoves.io"
+Source = "https://github.com/Amretra-Dynamics/megasmoves"
+Issues = "https://github.com/Amretra-Dynamics/megasmoves/issues"
+
+[project.scripts]
+megas = "megas.package_entrypoint:main"
+
+[tool.setuptools]
+package-dir = {"" = "worker"}
+
+[tool.setuptools.packages.find]
+where = ["worker"]
+include = ["megas*"]
