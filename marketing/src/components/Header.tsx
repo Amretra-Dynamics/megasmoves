@@ -1,0 +1,112 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ArrowRight, Menu, Moon, Sun, X } from "lucide-react";
+import { useState } from "react";
+
+type Theme = "dark" | "light";
+
+const navigation = [
+  { href: "/#product", label: "How it works" },
+  { href: "/wow", label: "Megas WoW" },
+  { href: "/docs", label: "Docs" },
+  { href: "/legal", label: "Legal" },
+];
+
+function setDocumentTheme(theme: Theme) {
+  document.documentElement.dataset.theme = theme;
+  document.documentElement.style.colorScheme = theme;
+  localStorage.setItem("megas-theme", theme);
+}
+
+export default function Header() {
+  const pathname = usePathname() || "/";
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleTheme = () => {
+    const nextTheme: Theme =
+      document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    setDocumentTheme(nextTheme);
+  };
+
+  return (
+    <header className="site-header">
+      <div className="site-header__inner">
+        <Link href="/" className="site-brand" aria-label="MegasMoves home">
+          <span className="site-brand__mark" aria-hidden="true">
+            <Image
+              src="/megasmoves/megas-mark.svg"
+              alt=""
+              width={44}
+              height={44}
+              priority
+            />
+          </span>
+          <span className="site-brand__name">MegasMoves</span>
+        </Link>
+
+        <nav className="site-nav" aria-label="Primary navigation">
+          {navigation.map((item) => {
+            const route = item.href.split("#")[0];
+            const active = item.href === "/#product"
+              ? pathname === "/"
+              : !item.href.includes("#") && (pathname === route || pathname.startsWith(`${route}/`));
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={active ? "is-active" : undefined}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="site-header__actions">
+          <button
+            type="button"
+            className="icon-command"
+            onClick={toggleTheme}
+            aria-label="Toggle color theme"
+            title="Toggle color theme"
+          >
+            <Sun className="theme-icon theme-icon--sun" aria-hidden="true" />
+            <Moon className="theme-icon theme-icon--moon" aria-hidden="true" />
+          </button>
+          <Link href="/wow" className="button button--primary site-header__cta">
+            WoW early access
+            <ArrowRight aria-hidden="true" />
+          </Link>
+          <button
+            type="button"
+            className="icon-command site-header__menu"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+          >
+            {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+          </button>
+        </div>
+      </div>
+
+      {menuOpen ? (
+        <nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">
+          {navigation.map((item) => (
+            <Link key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
+              {item.label}
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          ))}
+          <Link href="/wow" onClick={() => setMenuOpen(false)}>
+            WoW early access
+            <ArrowRight aria-hidden="true" />
+          </Link>
+        </nav>
+      ) : null}
+    </header>
+  );
+}
