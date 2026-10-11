@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a101d">
+  <meta name="description" content="MegasMoves by Amretra Dynamics. Your always-on SI agent for all your devices. Explore the first open-source Community preview.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="MegasMoves | Amretra Dynamics">
+  <meta property="og:description" content="Your always-on SI agent for all your devices. Local-first, permission-aware, built for the next chapter of connected work.">
+  <title>MegasMoves | Amretra Dynamics</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="announcement">A new chapter for local-first tools <span aria-hidden="true">✳</span> Community source preview in preparation</div>
+  <header class="header wrap">
+    <a class="wordmark" href="#home" aria-label="MegasMoves home"><span class="mark" aria-hidden="true">M<span>↗</span></span><span>Megas<span class="bright">Moves</span></span></a>
+    <nav aria-label="Main navigation">
+      <a href="#approach">Approach</a>
+      <a href="#community">Open source</a>
+      <a href="#wow">Megas WoW</a>
+      <a href="https://t.me/megasmovesSI" target="_blank" rel="noopener noreferrer">Telegram ↗</a>
+    </nav>
+    <a class="header-link" href="https://github.com/Amretra-Dynamics/megasmoves">GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main">
+    <section class="hero wrap" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="pulse"></span> An Amretra Dynamics product</p>
+        <h1>Give your tools<br>room to <em>move.</em></h1>
+        <p class="subline">Your always-on <strong>SI agent</strong> for all your devices.</p>
+        <p class="description">We're building a trusted layer between the work you want done and the devices that make it happen. Local-first capabilities. Human-controlled permissions. Connected possibilities.</p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/Amretra-Dynamics/megasmoves">Explore the source <span aria-hidden="true">↗</span></a>
+          <a class="button outline" href="#community">See what's available</a>
+          <a class="button outline" href="https://t.me/megasmovesSI" target="_blank" rel="noopener noreferrer">Join Telegram <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="footnote">Community source preview is read-only. Full device operations are not included in this source candidate.</p>
+      </div>
+      <div class="hero-scene" aria-label="Illustration of connected trusted workspaces, device operations, and a central MegasMoves operator">
+        <div class="scene-glow"></div>
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+        <div class="device desktop"><span class="device-label">WORKSPACE</span><span class="device-main">Local tools</span><span class="device-status"><i></i> Human-approved</span></div>
+        <div class="device mobile"><span class="device-label">DEVICES</span><span class="device-main">Connected work</span><span class="device-status"><i></i> Product vision</span></div>
+        <div class="device cloud"><span class="device-label">OPERATIONS</span><span class="device-main">Typed actions</span><span class="device-status"><i></i> Bounded by trust</span></div>
+        <div class="core"><span class="core-symbol">M<span>↗</span></span><span class="core-title">MEGASMOVES</span><span class="core-caption">SI OPERATOR</span></div>
+        <div class="scene-note"><span class="note-spark">✳</span> One idea. Many surfaces.</div>
+      </div>
+    </section>
+    <section class="ticker" aria-label="Design principles"><div class="wrap"><span>LOCAL FIRST</span><b>✳</b><span>HUMAN PERMISSION</span><b>✳</b><span>TYPED CAPABILITIES</span><b>✳</b><span>CONNECTED WORK</span></div></section>
+    <section class="section wrap" id="approach">
+      <div class="section-heading"><p class="eyebrow">01 / THE APPROACH</p><h2>Power should come<br>with <em>boundaries.</em></h2><p>Useful software doesn't need unlimited permission. MegasMoves is being built around scoped access, observable actions, and the user staying in control.</p></div>
+      <div class="feature-grid">
+        <article class="feature"><span class="feature-number">01</span><div class="feature-symbol">⌁</div><h3>Local by design</h3><p>Work starts near your own tools and projects. The Community preview inspects only folders you explicitly add.</p></article>
+        <article class="feature"><span class="feature-number">02</span><div class="feature-symbol">◇</div><h3>Permission matters</h3><p>Trust boundaries are part of the interface, not a footnote. No hidden workspace approval in the preview.</p></article>
+        <article class="feature"><span class="feature-number">03</span><div class="feature-symbol">↗</div><h3>Built to expand</h3><p>MegasMoves aims to link devices and workflows through clear capabilities. Broader product features remain in development.</p></article>
+      </div>
+    </section>
+    <section class="section community-section" id="community">
+      <div class="wrap community-grid">
+        <div><p class="eyebrow">02 / OPEN SOURCE</p><h2>Built in the open.<br><em>Released with care.</em></h2><p>The first Community source candidate provides a local command line, approved workspace registry, read-only metadata inspection and a small MCP interface. It is not the complete multi-device product.</p>
+          <a class="button light" href="https://github.com/Amretra-Dynamics/megasmoves">Visit GitHub <span aria-hidden="true">↗</span></a>
+          <p class="light-note">MIT license • Python 3.11+ • Security review before public release</p>
+        </div>
+        <div class="terminal" role="img" aria-label="Example read-only MegasMoves Community CLI commands">
+          <div class="terminal-top"><span class="lights"><i></i><i></i><i></i></span><span>megas / community</span><span>⌘</span></div>
+          <div class="terminal-body"><div><span class="prompt">➜</span> <span class="command">megas add .</span></div><p class="output">Approved local project</p><div><span class="prompt">➜</span> <span class="command">megas projects</span></div><p class="output">1 trusted workspace</p><div><span class="prompt">➜</span> <span class="command">megas status</span></div><p class="output"><span class="green">●</span> local_read_only</p><div><span class="prompt">➜</span> <span class="command">megas serve</span></div><p class="output">MCP / standard I/O<span class="cursor">▋</span></p></div>
+          <div class="terminal-foot">Source candidate / illustrative output</div>
+        </div>
+      </div>
+    </section>
+    <section class="section wrap wow-section" id="wow">
+      <div class="wow-tag">03 / WHAT'S NEXT</div>
+      <div class="wow-card">
+        <div><p class="eyebrow">THE MANAGED EXPERIENCE</p><h2>Meet <em>Megas WoW.</em></h2><p>Our planned always-on SI-agent experience for all your devices, with managed services beyond the Community preview.</p><span class="coming">Planned offering · Not yet available for purchase</span></div>
+        <div class="price"><span>Planned price</span><strong>$20<small>/month</small></strong><span>Launch availability to be announced</span></div>
+      </div>
+    </section>
+    <section class="closing wrap"><p class="eyebrow">AMRETRA DYNAMICS</p><h2>A different way<br>to get things <em>moving.</em></h2><p>Built by Abhinav Musrif. Shaped for people who want more from their software and more control over how it works.</p><a href="https://github.com/Amretra-Dynamics/megasmoves" class="button primary">Follow the source <span aria-hidden="true">↗</span></a></section>
+  </main>
+  <footer class="footer"><div class="wrap"><div><strong>MegasMoves</strong><span>© 2026 Amretra Dynamics</span></div><p>Local first. Permission aware. Built to move.</p><div class="legal-links"><a href="https://megasmoves.io/privacy">Privacy ↗</a><a href="https://megasmoves.io/legal">Legal ↗</a><a href="https://github.com/Amretra-Dynamics/megasmoves">GitHub ↗</a><a href="https://t.me/megasmovesSI" target="_blank" rel="noopener noreferrer">Telegram ↗</a></div></div></footer>
+</body>
+</html>
