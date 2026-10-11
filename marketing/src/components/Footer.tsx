@@ -8,6 +8,7 @@ const linkGroups = [
     links: [
       { href: "/#product", label: "MegasMoves" },
       { href: "/pricing", label: "Plans and pricing" },
+      { href: "/wow", label: "Megas WoW waitlist" },
       { href: "/download", label: "Download" },
     ],
   },
