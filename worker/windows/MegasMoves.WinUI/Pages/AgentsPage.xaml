@@ -1,0 +1,387 @@
+<Page
+    x:Class="MegasMoves.Pages.AgentsPage"
+    x:Name="RootPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:MegasMoves.ViewModels"
+    Background="Transparent">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollMode="Auto"
+                  HorizontalScrollBarVisibility="Auto">
+        <StackPanel Padding="28,24,28,40" Spacing="18" MinWidth="740">
+            <!-- 1. Compact Desktop Header -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="340" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Spacing="3">
+                    <TextBlock Text="Agents"
+                               FontFamily="{StaticResource MegasDisplayFontFamily}"
+                               FontSize="22"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="{x:Bind ViewModel.StatusText, Mode=OneWay}"
+                               FontFamily="{StaticResource MegasUiFontFamily}"
+                               FontSize="13"
+                               Foreground="{ThemeResource MegasMutedBrush}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Button Command="{x:Bind ViewModel.RefreshCommand}"
+                            AutomationProperties.Name="Refresh agents and tasks">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon Glyph="&#xE72C;" FontSize="12" VerticalAlignment="Center" />
+                            <TextBlock Text="Refresh" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- Error InfoBar -->
+            <InfoBar IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                     IsClosable="False"
+                     Severity="Error"
+                     Title="Agent operation failed"
+                     Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                     CornerRadius="6"
+                     AutomationProperties.LiveSetting="Assertive" />
+
+            <!-- Thin Separator -->
+            <Border Style="{StaticResource DesktopSeparatorStyle}" />
+
+            <!-- 2. Master-Detail Split Workspace -->
+            <Grid ColumnSpacing="18" MinHeight="360">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="380" MinWidth="320" />
+                    <ColumnDefinition Width="*" MinWidth="320" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Master: Agents List -->
+                <StackPanel Spacing="8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="AVAILABLE AGENTS"
+                                   FontFamily="{StaticResource MegasUiFontFamily}"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   CharacterSpacing="60"
+                                   Foreground="{ThemeResource MegasMutedBrush}"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1"
+                                   Text="{x:Bind ViewModel.Agents.Count, Mode=OneWay}"
+                                   FontSize="11"
+                                   Foreground="{ThemeResource MegasMutedBrush}"
+                                   VerticalAlignment="Center" />
+                    </Grid>
+
+                    <!-- Table Header -->
+                    <Grid Padding="10,6"
+                          BorderBrush="{ThemeResource MegasWorkbenchLineBrush}"
+                          BorderThickness="0,0,0,1"
+                          Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                          CornerRadius="4,4,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Agent / Client" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                        <TextBlock Grid.Column="1" Text="Status" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                        <TextBlock Grid.Column="2" Text="Action" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                    </Grid>
+
+                    <!-- Agents List -->
+                    <ListView ItemsSource="{x:Bind ViewModel.Agents, Mode=OneWay}"
+                              SelectedItem="{x:Bind ViewModel.SelectedAgent, Mode=TwoWay}"
+                              SelectionMode="Single"
+                              AutomationProperties.Name="Available agent clients list">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Margin" Value="0,1" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="MinHeight" Value="48" />
+                                <Setter Property="CornerRadius" Value="4" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:AgentWorkbenchItemViewModel">
+                                <Border Style="{StaticResource DesktopTableRowBorderStyle}" Padding="10,8">
+                                    <Grid ColumnSpacing="8">
+                                        <Grid.ContextFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyoutItem Text="Connect"
+                                                                IsEnabled="{x:Bind CanConnect}"
+                                                                Click="AgentConnectClicked" />
+                                                <MenuFlyoutItem Text="Disconnect"
+                                                                IsEnabled="{x:Bind CanDisconnect}"
+                                                                Click="AgentDisconnectClicked" />
+                                                <MenuFlyoutItem Text="Download &amp; Verify"
+                                                                IsEnabled="{x:Bind CanInstall}"
+                                                                Click="AgentInstallClicked" />
+                                                <MenuFlyoutSeparator />
+                                                <MenuFlyoutItem Text="Uninstall"
+                                                                IsEnabled="{x:Bind CanUninstall}"
+                                                                Click="AgentUninstallClicked" />
+                                            </MenuFlyout>
+                                        </Grid.ContextFlyout>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Spacing="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{x:Bind DisplayName}"
+                                                       FontWeight="SemiBold"
+                                                       FontSize="13" />
+                                            <TextBlock Text="{x:Bind Client}"
+                                                       FontFamily="{StaticResource MegasMonoFontFamily}"
+                                                       FontSize="10"
+                                                       Foreground="{ThemeResource MegasMutedBrush}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+                                            <Ellipse Width="6" Height="6"
+                                                     Fill="{ThemeResource MegasAccentBrush}"
+                                                     VerticalAlignment="Center" />
+                                            <TextBlock Text="{x:Bind PrimaryState}"
+                                                       FontSize="11"
+                                                       FontWeight="Medium"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                                            <Button Content="Connect"
+                                                    IsEnabled="{x:Bind CanConnect}"
+                                                    Click="AgentConnectClicked"
+                                                    FontSize="11"
+                                                    Padding="8,3"
+                                                    MinHeight="26" />
+                                            <Button Content="Disconnect"
+                                                    IsEnabled="{x:Bind CanDisconnect}"
+                                                    Click="AgentDisconnectClicked"
+                                                    FontSize="11"
+                                                    Padding="8,3"
+                                                    MinHeight="26" />
+                                            <Button Content="Download"
+                                                    IsEnabled="{x:Bind CanInstall}"
+                                                    Click="AgentInstallClicked"
+                                                    FontSize="11"
+                                                    Padding="8,3"
+                                                    MinHeight="26" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+
+                <!-- Right Detail Panel -->
+                <StackPanel Grid.Column="1" Spacing="8">
+                    <TextBlock Text="AGENT DETAILS"
+                               FontFamily="{StaticResource MegasUiFontFamily}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               CharacterSpacing="60"
+                               Foreground="{ThemeResource MegasMutedBrush}" />
+
+                    <Border Style="{StaticResource DesktopSurfaceStyle}" Padding="18,16" MinHeight="320">
+                        <StackPanel Spacing="14">
+                            <!-- Selected Agent Header -->
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="{x:Bind ViewModel.SelectedAgent.DisplayName, Mode=OneWay, FallbackValue='Select an agent'}"
+                                               FontSize="17"
+                                               FontWeight="SemiBold" />
+                                    <TextBlock Text="{x:Bind ViewModel.SelectedAgent.Client, Mode=OneWay, FallbackValue='No agent currently selected'}"
+                                               FontFamily="{StaticResource MegasMonoFontFamily}"
+                                               FontSize="11"
+                                               Foreground="{ThemeResource MegasMutedBrush}" />
+                                </StackPanel>
+                                <Border Grid.Column="1" Style="{StaticResource PillBadgeBorderStyle}" VerticalAlignment="Center">
+                                    <TextBlock Text="{x:Bind ViewModel.SelectedAgent.PrimaryState, Mode=OneWay, FallbackValue='Idle'}"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="{ThemeResource MegasBadgeTextBrush}"
+                                               VerticalAlignment="Center" />
+                                </Border>
+                            </Grid>
+
+                            <!-- Thin Separator -->
+                            <Border Style="{StaticResource DesktopSeparatorStyle}" />
+
+                            <!-- Metadata Grid -->
+                            <Grid RowSpacing="8" ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Version" FontSize="11" Foreground="{ThemeResource MegasMutedBrush}" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{x:Bind ViewModel.SelectedAgent.Version, Mode=OneWay, FallbackValue='—'}"
+                                           FontFamily="{StaticResource MegasMonoFontFamily}"
+                                           FontSize="11" />
+
+                                <TextBlock Grid.Row="1" Text="Connection" FontSize="11" Foreground="{ThemeResource MegasMutedBrush}" />
+                                <TextBlock Grid.Row="1" Grid.Column="1"
+                                           Text="{x:Bind ViewModel.SelectedAgent.Connection, Mode=OneWay, FallbackValue='—'}"
+                                           FontSize="11" />
+
+                                <TextBlock Grid.Row="2" Text="Repository" FontSize="11" Foreground="{ThemeResource MegasMutedBrush}" />
+                                <TextBlock Grid.Row="2" Grid.Column="1"
+                                           Text="{x:Bind ViewModel.SelectedAgent.Repository, Mode=OneWay, FallbackValue='—'}"
+                                           FontFamily="{StaticResource MegasMonoFontFamily}"
+                                           FontSize="10"
+                                           TextTrimming="CharacterEllipsis" />
+
+                                <TextBlock Grid.Row="3" Text="Install Status" FontSize="11" Foreground="{ThemeResource MegasMutedBrush}" />
+                                <TextBlock Grid.Row="3" Grid.Column="1"
+                                           Text="{x:Bind ViewModel.SelectedAgent.InstallState, Mode=OneWay, FallbackValue='—'}"
+                                           FontSize="11" />
+                            </Grid>
+
+                            <!-- Thin Separator -->
+                            <Border Style="{StaticResource DesktopSeparatorStyle}" />
+
+                            <!-- Task Binding -->
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="Task Binding" FontWeight="SemiBold" FontSize="12" />
+                                <TextBox Text="{x:Bind ViewModel.NewTaskTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         PlaceholderText="Assign new task instruction to this agent..."
+                                         CornerRadius="6"
+                                         FontSize="12" />
+                                <Grid ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Text="{x:Bind ViewModel.NewTaskProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             PlaceholderText="Project folder binding (optional)"
+                                             CornerRadius="6"
+                                             FontSize="12" />
+                                    <Button Grid.Column="1"
+                                            Content="Assign Task"
+                                            Command="{x:Bind ViewModel.DownloadAndAssignCommand}"
+                                            FontSize="12" />
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <!-- Thin Separator -->
+            <Border Style="{StaticResource DesktopSeparatorStyle}" />
+
+            <!-- 3. Durable Tasks Section -->
+            <StackPanel Spacing="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="DURABLE TASKS"
+                               FontFamily="{StaticResource MegasUiFontFamily}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               CharacterSpacing="60"
+                               Foreground="{ThemeResource MegasMutedBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1"
+                               Text="Durable state preserved across agent reconnects"
+                               FontSize="11"
+                               Foreground="{ThemeResource MegasMutedBrush}"
+                               VerticalAlignment="Center" />
+                </Grid>
+
+                <!-- Table Header -->
+                <Grid Padding="12,6"
+                      BorderBrush="{ThemeResource MegasWorkbenchLineBrush}"
+                      BorderThickness="0,0,0,1"
+                      Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                      CornerRadius="4,4,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="220" />
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Task Instruction" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                    <TextBlock Grid.Column="1" Text="Project" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                    <TextBlock Grid.Column="2" Text="Assigned Agent" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                    <TextBlock Grid.Column="3" Text="State" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                    <TextBlock Grid.Column="4" Text="Action" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                </Grid>
+
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
+                               AutomationProperties.Name="Durable agent tasks">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="vm:AgentTaskItemViewModel">
+                            <Border Style="{StaticResource DesktopTableRowBorderStyle}">
+                                <Grid ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" MinWidth="220" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Bind Title}"
+                                               FontWeight="SemiBold"
+                                               FontSize="12"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1"
+                                               Text="{x:Bind ProjectLabel}"
+                                               FontSize="11"
+                                               Foreground="{ThemeResource MegasMutedBrush}"
+                                               TextTrimming="CharacterEllipsis"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="2"
+                                               Text="{x:Bind Assignment}"
+                                               FontSize="11"
+                                               Foreground="{ThemeResource MegasMutedBrush}"
+                                               VerticalAlignment="Center" />
+                                    <Border Grid.Column="3" Style="{StaticResource BadgeBorderStyle}" HorizontalAlignment="Left">
+                                        <TextBlock Text="{x:Bind State}" FontSize="10" FontWeight="Medium" Foreground="{ThemeResource MegasBadgeTextBrush}" VerticalAlignment="Center" />
+                                    </Border>
+                                    <Button Grid.Column="4"
+                                            Content="Unassign"
+                                            Command="{Binding ElementName=RootPage, Path=ViewModel.UnassignSelectedTaskCommand}"
+                                            FontSize="11"
+                                            Padding="8,3"
+                                            MinHeight="26"
+                                            VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+
+                <!-- Clean empty state when no tasks exist -->
+                <Border Visibility="{x:Bind NoTasksVisibility, Mode=OneWay}"
+                        Padding="14,12"
+                        BorderBrush="{ThemeResource MegasWorkbenchLineBrush}"
+                        BorderThickness="0,0,0,1">
+                    <TextBlock Text="No active durable tasks. Enter an instruction above to dispatch work to an agent."
+                               FontSize="12"
+                               Foreground="{ThemeResource MegasMutedBrush}" />
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
