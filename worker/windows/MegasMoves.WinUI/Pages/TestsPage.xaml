@@ -1,0 +1,240 @@
+<Page
+    x:Class="MegasMoves.Pages.TestsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:MegasMoves.ViewModels"
+    Background="Transparent">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollMode="Auto"
+                  HorizontalScrollBarVisibility="Auto">
+        <StackPanel Padding="28,24,28,40" Spacing="18" MinWidth="740">
+            <!-- 1. Desktop Page Header -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="340" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Spacing="3">
+                    <TextBlock Text="Tests"
+                               FontFamily="{StaticResource MegasDisplayFontFamily}"
+                               FontSize="22"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="Preflight and normalized test evidence from real adapters and repository-evidenced checks."
+                               FontFamily="{StaticResource MegasUiFontFamily}"
+                               FontSize="13"
+                               Foreground="{ThemeResource MegasMutedBrush}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <Button Grid.Column="1"
+                        Command="{x:Bind ViewModel.RefreshActivityCommand}"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="Refresh normalized test evidence">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <FontIcon Glyph="&#xE72C;" FontSize="12" />
+                        <TextBlock Text="Refresh" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <!-- Error InfoBar -->
+            <InfoBar IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                     Severity="Error"
+                     IsClosable="False"
+                     Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                     CornerRadius="6"
+                     AutomationProperties.LiveSetting="Polite"
+                     AutomationProperties.Name="Test evidence failure" />
+
+            <!-- Thin Separator -->
+            <Border Style="{StaticResource DesktopSeparatorStyle}" />
+
+            <!-- 2. Compact Test Summary Strip -->
+            <Border Style="{StaticResource DesktopSurfaceStyle}" Padding="16,12">
+                <Grid ColumnSpacing="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="Test Evidence Events" FontSize="11" Foreground="{ThemeResource MegasMutedBrush}" />
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <Ellipse Width="6" Height="6" Fill="{ThemeResource MegasSuccessBrush}" VerticalAlignment="Center" />
+                            <TextBlock Text="{x:Bind ViewModel.TestEvidence.Count, Mode=OneWay}" FontWeight="SemiBold" FontSize="14" />
+                            <TextBlock Text="recorded" FontSize="12" Foreground="{ThemeResource MegasMutedBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="2">
+                        <TextBlock Text="Preflight Targets" FontSize="11" Foreground="{ThemeResource MegasMutedBrush}" />
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <Ellipse Width="6" Height="6" Fill="{ThemeResource MegasAccentBrush}" VerticalAlignment="Center" />
+                            <TextBlock Text="{x:Bind ViewModel.TrustedProjectCount, Mode=OneWay}" FontWeight="SemiBold" FontSize="14" />
+                            <TextBlock Text="products ready" FontSize="12" Foreground="{ThemeResource MegasMutedBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="2">
+                        <TextBlock Text="Recent Failures" FontSize="11" Foreground="{ThemeResource MegasMutedBrush}" />
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <Ellipse Width="6" Height="6" Fill="{ThemeResource MegasMutedBrush}" VerticalAlignment="Center" />
+                            <TextBlock Text="{x:Bind ViewModel.FailureCount, Mode=OneWay}" FontWeight="SemiBold" FontSize="14" />
+                            <TextBlock Text="failures" FontSize="12" Foreground="{ThemeResource MegasMutedBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 3. Product Preflight Table -->
+            <StackPanel Spacing="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="PRODUCT PREFLIGHT"
+                               FontFamily="{StaticResource MegasUiFontFamily}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               CharacterSpacing="60"
+                               Foreground="{ThemeResource MegasMutedBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1"
+                               Text="Repository-evidenced checks"
+                               FontSize="11"
+                               Foreground="{ThemeResource MegasMutedBrush}"
+                               VerticalAlignment="Center" />
+                </Grid>
+
+                <!-- Table Header -->
+                <Grid Padding="12,6"
+                      BorderBrush="{ThemeResource MegasWorkbenchLineBrush}"
+                      BorderThickness="0,0,0,1"
+                      Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                      CornerRadius="4,4,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="*" MinWidth="220" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Product" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                    <TextBlock Grid.Column="1" Text="State" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                    <TextBlock Grid.Column="2" Text="Declared Services &amp; Last Action" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                    <TextBlock Grid.Column="3" Text="Action" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                </Grid>
+
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Projects, Mode=OneWay}"
+                               AutomationProperties.Name="Products available for repository-evidenced preflight">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ProjectCardViewModel">
+                            <Border Style="{StaticResource DesktopTableRowBorderStyle}">
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" MinWidth="220" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Bind Name}" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="{x:Bind State}" FontSize="11" Foreground="{ThemeResource MegasMutedBrush}" VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="2" Spacing="2" VerticalAlignment="Center">
+                                        <TextBlock Text="{x:Bind ServiceSummary}" FontSize="12" TextWrapping="Wrap" />
+                                        <TextBlock Text="{x:Bind LastAction, Mode=OneWay}" FontSize="10" Foreground="{ThemeResource MegasMutedBrush}" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <Button Grid.Column="3"
+                                            Command="{x:Bind CheckCommand}"
+                                            Style="{StaticResource AccentButtonStyle}"
+                                            Padding="10,4"
+                                            MinHeight="28"
+                                            VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Spacing="5">
+                                            <FontIcon Glyph="&#xE768;" FontSize="10" />
+                                            <TextBlock Text="Preflight" FontSize="11" />
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </StackPanel>
+
+            <!-- Thin Separator -->
+            <Border Style="{StaticResource DesktopSeparatorStyle}" />
+
+            <!-- 4. Normalized Test Evidence Table -->
+            <StackPanel Spacing="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="NORMALIZED TEST EVIDENCE"
+                               FontFamily="{StaticResource MegasUiFontFamily}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               CharacterSpacing="60"
+                               Foreground="{ThemeResource MegasMutedBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1"
+                               Text="Canonical Activity stream"
+                               FontSize="11"
+                               Foreground="{ThemeResource MegasMutedBrush}"
+                               VerticalAlignment="Center" />
+                </Grid>
+
+                <!-- Table Header -->
+                <Grid Padding="12,6"
+                      BorderBrush="{ThemeResource MegasWorkbenchLineBrush}"
+                      BorderThickness="0,0,0,1"
+                      Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                      CornerRadius="4,4,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="*" MinWidth="220" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Timestamp" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                    <TextBlock Grid.Column="1" Text="Source" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                    <TextBlock Grid.Column="2" Text="Evidence Message" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                    <TextBlock Grid.Column="3" Text="Operation" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource MegasMutedBrush}" />
+                </Grid>
+
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.TestEvidence, Mode=OneWay}"
+                               AutomationProperties.Name="Normalized canonical test evidence">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ActivityItemViewModel">
+                            <Border Style="{StaticResource DesktopTableRowBorderStyle}">
+                                <Grid ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="*" MinWidth="220" />
+                                        <ColumnDefinition Width="150" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Bind Time}"
+                                               FontSize="11"
+                                               FontFamily="{StaticResource MegasMonoFontFamily}"
+                                               Foreground="{ThemeResource MegasMutedBrush}"
+                                               VerticalAlignment="Center" />
+                                    <Border Grid.Column="1" Style="{StaticResource BadgeBorderStyle}" HorizontalAlignment="Left">
+                                        <TextBlock Text="{x:Bind Source}" FontSize="10" FontWeight="Medium" Foreground="{ThemeResource MegasBadgeTextBrush}" VerticalAlignment="Center" />
+                                    </Border>
+                                    <TextBlock Grid.Column="2" Text="{x:Bind Message}" FontSize="12" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="3"
+                                               Text="{x:Bind Operation}"
+                                               FontSize="10"
+                                               FontFamily="{StaticResource MegasMonoFontFamily}"
+                                               Foreground="{ThemeResource MegasMutedBrush}"
+                                               TextTrimming="CharacterEllipsis"
+                                               VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,265 @@
+<Page
+    x:Class="MegasMoves.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="Transparent">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollMode="Auto"
+                  HorizontalScrollBarVisibility="Auto"
+                  AutomationProperties.Name="MegasMoves settings">
+        <StackPanel Padding="28,24,28,40" Spacing="18" MinWidth="700" MaxWidth="920" HorizontalAlignment="Left">
+            <!-- 1. Desktop Page Header -->
+            <StackPanel Spacing="3">
+                <TextBlock Text="Settings"
+                           FontFamily="{StaticResource MegasDisplayFontFamily}"
+                           FontSize="22"
+                           FontWeight="SemiBold" />
+                <TextBlock Text="Machine-local product settings and security configuration."
+                           FontFamily="{StaticResource MegasUiFontFamily}"
+                           FontSize="13"
+                           Foreground="{ThemeResource MegasMutedBrush}"
+                           TextWrapping="Wrap" />
+            </StackPanel>
+
+            <!-- Thin Separator -->
+            <Border Style="{StaticResource DesktopSeparatorStyle}" />
+
+            <!-- 2. Appearance & Experience Section -->
+            <StackPanel Spacing="14">
+                <TextBlock Text="APPEARANCE &amp; EXPERIENCE"
+                           FontFamily="{StaticResource MegasUiFontFamily}"
+                           FontSize="11"
+                           FontWeight="SemiBold"
+                           CharacterSpacing="60"
+                           Foreground="{ThemeResource MegasMutedBrush}" />
+
+                <Grid MinWidth="620">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="340" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="Interface" FontWeight="SemiBold" FontSize="13" />
+                        <TextBlock Text="WinUI 3 · Fluent · Native Windows operator console" Foreground="{ThemeResource MegasMutedBrush}" FontSize="12" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <Border Grid.Column="1" Style="{StaticResource PillBadgeBorderStyle}" VerticalAlignment="Center">
+                        <TextBlock Text="NATIVE" Foreground="{ThemeResource MegasBadgeTextBrush}" FontWeight="SemiBold" FontSize="11" AutomationProperties.Name="Native WinUI production interface" />
+                    </Border>
+                </Grid>
+
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Theme" FontWeight="SemiBold" FontSize="13" />
+                    <TextBlock Text="System default automatically follows your Windows personalization settings."
+                               FontSize="12"
+                               Foreground="{ThemeResource MegasMutedBrush}"
+                               TextWrapping="Wrap" />
+                    <RadioButtons x:Name="ThemeRadioButtons"
+                                  SelectionChanged="ThemeRadioButtons_SelectionChanged"
+                                  MaxColumns="3"
+                                  Margin="0,4,0,0"
+                                  AutomationProperties.Name="MegasMoves appearance theme">
+                        <RadioButton Content="System default" Tag="system" />
+                        <RadioButton Content="Light mode" Tag="light" />
+                        <RadioButton Content="Dark mode" Tag="dark" />
+                    </RadioButtons>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Thin Separator -->
+            <Border Style="{StaticResource DesktopSeparatorStyle}" />
+
+            <!-- 3. Window & Background Behavior Section -->
+            <StackPanel Spacing="14">
+                <TextBlock Text="WINDOW &amp; BACKGROUND BEHAVIOR"
+                           FontFamily="{StaticResource MegasUiFontFamily}"
+                           FontSize="11"
+                           FontWeight="SemiBold"
+                           CharacterSpacing="60"
+                           Foreground="{ThemeResource MegasMutedBrush}" />
+
+                <Grid MinWidth="620">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="340" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="Close button action" FontWeight="SemiBold" FontSize="13" />
+                        <TextBlock Text="Minimize to system tray / dock (keeps servers and MCP active) or exit completely."
+                                   Foreground="{ThemeResource MegasMutedBrush}"
+                                   FontSize="12"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                    <ToggleSwitch x:Name="CloseBehaviorToggle"
+                                  Grid.Column="1"
+                                  OffContent="Exit on close"
+                                  OnContent="Minimize to tray"
+                                  Toggled="CloseBehaviorToggle_Toggled"
+                                  VerticalAlignment="Center"
+                                  AutomationProperties.Name="Close button behavior for MegasMoves window" />
+                </Grid>
+
+                <Grid MinWidth="620">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="340" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="Completely quit MegasMoves" FontWeight="SemiBold" FontSize="13" />
+                        <TextBlock Text="Terminates all background runtimes, local testing servers, and the capability core."
+                                   Foreground="{ThemeResource MegasMutedBrush}"
+                                   FontSize="12"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                    <Button x:Name="QuitAppButton"
+                            Grid.Column="1"
+                            Click="QuitAppButton_Click"
+                            VerticalAlignment="Center"
+                            AutomationProperties.Name="Completely exit MegasMoves application">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon Glyph="&#xF3B1;" FontSize="12" />
+                            <TextBlock Text="Exit MegasMoves" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </StackPanel>
+
+            <!-- Thin Separator -->
+            <Border Style="{StaticResource DesktopSeparatorStyle}" />
+
+            <!-- 4. Updates & Rollback Section -->
+            <StackPanel Spacing="14">
+                <TextBlock Text="UPDATES &amp; ROLLBACK"
+                           FontFamily="{StaticResource MegasUiFontFamily}"
+                           FontSize="11"
+                           FontWeight="SemiBold"
+                           CharacterSpacing="60"
+                           Foreground="{ThemeResource MegasMutedBrush}" />
+
+                <TextBlock Text="Update metadata and downloads must be signed and verified before staging. Installation never happens silently."
+                           FontSize="12"
+                           Foreground="{ThemeResource MegasMutedBrush}"
+                           TextWrapping="Wrap" />
+
+                <Grid ColumnSpacing="24" MinWidth="620">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="220" />
+                        <ColumnDefinition Width="*" MinWidth="280" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Release channel" FontWeight="SemiBold" FontSize="12" />
+                        <ComboBox x:Name="UpdateChannelBox"
+                                  Width="200"
+                                  HorizontalAlignment="Left"
+                                  SelectionChanged="UpdatePolicy_Changed"
+                                  CornerRadius="6"
+                                  Height="32"
+                                  AutomationProperties.Name="MegasMoves update channel">
+                            <ComboBoxItem Content="Stable" Tag="stable" />
+                            <ComboBoxItem Content="Internal" Tag="internal" />
+                            <ComboBoxItem Content="Dev" Tag="dev" />
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Spacing="4">
+                        <ToggleSwitch x:Name="AutomaticChecksToggle"
+                                      Header="Automatic update checks"
+                                      OffContent="Off"
+                                      OnContent="On"
+                                      Toggled="UpdatePolicy_Changed"
+                                      AutomationProperties.Name="Automatic MegasMoves update checks" />
+                        <TextBlock Text="Checking only. Applying an update always requires explicit human action."
+                                   FontSize="11"
+                                   Foreground="{ThemeResource MegasMutedBrush}"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
+
+                <TextBlock x:Name="UpdatePolicyText"
+                           FontSize="11"
+                           Foreground="{ThemeResource MegasMutedBrush}"
+                           TextWrapping="Wrap"
+                           AutomationProperties.Name="Current update policy"
+                           AutomationProperties.LiveSetting="Polite" />
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Click="UpdateSafety_Click"
+                            AutomationProperties.Name="Check whether MegasMoves can safely update now">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon Glyph="&#xE72C;" FontSize="12" />
+                            <TextBlock Text="Check update safety" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="StageSignedUpdateButton"
+                            Click="StageSignedUpdate_Click"
+                            AutomationProperties.Name="Choose and stage a signed MegasMoves update manifest">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon Glyph="&#xE8E5;" FontSize="12" />
+                            <TextBlock Text="Stage signed manifest…" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="ApplyStagedUpdateButton"
+                            IsEnabled="False"
+                            Style="{StaticResource AccentButtonStyle}"
+                            Click="ApplyStagedUpdate_Click"
+                            AutomationProperties.Name="Apply the verified staged MegasMoves update">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon Glyph="&#xE896;" FontSize="12" />
+                            <TextBlock Text="Apply staged update" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <TextBlock x:Name="StagedUpdateText"
+                           Text="No update staged. Manual staging accepts only a signed manifest for the selected channel."
+                           FontSize="11"
+                           Foreground="{ThemeResource MegasMutedBrush}"
+                           TextWrapping="Wrap"
+                           AutomationProperties.Name="Staged update status"
+                           AutomationProperties.LiveSetting="Polite" />
+
+                <InfoBar x:Name="UpdateSafetyBar"
+                         IsOpen="False"
+                         IsClosable="True"
+                         CornerRadius="6"
+                         AutomationProperties.Name="Update safety and staging result"
+                         AutomationProperties.LiveSetting="Assertive" />
+            </StackPanel>
+
+            <!-- Thin Separator -->
+            <Border Style="{StaticResource DesktopSeparatorStyle}" />
+
+            <!-- 5. Performance Budgets Section -->
+            <StackPanel Spacing="10">
+                <TextBlock Text="PERFORMANCE BUDGETS"
+                           FontFamily="{StaticResource MegasUiFontFamily}"
+                           FontSize="11"
+                           FontWeight="SemiBold"
+                           CharacterSpacing="60"
+                           Foreground="{ThemeResource MegasMutedBrush}" />
+
+                <TextBlock Text="Live runtime process measurements, verified against SLA gates."
+                           FontSize="12"
+                           Foreground="{ThemeResource MegasMutedBrush}"
+                           TextWrapping="Wrap" />
+
+                <TextBlock x:Name="PerformanceBudgetText"
+                           FontFamily="{StaticResource MegasMonoFontFamily}"
+                           FontSize="11"
+                           TextWrapping="Wrap"
+                           AutomationProperties.Name="Measured MegasMoves performance budgets"
+                           AutomationProperties.LiveSetting="Polite" />
+
+                <Button Click="PerformanceRefresh_Click"
+                        HorizontalAlignment="Left"
+                        AutomationProperties.Name="Refresh measured performance budgets">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <FontIcon Glyph="&#xE72C;" FontSize="12" />
+                        <TextBlock Text="Refresh measurements" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
