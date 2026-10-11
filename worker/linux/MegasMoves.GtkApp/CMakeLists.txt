@@ -19,7 +19,7 @@ add_executable(megasmoves_gtk
 target_include_directories(megasmoves_gtk
     PRIVATE
         src
-        ../../native/include
+        ../../windows/native/include
         ${GTK4_INCLUDE_DIRS}
         ${ADW_INCLUDE_DIRS}
 )
