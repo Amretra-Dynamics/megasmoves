@@ -1,0 +1,2 @@
+"""Megas Worker CLI shell."""
+
