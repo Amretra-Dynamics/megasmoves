@@ -56,9 +56,16 @@ PUBLIC_ENDPOINTS = frozenset({
     "kilo.ai", "x.ai", "registry.npmjs.org",
     "api.devin.ai", "jules.googleapis.com", "api.ipify.org",
     "ifconfig.me", "httpbin.org",
+    # Public build dependencies and vendor documentation (not runtime secrets).
+    "opencollective.com", "eslint.org", "tidelift.com",
+    "www.patreon.com", "feross.org",
+    "www.gradle.org", "docs.gradle.org", "developer.android.com",
+    "schemas.android.com",
 })
 
 EXEMPT_EMAIL_DOMAINS = {"example.com", "example.org", "example.net", "invalid", "localhost", "github.com", "users.noreply.github.com", "noreply.github.com"}
+# Published product contact mailbox. Other real addresses are still flagged.
+PUBLIC_CONTACT_EMAILS = frozenset({"master@megasmoves.io"})
 
 
 def _run_git(*args: str) -> bytes:
@@ -78,7 +85,7 @@ def _inspect(name: str, data: bytes) -> list[str]:
     for label, rule in RULES.items():
         matches = list(rule.finditer(content))
         if label == "user_email":
-            matches = [m for m in matches if m.group().rsplit("@", 1)[-1].lower() not in EXEMPT_EMAIL_DOMAINS]
+            matches = [m for m in matches if m.group().rsplit("@", 1)[-1].lower() not in EXEMPT_EMAIL_DOMAINS and m.group().lower() not in PUBLIC_CONTACT_EMAILS]
         if matches:
             labels.append(label)
     for hostname in URL_PATTERN.findall(content):
