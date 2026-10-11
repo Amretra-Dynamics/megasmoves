@@ -54,6 +54,8 @@ PUBLIC_ENDPOINTS = frozenset({
     "api.github.com", "antigravity.google", "kiro.dev", "www.moonshot.cn",
     "open.bigmodel.cn", "docs.cline.bot", "static.devin.ai", "cli.devin.ai",
     "kilo.ai", "x.ai", "registry.npmjs.org",
+    "api.devin.ai", "jules.googleapis.com", "api.ipify.org",
+    "ifconfig.me", "httpbin.org",
 })
 
 EXEMPT_EMAIL_DOMAINS = {"example.com", "example.org", "example.net", "invalid", "localhost", "github.com", "users.noreply.github.com", "noreply.github.com"}
