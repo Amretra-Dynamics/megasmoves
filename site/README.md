@@ -10,3 +10,5 @@ Publication steps for the organization owner:
 5. Confirm the GitHub link works from an incognito browser before public video/X announcements.
 
 The planned $20/month Megas WoW offering has **no checkout** in this preview; it is marked as not yet purchasable. The page has no trackers, third-party scripts, or remote assets.
+
+Official Telegram community URL: https://t.me/megasmovesSI
