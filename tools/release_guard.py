@@ -35,10 +35,21 @@ def _pattern_rules() -> dict[str, re.Pattern[str]]:
         "user_email": re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.I),
         "tunnel_token": re.compile(r"\b(?:TUNNEL_TOKEN|CLOUDFLARE_TOKEN|NGROK_AUTHTOKEN|TAILSCALE_AUTHKEY)\s*[:=]\s*[\"'][A-Za-z0-9_=-]{10,}[\"']", re.I),
         "private_ip": re.compile(r"\b(?:10(?:\.\d{1,3}){3}|192\.168(?:\.\d{1,3}){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2})\b"),
+        "url_embedded_credentials": re.compile(r"https?://[^\\s/'\"@:]+:[^\\s/'\"@]+@[^\\s/'\"@]+", re.I),
+        "phone_number": re.compile(r"(?<!\\d)(?:\\+91[- ]?)?[6-9]\\d{9}(?!\\d)"),
+        "tunnel_id_assignment": re.compile(r"\\b(?:tunnel[_-]?id|account[_-]?id|cloudflare[_-]?tunnel[_-]?id)\\s*[:=]\\s*['\"][0-9a-f-]{30,}['\"]", re.I),
+
     }
 
 
 RULES = _pattern_rules()
+URL_PATTERN = re.compile(r"https?://(?:[^\\s/\"'@]+@)?([a-z0-9.-]+)", re.I)
+PUBLIC_ENDPOINTS = frozenset({
+    "github.com", "www.github.com", "megasmoves.io", "www.megasmoves.io",
+    "t.me", "pypi.org", "www.python.org", "docs.python.org",
+    "localhost", "127.0.0.1", "example.com", "example.org",
+})
+
 EXEMPT_EMAIL_DOMAINS = {"example.com", "example.org", "example.net", "invalid", "localhost"}
 
 
@@ -62,6 +73,10 @@ def _inspect(name: str, data: bytes) -> list[str]:
             matches = [m for m in matches if m.group().rsplit("@", 1)[-1].lower() not in EXEMPT_EMAIL_DOMAINS]
         if matches:
             labels.append(label)
+    for hostname in URL_PATTERN.findall(content):
+        if hostname.casefold() not in PUBLIC_ENDPOINTS:
+            labels.append("unapproved_network_endpoint")
+            break
     return labels
 
 
@@ -109,6 +124,20 @@ def scan_history() -> list[tuple[str, str]]:
     return findings
 
 
+def scan_commit_metadata() -> list[tuple[str, str]]:
+    """Check addresses embedded in git commits, not just repository files."""
+    records = _run_git("log", "--all", "--format=%ae%x00%ce%x00")
+    findings = []
+    for entry in records.decode("utf-8", "replace").split("\0"):
+        address = entry.strip().lower()
+        if not address:
+            continue
+        if address == "noreply@github.com" or address.endswith("@users.noreply.github.com") or address.endswith("@noreply.github.com"):
+            continue
+        findings.append(("[git commit metadata]", "non_public_email"))
+    return findings
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--scope", choices=("tree", "history", "both"), default="both")
@@ -117,6 +146,7 @@ def main(argv: list[str] | None = None) -> int:
         findings = (
             (scan_tree() if args.scope in ("tree", "both") else [])
             + (scan_history() if args.scope in ("history", "both") else [])
+            + (scan_commit_metadata() if args.scope in ("history", "both") else [])
         )
     except (OSError, subprocess.CalledProcessError, ValueError) as exc:
         print("Release audit could not complete. Fail closed: " + type(exc).__name__, file=sys.stderr)
