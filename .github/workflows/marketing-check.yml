@@ -31,7 +31,7 @@ jobs:
       - name: Check project-site preview asset paths
         run: |
           grep -q '/megasmoves/_next/' out/index.html
-          grep -q '/megasmoves/megas-mark.svg' out/index.html
+          grep -q '/megasmoves/megas-logo.png' out/index.html
       - name: Build custom-domain root variant
         env:
           MEGAS_PAGES_BASE_PATH: ""
@@ -40,8 +40,8 @@ jobs:
       - name: Check custom-domain asset paths
         run: |
           grep -q '/_next/' out/index.html
-          grep -q '/megas-mark.svg' out/index.html
-          if grep -q '/megasmoves/_next/' out/index.html || grep -q '/megasmoves/megas-mark.svg' out/index.html; then
+          grep -q '/megas-logo.png' out/index.html
+          if grep -q '/megasmoves/_next/' out/index.html || grep -q '/megasmoves/megas-logo.png' out/index.html; then
             echo "Custom-domain build unexpectedly contains project-site asset prefixes"
             exit 1
           fi
