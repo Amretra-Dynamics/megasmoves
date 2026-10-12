@@ -257,7 +257,7 @@ def call_bridge(value: dict[str, Any]) -> dict[str, Any]:
         headers={"Content-Type": "application/json", "Authorization": "Bearer " + token},
     )
     try:
-        with urllib.request.urlopen(request, timeout=14) as response:
+        with urllib.request.build_opener(urllib.request.ProxyHandler({})).open(request, timeout=14) as response:
             result = json.loads(response.read(MAX_MESSAGE_BYTES + 1))
     except urllib.error.HTTPError as exc:
         try:
@@ -325,14 +325,15 @@ def install(extension_id: str) -> Path:
     root = bridge_root()
     root.mkdir(parents=True, exist_ok=True)
     python = str(Path(sys.executable).resolve())
+    argv = ["-u", "-m", "megas.chrome_bridge"] if __package__ == "megas" else ["-u", str(Path(__file__).resolve())]
     if os.name == "nt":
         # Chrome launches the per-user batch wrapper, which calls the Python host in binary mode.
         launcher = root / "native-host.cmd"
-        launcher.write_text(f'@echo off\r\n"{python}" -u -m megas.chrome_bridge host\r\n', encoding="utf-8")
+        launcher.write_text("@echo off\r\n" + '"' + python + '" ' + " ".join('"' + item + '"' for item in argv) + " host\r\n", encoding="utf-8")
         manifest_path = root / (HOST_NAME + ".json")
     else:
         launcher = root / "native-host.sh"
-        launcher.write_text("#!/bin/sh\nexec " + shlex.quote(python) + " -u -m megas.chrome_bridge host\n", encoding="utf-8")
+        launcher.write_text("#!/bin/sh\nexec " + " ".join(shlex.quote(item) for item in [python, *argv, "host"]) + "\n", encoding="utf-8")
         launcher.chmod(0o700)
         if sys.platform == "darwin":
             manifest_path = Path.home() / "Library" / "Application Support" / "Google" / "Chrome" / "NativeMessagingHosts" / (HOST_NAME + ".json")
@@ -384,7 +385,7 @@ def main(argv: list[str] | None = None) -> None:
     for arg in ("selector", "value", "url"):
         if hasattr(args, arg):
             command[arg] = getattr(args, arg)
-    if args.action in WRITE_ACTIONS:
+    if args.action in WRITE_ACTIONS and __package__ == "megas":
         from megas.operate.gate import is_operate_enabled
         if not is_operate_enabled():
             raise SystemExit("Megas Operate is disabled; enable it locally before browser write commands")
