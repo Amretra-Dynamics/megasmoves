@@ -40,10 +40,12 @@ jobs:
         env:
           PYTHONPATH: worker
         run: python -m unittest discover -s worker/tests -p 'test_chrome_bridge.py' -v
-      - name: Bundle unpacked extension
+      - name: Bundle unpacked extension with standalone native host
         run: |
+          cp worker/megas/chrome_bridge.py extension/chrome/chrome_bridge.py
+          python -m py_compile extension/chrome/chrome_bridge.py
           cd extension/chrome
-          zip -q -r ../../megas-chrome-extension.zip manifest.json background.js popup.html popup.css popup.js README.md
+          zip -q -r ../../megas-chrome-extension.zip manifest.json background.js popup.html popup.css popup.js README.md chrome_bridge.py
       - uses: actions/upload-artifact@v4
         with:
           name: megasmoves-chrome-extension
