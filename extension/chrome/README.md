@@ -2,16 +2,21 @@
 
 This extension lets the **local** MegasMoves operator interact with tabs the person explicitly enabled. It does **not** use the dedicated Playwright browser profile, nor silently inherit its sessions.
 
-## Install from a source checkout
+## Install the downloadable extension ZIP
 
-1. Install the MegasMoves runtime on the computer running Chrome (`pip install megasmoves`). The extension and host must use matching product sources.
-2. In Chrome open `chrome://extensions`, enable Developer mode, select **Load unpacked**, and choose the `extension/chrome` folder from the MegasMoves checkout.
-3. Copy the extension ID shown by Chrome.
-4. On **that same computer**, run `python -m megas.chrome_bridge install --extension-id YOUR_EXTENSION_ID`. This registers a per-user native-messaging host for that exact extension, not a wildcard.
-5. Reload the extension in `chrome://extensions`. Open an ordinary website, click the MegasMoves extension and select **Enable this tab**.
-6. Use a locally connected MegasMCP client's `chrome_control` tool, or test from the machine with `python -m megas.chrome_bridge status`, `tabs`, and `observe --tab-id N`.
+1. Download the `megasmoves-chrome-extension` artifact from the successful [Chrome extension workflow](https://github.com/Amretra-Dynamics/megasmoves/actions/workflows/chrome-extension-ci.yml). Extract the ZIP to a **permanent folder** on the computer running Chrome. The archive contains the extension and its standalone Python bridge.
+2. Install Python 3.11+ if needed.
+3. Open `chrome://extensions` and turn on **Developer mode**. Choose **Load unpacked** and select the extracted folder containing `manifest.json`.
+4. Copy the extension ID shown on the Chrome extensions screen.
+5. In a terminal in the extracted folder, run `python chrome_bridge.py install --extension-id YOUR_EXTENSION_ID`. This registers a per-user native host for this exact Chrome extension ID.
+6. Reload the extension in `chrome://extensions`. Visit an ordinary HTTP(S) website. Open the MegasMoves extension popup and select **Enable this tab**.
+7. On the same computer run `python chrome_bridge.py status`, then `python chrome_bridge.py tabs` and `python chrome_bridge.py observe --tab-id N` where N is the enabled tab ID.
 
-The client may also invoke `click --tab-id N --selector 'button.open'`, `fill --tab-id N --selector 'input[name=q]' --value 'hello'`, `navigate --tab-id N --url 'https://example.com'`, or `screenshot --tab-id N`. The screenshot command is intended for short-lived local inspection and returns a data URL.
+For local interaction use `python chrome_bridge.py click --tab-id N --selector 'button.open'`, `fill --tab-id N --selector 'input[name=q]' --value 'hello'`, `navigate --tab-id N --url 'https://example.com'`, or `screenshot --tab-id N`. Navigation revokes the grant: re-enable the tab afterward. The screenshot command returns a data URL, so prefer a client that supports image output.
+
+When the matching MegasMoves runtime build is installed, connected MCP clients can also use its `chrome_status` and `chrome_control` tools. MegasMCP write operations retain the local **Megas Operate enabled** requirement. An older MegasMoves pip release will not contain these new MCP tools until a matching runtime release is installed.
+
+**Important:** Do not relocate or delete the extracted extension/bridge folder after registering the host; the native host launcher references that exact path. It is possible to re-register after moving it. The bundled Python script uses the Python standard library and requires no separate remote cloud service.
 
 ## Permissions and boundaries
 
