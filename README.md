@@ -22,6 +22,10 @@ The MegasMoves system spans several layers:
 | **Native execution** | C++ runtime boundary and platform bridges |
 | **Android** | Kotlin application and mobile-device surface |
 
+## Chrome browser connector
+
+MegasMoves includes an opt-in Manifest V3 Chrome extension for controlling explicitly enabled tabs in an existing Chrome window. Unlike the dedicated Megas Browser, the extension uses a local native-messaging host and grants access one tab at a time. See [Chrome connector installation and safety](extension/chrome/README.md). It is currently a source-installed engineering preview.
+
 ## Developer interface
 
 The CLI entrypoint is **`megas`**. The Python distribution uses the name **`megasmoves`**.

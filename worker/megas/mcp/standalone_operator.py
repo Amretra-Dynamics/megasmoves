@@ -10,6 +10,7 @@ import sys
 from typing import Any, TextIO
 
 from megas.actions import MegasActions, tools as megas_action_tools
+from megas.chrome_bridge import chrome_tools, chrome_tool_call
 from megas.mcp.browser_operator import BrowserOperatorCatalog
 from megas.mcp.workspace_server import WorkspaceCapabilityCatalog
 
@@ -26,6 +27,7 @@ class MegasMCP:
             *megas_action_tools(),
             *self.browser.tools(),
             *self.workspaces.tools(),
+            *chrome_tools(),
         ]
         self._tools = {tool["name"]: tool for tool in tool_definitions}
         if len(self._tools) != len(tool_definitions):
@@ -76,6 +78,8 @@ class MegasMCP:
             return self.browser.call(name, arguments)
         if name.startswith("workspace_"):
             return self.workspaces.call(name, arguments)
+        if name.startswith("chrome_"):
+            return chrome_tool_call(name, arguments)
         raise LookupError("unknown capability")
 
     def close(self) -> None:

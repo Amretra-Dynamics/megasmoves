@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MegasMoves Browser</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header><span class="mark">M</span><div><strong>MegasMoves</strong><small>Browser connector</small></div></header>
+  <main>
+    <p id="bridge" class="status">Checking local connection…</p>
+    <p id="tab" class="tab"></p>
+    <button id="toggle" type="button" disabled>Enable this tab</button>
+    <p class="note">Only this tab is shared with your local MegasMoves operator. Navigation, disconnection, or disabling revokes access. Passwords and sensitive actions are blocked.</p>
+    <p id="error" class="error" role="alert"></p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

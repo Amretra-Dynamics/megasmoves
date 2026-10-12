@@ -1,0 +1,51 @@
+name: Chrome extension
+
+on:
+  push:
+    paths:
+      - "extension/chrome/**"
+      - "worker/megas/chrome_bridge.py"
+      - "worker/megas/mcp/standalone_operator.py"
+      - "worker/tests/test_chrome_bridge.py"
+      - ".github/workflows/chrome-extension-ci.yml"
+  pull_request:
+    paths:
+      - "extension/chrome/**"
+      - "worker/megas/chrome_bridge.py"
+      - "worker/megas/mcp/standalone_operator.py"
+      - "worker/tests/test_chrome_bridge.py"
+      - ".github/workflows/chrome-extension-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chrome-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate manifest and JavaScript
+        run: |
+          python -m json.tool extension/chrome/manifest.json >/dev/null
+          node --check extension/chrome/background.js
+          node --check extension/chrome/popup.js
+      - name: Test local host contracts
+        env:
+          PYTHONPATH: worker
+        run: python -m unittest discover -s worker/tests -p 'test_chrome_bridge.py' -v
+      - name: Bundle unpacked extension
+        run: |
+          cd extension/chrome
+          zip -q -r ../../megas-chrome-extension.zip manifest.json background.js popup.html popup.css popup.js README.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: megasmoves-chrome-extension
+          path: megas-chrome-extension.zip
+          if-no-files-found: error
