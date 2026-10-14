@@ -31,11 +31,20 @@ MegasMoves includes an opt-in Manifest V3 Chrome extension for controlling expli
 The CLI entrypoint is **`megas`**. The Python distribution uses the name **`megasmoves`**.
 
 ```sh
-pip install megasmoves
+pip install https://megasmoves.io/downloads/megasmoves-0.5.0-py3-none-any.whl
 megas connect
 ```
 
-`megas connect` starts the local MCP interface for clients that support standard input/output servers.
+The published Python package provides the `megas` command. On Windows it delegates
+to the same installed MegasMoves application, installing it on first use if needed.
+The short `pip install megasmoves` command is pending PyPI publication.
+
+Visit [Downloads](https://megasmoves.io/download/) for native installation commands,
+preview Windows/Android downloads, retained macOS/Linux CLI builds, versions and
+checksums. These preview artifacts are not a signed production release.
+
+Website updates are built locally and published using the
+[website deployment guide](docs/WEBSITE_DEPLOYMENT.md).
 
 ## Engineering principles
 
