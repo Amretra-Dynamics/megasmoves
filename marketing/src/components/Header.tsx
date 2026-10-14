@@ -13,6 +13,7 @@ const navigation = [
   { href: "/wow", label: "Megas WoW" },
   { href: "/download", label: "Downloads" },
   { href: "https://github.com/Amretra-Dynamics/megasmoves", label: "GitHub" },
+  { href: "https://t.me/megasmovesSI", label: "Community" },
   { href: "/docs", label: "Docs" },
 ];
 

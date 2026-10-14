@@ -23,6 +23,7 @@ const linkGroups = [
       { href: "/docs/cli-reference", label: "Agent reference" },
       { href: "/docs/product-plans", label: "Release status" },
       { href: "/oauth-app-info", label: "App information" },
+      { href: "https://t.me/megasmovesSI", label: "Telegram community" },
     ],
   },
   {

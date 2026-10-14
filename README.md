@@ -8,6 +8,8 @@
 
 **MegasMoves** by **Amretra Dynamics** is a multi-device software automation platform built around native applications, a local execution runtime, the Model Context Protocol (MCP), and explicit device and workspace permissions.
 
+**Community:** [Join MegasMoves on Telegram](https://t.me/megasmovesSI) · [Follow on X](https://x.com/MegasMoves) · [Website](https://megasmoves.io/)
+
 ## Architecture
 
 The MegasMoves system spans several layers:
