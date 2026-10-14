@@ -1,0 +1,10 @@
+format=megas-native-install-v1
+scope=public-release
+platform=linux-amd64
+version=0.2.56
+filename=MegasMoves-linux-amd64-0.2.56.tar.gz
+sha256=13879650c3e042c487dc9424920c49605f0ecdf22f06b9d3800267781a37c4ef
+size_bytes=73886707
+kind=cli-tar-gz
+executable=megasmoves
+release_tag=preview-2026-10-14

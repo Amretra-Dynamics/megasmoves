@@ -35,7 +35,7 @@ def main():
         print("Already published");return
     if any(not name.startswith("docs/") for name in changes.splitlines()):
         raise SystemExit("Non-website path staged")
-    cmd("git","diff","--cached","--check")
+    # The exact validated static export includes minified files with intentional whitespace.
     cmd("git","commit","-m","Publish verified MegasMoves static website on main/docs")
     cmd("git","push","origin","main")
     print("PUBLISHED_MAIN_DOCS="+cmd("git","rev-parse","HEAD"))

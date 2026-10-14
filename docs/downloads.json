@@ -1,0 +1,67 @@
+{
+  "scope": "public-release",
+  "artifacts": [
+    {
+      "title": "Windows installer",
+      "version": "0.5.0",
+      "status": "Unsigned development installer",
+      "size_bytes": 451444813,
+      "sha256": "8b930bd8b6526af7f10e1ec92c0c0ad6b61f9927732584db06bfe044c25b6b9d",
+      "filename": "MegasSetup-0.5.0.exe",
+      "href": "https://github.com/Amretra-Dynamics/megasmoves/releases/download/preview-2026-10-14/MegasSetup-0.5.0.exe",
+      "source_updated_at": "2026-10-12",
+      "built_at": "2026-10-14",
+      "source_revision": "11161cb5649312c98e65ddf72991645f8804b91d",
+      "source_note": "Base revision 12 Oct 2026; includes the local code snapshot built 13 Oct 2026."
+    },
+    {
+      "title": "Windows application",
+      "version": "0.5.0",
+      "status": "Unsigned development build",
+      "size_bytes": 1231515291,
+      "sha256": "2364d70817b46a85bcdf014775e09fc7c357242cf0d1b9e8248d1ad0efe667d4",
+      "filename": "MegasMoves.exe",
+      "href": "https://github.com/Amretra-Dynamics/megasmoves/releases/download/preview-2026-10-14/MegasMoves.exe",
+      "source_updated_at": "2026-10-12",
+      "built_at": "2026-10-13",
+      "source_revision": "11161cb5649312c98e65ddf72991645f8804b91d",
+      "source_note": "Base revision 12 Oct 2026; includes the local code snapshot built 13 Oct 2026."
+    },
+    {
+      "title": "Android APK",
+      "version": "1.0.546",
+      "status": "Debug-signed development APK",
+      "size_bytes": 77912735,
+      "sha256": "b97b0a05ff1376b63434551c70a5ab319d0463eb385c23fd990b8f835c935215",
+      "filename": "megas-moves-debug-v1.0.546.apk",
+      "href": "https://github.com/Amretra-Dynamics/megasmoves/releases/download/preview-2026-10-14/megas-moves-debug-v1.0.546.apk",
+      "source_updated_at": null,
+      "built_at": "2026-10-12"
+    },
+    {
+      "title": "macOS CLI (Apple Silicon)",
+      "version": "0.2.56",
+      "status": "Retained command-line build",
+      "size_bytes": 57022641,
+      "sha256": "4dc2393e73b2ef1ac61b3a0f94eb6108cfaf2c9d659aa53d3c0cee510143f649",
+      "filename": "MegasMoves-macos-arm64-0.2.56.zip",
+      "href": "https://github.com/Amretra-Dynamics/megasmoves/releases/download/preview-2026-10-14/MegasMoves-macos-arm64-0.2.56.zip",
+      "source_updated_at": "2026-08-03",
+      "built_at": null,
+      "source_revision": "5cdf9a43bac29daa4cd967982008ab602f2e5700"
+    },
+    {
+      "title": "Linux native runtime",
+      "version": "0.2.56",
+      "status": "Retained bundled command-line build",
+      "filename": "MegasMoves-linux-amd64-0.2.56.tar.gz",
+      "size_bytes": 73886707,
+      "sha256": "13879650c3e042c487dc9424920c49605f0ecdf22f06b9d3800267781a37c4ef",
+      "href": "https://github.com/Amretra-Dynamics/megasmoves/releases/download/preview-2026-10-14/MegasMoves-linux-amd64-0.2.56.tar.gz",
+      "source_updated_at": "2026-08-03",
+      "source_revision": "5cdf9a43bac29daa4cd967982008ab602f2e5700"
+    }
+  ],
+  "channel": "preview",
+  "published_at": "2026-10-14"
+}
