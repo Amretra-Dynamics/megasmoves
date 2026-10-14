@@ -24,7 +24,7 @@ def main():
         return
     if DOCS.is_symlink(): raise SystemExit("Unsafe docs symlink")
     if DOCS.exists():
-        if not (DOCS/".nojekyll").is_file() or not (DOCS/"CNAME").is_file():
+        if any(DOCS.iterdir()) and (not (DOCS/".nojekyll").is_file() or not (DOCS/"CNAME").is_file()):
             raise SystemExit("docs contains non-site content")
         shutil.rmtree(DOCS)
     shutil.copytree(OUT,DOCS)
