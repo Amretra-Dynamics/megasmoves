@@ -12,6 +12,7 @@ const linkGroups = [
       { href: "/download", label: "Download" },
       { href: "/android-testing", label: "Android testing" },
       { href: "https://github.com/Amretra-Dynamics/megasmoves", label: "GitHub source" },
+      { href: "https://x.com/MegasMoves", label: "MegasMoves on X" },
     ],
   },
   {
