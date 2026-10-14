@@ -44,7 +44,7 @@ preview Windows/Android downloads, retained macOS/Linux CLI builds, versions and
 checksums. These preview artifacts are not a signed production release.
 
 Website updates are built locally and published using the
-[website deployment guide](docs/WEBSITE_DEPLOYMENT.md).
+[website deployment guide](.github/WEBSITE_DEPLOYMENT.md).
 
 ## Engineering principles
 

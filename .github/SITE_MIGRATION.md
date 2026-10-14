@@ -1,3 +1,9 @@
+# Historical launch-planning checklist (11 October 2026)
+
+This is pre-launch history. Current publication: [main/docs deployment](WEBSITE_DEPLOYMENT.md).
+
+---
+
 # Safe MegasMoves marketing-site migration
 
 **Do not change production DNS or publish the new site to the apex domain without a route inventory and cutover test.**
