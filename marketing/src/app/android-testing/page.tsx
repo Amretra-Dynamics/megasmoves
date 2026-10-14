@@ -1,0 +1,5 @@
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import Link from "next/link";
+export const metadata={title:"Android development testing - Megas Moves"};
+export default function Page(){return <div className="site-surface"><Header/><main className="manual-page marketing-manual"><p className="eyebrow">Android development</p><h1>Test the Android app.</h1><p>The download catalog includes the debug-signed Megas Moves APK. Review its version, size and SHA-256 before installation.</p><h2>Connection is a separate check</h2><p>Installing the APK does not prove secure device pairing, notifications, remote access or compatibility with every Android version. Verify actual connection and acknowledgement in the app.</p><h2>Testing feedback</h2><p>Include the app version, Android version and redacted steps to reproduce. Never send access tokens, passwords or private conversation data.</p><Link href="/download" className="button button--primary">Android download</Link><a href="https://github.com/Amretra-Dynamics/megasmoves/issues" className="button button--quiet">Report an issue</a></main><Footer/></div>;}

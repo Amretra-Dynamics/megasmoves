@@ -1,0 +1,10 @@
+format=megas-native-install-v1
+scope=public-release
+platform=macos-arm64
+version=0.2.56
+filename=MegasMoves-macos-arm64-0.2.56.zip
+sha256=4dc2393e73b2ef1ac61b3a0f94eb6108cfaf2c9d659aa53d3c0cee510143f649
+size_bytes=57022641
+kind=cli-zip
+executable=megasmoves
+release_tag=preview-2026-10-14

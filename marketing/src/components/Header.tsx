@@ -6,15 +6,14 @@ import { usePathname } from "next/navigation";
 import { ArrowRight, Menu, Moon, Sun, X } from "lucide-react";
 import { useState } from "react";
 
-const megasLogoPath = `${process.env.NEXT_PUBLIC_MEGAS_PAGES_BASE_PATH ?? "/megasmoves"}/megas-logo.png`;
-
 type Theme = "dark" | "light";
 
 const navigation = [
-  { href: "/#product", label: "How it works" },
+  { href: "/#features", label: "Features" },
   { href: "/wow", label: "Megas WoW" },
+  { href: "/download", label: "Downloads" },
+  { href: "https://github.com/Amretra-Dynamics/megasmoves", label: "GitHub" },
   { href: "/docs", label: "Docs" },
-  { href: "/legal", label: "Legal" },
 ];
 
 function setDocumentTheme(theme: Theme) {
@@ -36,23 +35,23 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <Link href="/" className="site-brand" aria-label="MegasMoves home">
+        <Link href="/" className="site-brand" aria-label="Megas Moves home">
           <span className="site-brand__mark" aria-hidden="true">
             <Image
-              src={megasLogoPath}
+              src="/megas-logo-4k.png"
               alt=""
               width={44}
               height={44}
               priority
             />
           </span>
-          <span className="site-brand__name">MegasMoves</span>
+          <span className="site-brand__name">Megas Moves</span>
         </Link>
 
         <nav className="site-nav" aria-label="Primary navigation">
           {navigation.map((item) => {
             const route = item.href.split("#")[0];
-            const active = item.href === "/#product"
+            const active = item.href === "/#features"
               ? pathname === "/"
               : !item.href.includes("#") && (pathname === route || pathname.startsWith(`${route}/`));
             return (
@@ -78,8 +77,11 @@ export default function Header() {
             <Sun className="theme-icon theme-icon--sun" aria-hidden="true" />
             <Moon className="theme-icon theme-icon--moon" aria-hidden="true" />
           </button>
-          <Link href="/wow" className="button button--primary site-header__cta">
-            WoW early access
+          <Link href="/docs/getting-started" className="button button--quiet site-header__login">
+            Setup
+          </Link>
+          <Link href="/download" className="button button--primary site-header__cta">
+            Get started free
             <ArrowRight aria-hidden="true" />
           </Link>
           <button
@@ -103,8 +105,12 @@ export default function Header() {
               <ArrowRight aria-hidden="true" />
             </Link>
           ))}
-          <Link href="/wow" onClick={() => setMenuOpen(false)}>
-            WoW early access
+          <Link href="/docs/getting-started" onClick={() => setMenuOpen(false)}>
+            Setup
+            <ArrowRight aria-hidden="true" />
+          </Link>
+          <Link href="/download" onClick={() => setMenuOpen(false)}>
+            Get started free
             <ArrowRight aria-hidden="true" />
           </Link>
         </nav>

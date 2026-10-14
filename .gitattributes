@@ -1,0 +1,2 @@
+marketing/public/install.sh text eol=lf
+marketing/public/install-manifests/*.txt text eol=lf

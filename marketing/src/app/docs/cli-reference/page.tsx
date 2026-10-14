@@ -1,11 +1,3 @@
-import Link from "next/link";
-import { Terminal, ShieldCheck, ArrowRight } from "lucide-react";
-import Header from "@/components/Header"; import Footer from "@/components/Footer";
-export const metadata = { title: "CLI and MCP | MegasMoves Docs", description: "Public MegasMoves CLI commands and the local MCP interface." };
-const commands=[{ command:"pip install megasmoves",label:"Install",description:"Install the publicly documented Python distribution."},{command:"megas connect",label:"Connect",description:"Start the local MCP interface for compatible standard-I/O MCP clients."}];
-export default function CliDocs(){return <div className="site-surface min-h-screen"><Header /><main className="mx-auto max-w-5xl px-6 py-14 md:py-20"><p className="eyebrow"><Terminal className="h-4 w-4" /> CLI / MCP</p>
-<h1 className="mt-5 text-5xl font-extrabold tracking-[-0.05em] md:text-6xl">A clear interface to local capabilities.</h1><p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--text-soft)]">MegasMoves exposes a CLI called <code>megas</code>. Available operations and permissions depend on the release you install and the connected client.</p>
-<div className="mt-12 space-y-6">{commands.map(x=><section className="rounded-xl border border-[var(--line)] bg-[var(--surface-1)] p-7" key={x.command}><h2 className="text-xl font-bold">{x.label}</h2><p className="mt-3 leading-7 text-[var(--text-soft)]">{x.description}</p><pre className="mt-5 overflow-x-auto rounded-md bg-[#02070d] p-5 text-sm text-[#a9ffd4]"><code>{x.command}</code></pre></section>)}</div>
-<section className="mt-12 rounded-xl border border-[var(--line)] p-7"><ShieldCheck className="h-7 w-7 text-[var(--accent)]" /><h2 className="mt-4 text-2xl font-bold">Execution safety is part of the interface.</h2><p className="mt-3 leading-7 text-[var(--text-soft)]">The MCP connection is not unrestricted shell access. The full implementation and supported capability contracts belong to the installed runtime. Consult the repository for the current command set, device integration requirements and security guidance.</p></section>
-<div className="mt-10 flex flex-wrap gap-3"><a href="https://github.com/Amretra-Dynamics/megasmoves" className="button button--primary">Read source and README <ArrowRight className="h-4 w-4" /></a><Link href="/docs/getting-started" className="button button--quiet">Getting started</Link></div>
-</main><Footer /></div>}
+import CurrentManual from "@/components/CurrentManual";
+export const metadata = {title: "Agent reference - Megas Moves"};
+export default function Page(){return <CurrentManual guide="agents"/>;}

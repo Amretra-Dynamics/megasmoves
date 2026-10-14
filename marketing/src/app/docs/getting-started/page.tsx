@@ -1,16 +1,3 @@
-import Link from "next/link";
-import { ArrowRight, ShieldCheck, Terminal, Laptop2, MousePointer2 } from "lucide-react";
-import Header from "@/components/Header"; import Footer from "@/components/Footer";
-export const metadata = { title: "Get Started | MegasMoves Docs", description: "Install MegasMoves Community and connect to MCP." };
-const steps = [
-  { number:"01",title:"Install Community",text:"Use Python on a supported computer to install the public distribution. Check the repository for the latest requirements.",command:"pip install megasmoves"},
-  { number:"02",title:"Connect through MCP",text:"Start the local MegasMCP interface for a compatible client. Configure the MCP connection in that client.",command:"megas connect"},
-  { number:"03",title:"Approve supported operations",text:"Allow only intended device and workspace capabilities. Actual operations vary by OS, runtime, and connected integrations.",command:null},
-];
-export default function GettingStarted() { return <div className="site-surface min-h-screen"><Header /><main className="mx-auto max-w-5xl px-6 py-14 md:py-20">
- <p className="eyebrow"><Terminal aria-hidden="true" /> DOCS / GETTING STARTED</p><h1 className="mt-5 text-5xl font-extrabold tracking-[-0.05em] md:text-6xl">From installation to execution.</h1>
- <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--text-soft)]">The Community source is publicly available. These steps describe the documented local CLI and MCP entrypoint, not a promise that every planned cross-device feature ships in the Community release.</p>
- <div className="mt-12 space-y-5">{steps.map(s=><section key={s.number} className="grid gap-4 rounded-xl border border-[var(--line)] bg-[var(--surface-1)] p-7 sm:grid-cols-[75px_1fr]"><span className="text-3xl font-black text-[var(--accent)]">{s.number}</span><div><h2 className="text-xl font-bold">{s.title}</h2><p className="mt-3 leading-7 text-[var(--text-soft)]">{s.text}</p>{s.command&&<pre className="mt-5 overflow-x-auto rounded-md bg-[#02070d] p-5 text-sm text-[#a9ffd4]"><code>{s.command}</code></pre>}</div></section>)}</div>
- <div className="mt-12 grid gap-5 md:grid-cols-2"><div className="rounded-xl border border-[var(--line)] p-6"><ShieldCheck className="h-7 w-7 text-[var(--accent)]" /><h2 className="mt-3 font-bold">Permission-aware</h2><p className="mt-2 text-sm leading-7 text-[var(--text-soft)]">Review scopes and permissions before allowing operations. Grant no more access than necessary.</p></div><div className="rounded-xl border border-[var(--line)] p-6"><MousePointer2 className="h-7 w-7 text-[var(--accent)]" /><h2 className="mt-3 font-bold">Working with devices</h2><p className="mt-2 text-sm leading-7 text-[var(--text-soft)]">Windows, browser and Android features depend on installed software and supported capabilities, not the static website.</p></div></div>
- <div className="mt-10 flex flex-wrap gap-3"><a href="https://github.com/Amretra-Dynamics/megasmoves" className="button button--primary">Explore source <ArrowRight className="h-4 w-4" /></a><Link href="/docs/cli-reference" className="button button--quiet">CLI reference <ArrowRight className="h-4 w-4" /></Link></div>
-</main><Footer /></div>; }
+import CurrentManual from "@/components/CurrentManual";
+export const metadata = {title: "Getting started - Megas Moves"};
+export default function Page(){return <CurrentManual guide="setup"/>;}

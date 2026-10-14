@@ -1,38 +1,23 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const display = Barlow_Condensed({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["600", "700", "800", "900"],
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800", "900"],
-});
-
-const publicAssetPrefix = process.env.NEXT_PUBLIC_MEGAS_PAGES_BASE_PATH ?? "/megasmoves";
+const display = localFont({variable: "--font-display", display: "swap", src: [{path: "./fonts/barlow-condensed-600.ttf", weight: "600", style: "normal"}, {path: "./fonts/barlow-condensed-700.ttf", weight: "700", style: "normal"}, {path: "./fonts/barlow-condensed-800.ttf", weight: "800", style: "normal"}, {path: "./fonts/barlow-condensed-900.ttf", weight: "900", style: "normal"}]});
+const inter = localFont({variable: "--font-inter", display: "swap", src: [{path: "./fonts/inter-400.ttf", weight: "400", style: "normal"}, {path: "./fonts/inter-600.ttf", weight: "600", style: "normal"}, {path: "./fonts/inter-700.ttf", weight: "700", style: "normal"}, {path: "./fonts/inter-800.ttf", weight: "800", style: "normal"}, {path: "./fonts/inter-900.ttf", weight: "900", style: "normal"}]});
 
 export const metadata: Metadata = {
-  icons: {
-    icon: [{ url: `${publicAssetPrefix}/megas-logo.png`, type: "image/png" }],
-    apple: [{ url: `${publicAssetPrefix}/megas-logo.png`, type: "image/png" }],
-  },
-  title: "MegasMoves | Your always-on SI agent for all your devices",
-  description: "MegasMoves connects SI agents with device and workspace capabilities through MCP and permission-aware execution.",
+  title: "Megas Moves — Local tools. Connected agents.",
+  description: "Megas Moves brings local actions, tasks, runtime testing and an embedded MCP interface together.",
   keywords: [
     "megas moves",
     "megas",
     "agent",
-    "SI agents",
-    "cross-device automation",
-    "MCP execution",
-    "Android integration",
-    "browser automation",
-    "local-first software"
+    "ai coding agents",
+    "remote coding agent",
+    "coding agent streaming",
+    "android coding agent",
+    "web coding agent chat",
+    "local coding agents"
   ],
 };
 
