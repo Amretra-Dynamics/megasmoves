@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>Authorize Megas Linux</title>
+<style>body{background:#faf7f0;color:#173f3c;font:17px system-ui;max-width:520px;margin:50px auto;padding:24px}button,input{box-sizing:border-box;width:100%;padding:14px;margin:8px 0;font:inherit}button{background:#17675d;color:white;border:0;border-radius:8px;cursor:pointer}button:disabled{opacity:.5}label{display:flex;align-items:center;gap:12px}label input{width:auto}small{overflow-wrap:anywhere}#message{white-space:pre-wrap}</style></head>
+<body><h1>Authorize Megas Linux</h1><p>Sign in on this device to connect your headless Linux workspace. Your password goes directly to Firebase. The approval file is encrypted for that workspace.</p><p id="target"></p><small id="request"></small><label><input type="checkbox" id="consent">I requested this sign-in and want to authorize this workspace.</label><button id="google" disabled>Continue with Google</button><details><summary>Use a Firebase email and password</summary><form id="email"><input type="email" id="address" autocomplete="username" required aria-label="Email"><input type="password" id="password" autocomplete="current-password" required aria-label="Password"><button id="submit" disabled>Sign in and download approval</button></form></details><p id="message" role="status">Checking sign-in request…</p><p>The encrypted approval expires after 30 minutes. Upload the downloaded <strong>megas-login-approval.json</strong> to the same conversation that requested sign-in. Do not send passwords, codes or tokens.</p>
+<script type="module">
+const message=document.querySelector('#message'), google=document.querySelector('#google'), submit=document.querySelector('#submit'), consent=document.querySelector('#consent');
+const b64=bytes=>{let s='';for(const n of bytes)s+=String.fromCharCode(n);return btoa(s).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,'');};
+const decode=s=>Uint8Array.from(atob(s.replaceAll('-','+').replaceAll('_','/')),c=>c.charCodeAt(0));
+try{
+ const raw=location.hash.slice(1);if(raw.length>8192)throw Error('Invalid request.');
+ const config=JSON.parse(new TextDecoder().decode(decode(raw)));
+ if(config.version!==1||!/^[a-f0-9]{32}$/.test(config.request_id)||typeof config.email!=='string'||typeof config.nonce!=='string'||!Number.isFinite(config.expires)||Date.now()>=config.expires*1000)throw Error('Missing or expired request. Ask Megas to create a new sign-in link.');
+ document.querySelector('#target').textContent=`Account: ${config.email} · Device: ${config.device}`;
+ document.querySelector('#request').textContent=`Request: ${config.request_id}`;document.querySelector('#address').value=config.email;
+ const {initializeApp}=await import('https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js');
+ const {getAuth,setPersistence,inMemoryPersistence,signInWithPopup,GoogleAuthProvider,signInWithEmailAndPassword,signOut}=await import('https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js');
+ const auth=getAuth(initializeApp({apiKey:'AIzaSyDJpSVDvXcZMc1NhBOfozxh1LJqzPsO87Q',authDomain:'amretradynamics.firebaseapp.com',projectId:'amretradynamics'}));
+ await setPersistence(auth,inMemoryPersistence);
+ const ready=()=>{google.disabled=submit.disabled=!consent.checked||Date.now()>=config.expires*1000;};consent.onchange=ready;setTimeout(()=>{google.disabled=submit.disabled=true;message.textContent='Request expired. Request a new link.';},Math.max(0,config.expires*1000-Date.now()));
+ async function complete(user){
+  if(!consent.checked||Date.now()>=config.expires*1000)throw Error('Request expired or approval missing.');
+  if(user.email?.toLowerCase()!==config.email||!user.emailVerified)throw Error('Use the requested verified Firebase account.');
+  const publicKey=await crypto.subtle.importKey('jwk',config.jwk,{name:'RSA-OAEP',hash:'SHA-256'},false,['encrypt']);
+  const key=await crypto.subtle.generateKey({name:'AES-GCM',length:256},true,['encrypt']);const iv=crypto.getRandomValues(new Uint8Array(12));
+  const payload=new TextEncoder().encode(JSON.stringify({nonce:config.nonce,id_token:await user.getIdToken(true),refresh_token:user.refreshToken}));
+  const cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv,additionalData:new TextEncoder().encode(config.request_id)},key,payload);
+  const wrapped=await crypto.subtle.encrypt('RSA-OAEP',publicKey,await crypto.subtle.exportKey('raw',key));
+  const data={version:1,request_id:config.request_id,wrapped_key:b64(new Uint8Array(wrapped)),iv:b64(iv),ciphertext:b64(new Uint8Array(cipher))};
+  const href=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));const a=document.createElement('a');a.href=href;a.download='megas-login-approval.json';a.textContent='Download encrypted approval';document.body.append(a);a.click();
+  await signOut(auth);google.disabled=submit.disabled=true;document.querySelector('#password').value='';message.textContent='Approval file ready. Upload it to your Megas conversation to finish. The workspace is not signed in until it imports and verifies the file.';
+ }
+ google.onclick=async()=>{try{const provider=new GoogleAuthProvider();provider.setCustomParameters({login_hint:config.email,prompt:'select_account'});await complete((await signInWithPopup(auth,provider)).user);}catch(e){message.textContent=e.code||e.message;}};
+ document.querySelector('#email').onsubmit=async e=>{e.preventDefault();try{if(!consent.checked)throw Error('Approve the workspace first.');const password=document.querySelector('#password');const pending=signInWithEmailAndPassword(auth,document.querySelector('#address').value,password.value);password.value='';await complete((await pending).user);}catch(e){message.textContent=e.code||e.message;}};
+ message.textContent='Confirm the account and workspace, then sign in.';ready();
+}catch(e){google.disabled=submit.disabled=true;message.textContent=e.message||'Could not load sign-in.';}
+</script></body></html>
