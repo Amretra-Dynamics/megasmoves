@@ -1,0 +1,23 @@
+{
+  "appName": "Megas Moves",
+  "packageName": "com.amretra.megasmoves",
+  "environment": "preview",
+  "versionName": "1.0.547",
+  "versionCode": 547,
+  "latest_version_name": "1.0.547",
+  "latest_version_code": 547,
+  "min_supported_version_code": 1,
+  "update_required": false,
+  "mandatory": false,
+  "apkUrl": "https://github.com/Amretra-Dynamics/megasmoves/releases/download/preview-2026-10-15-android/megas-moves-debug-v1.0.547.apk",
+  "apk_url": "https://github.com/Amretra-Dynamics/megasmoves/releases/download/preview-2026-10-15-android/megas-moves-debug-v1.0.547.apk",
+  "sizeBytes": 77996065,
+  "sha256": "7bebf25661b6eaf09404c326fe840cc8f4de463147b0749d31ffe27cf69a8923",
+  "releaseNotes": "Android built-in browser, app control preview and verified in-app APK updates. Development prerelease; Android installation requires your confirmation.",
+  "release_notes": "Android built-in browser, app control preview and verified in-app APK updates. Development prerelease; Android installation requires your confirmation.",
+  "minSdk": 24,
+  "targetSdk": 36,
+  "builtAt": "2026-10-15",
+  "channel": "preview",
+  "source": "GitHub Releases"
+}
