@@ -6,7 +6,7 @@ const sections = [
   {
     "title": "India-only prices",
     "paragraphs": [
-      "The standard monthly price is ₹1,999. A limited-time offer advertises ₹999 per month for eligible India customers. No international purchase is currently offered. All amounts and applicable taxes must be clear before authorization."
+      "The standard monthly price is ₹1,999. A limited-time offer advertises ₹999 per month for eligible India customers. The current subscription authorization covers 12 monthly billing cycles at ₹999; it does not authorize an unannounced higher price afterward. No international purchase is currently offered. All amounts and applicable taxes must be clear before authorization."
     ]
   },
   {
