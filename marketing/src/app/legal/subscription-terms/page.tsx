@@ -12,7 +12,7 @@ const sections = [
   {
     "title": "Pricing and promotional offer",
     "paragraphs": [
-      "Regular price: ₹1,999 per month. A limited-time price of ₹999 per month is advertised for eligible India customers. International checkout is not offered. The promotion period, number of discounted cycles, taxes and renewal price must be disclosed before authorization. The renewal amount cannot be silently changed."
+      "Regular price: ₹1,999 per month. A limited-time price of ₹999 per month is advertised for eligible India customers. The current Razorpay monthly subscription authorization covers 12 billing cycles; further payments require the appropriate authorization. International checkout is not offered. The promotion period, number of discounted cycles, taxes and renewal price must be disclosed before authorization. The renewal amount cannot be silently changed."
     ]
   },
   {
