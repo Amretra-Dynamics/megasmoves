@@ -1,3 +1,30 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "MegasMoves",
+  alternateName: "Megas Moves",
+  url: "https://megasmoves.io/",
+  description:
+    "Multi-device SI agent and local software automation platform with permission-aware MCP tools, browser operations and development workspaces.",
+  applicationCategory: "DeveloperApplication",
+  downloadUrl: "https://megasmoves.io/download/",
+  creator: {
+    "@type": "Organization",
+    name: "Amretra Dynamics",
+    url: "https://github.com/Amretra-Dynamics",
+  },
+  sameAs: [
+    "https://github.com/Amretra-Dynamics/megasmoves",
+    "https://x.com/MegasMoves",
+  ],
+};
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -76,6 +103,7 @@ const tiers = [
 export default function Home() {
   return (
     <div className="landing-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <Header />
       <HashNavigation />
 
