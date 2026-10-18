@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-export const metadata={title:"Megas WoW India Pricing | MegasMoves",description:"Megas WoW India subscription, regular ₹1,999 per month, limited-time ₹999 per month."};
+export const metadata={title:"Megas WoW India Subscription Pricing",description:"Review Megas WoW India early-access pricing and Razorpay test checkout. Live subscriptions are not active yet.",alternates:{canonical:"/pricing/"}};
 export default function Pricing(){return <div className="site-surface min-h-screen"><Header/><main className="mx-auto max-w-6xl px-6 py-16 md:py-24">
 <p className="eyebrow">MEGAS WOW / INDIA</p>
 <h1 className="mt-5 text-5xl font-extrabold tracking-[-0.06em] md:text-6xl">One subscription. <span className="text-[var(--accent)]">Your SI agent.</span></h1>

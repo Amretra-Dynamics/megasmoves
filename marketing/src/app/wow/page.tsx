@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Radio, Layers3, History, ShieldCheck, Zap, CheckCircle2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-export const metadata = { title: "Megas WoW — Your always-on SI agent" };
+export const metadata = { title: "Megas WoW SI Agent Early Access", description: "Explore early-access Megas WoW and multi-device SI agent coordination. Live subscriptions are not active yet.", alternates: { canonical: "/wow/" } };
 const capabilities = [
   { icon: Radio, title: "Connected devices", text: "Bring your devices and compatible agents into the same workflow." },
   { icon: Layers3, title: "Agent coordination", text: "Organize ongoing work through Megas Actions and tasks." },

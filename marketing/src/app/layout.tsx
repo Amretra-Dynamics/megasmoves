@@ -40,12 +40,11 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     siteName: "MegasMoves",
-    url: siteUrl,
     title: "MegasMoves | Your SI Agent Across Devices",
     description:
       "Connect SI agents to approved local tools, developer workspaces and devices with MegasMCP. Explore the open-source engineering preview.",
     images: [{
-      url: "/opengraph-image",
+      url: "/megasmoves-social.png",
       width: 1200,
       height: 630,
       alt: "MegasMoves by Amretra Dynamics: your SI agent across devices",
@@ -56,7 +55,7 @@ export const metadata: Metadata = {
     title: "MegasMoves | Your SI Agent Across Devices",
     description:
       "Local tools. Connected agents. Explicit permissions. Explore MegasMoves and its open-source engineering preview.",
-    images: ["/opengraph-image"],
+    images: ["/megasmoves-social.png"],
   },
   robots: { index: true, follow: true },
 };

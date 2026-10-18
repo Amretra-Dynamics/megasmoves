@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import WindowsInstaller from "@/components/download/WindowsInstaller";
 import TerminalInstall from "@/components/download/TerminalInstall";
 import HashNavigation from "@/components/HashNavigation";
-export const metadata: Metadata = { title: "Download Megas Moves", description: "Megas Moves preview downloads for Windows, macOS, Linux and Android, with versions, file sizes and SHA-256 checksums." };
+export const metadata: Metadata = { title: "Download MegasMoves", description: "MegasMoves preview downloads for Windows, macOS, Linux and Android, with versions, file sizes and SHA-256 checksums.", alternates: { canonical: "/download/" } };
 const steps = [
   { title: "Install", copy: "Use the Windows installer to update the existing MegasMoves installation in place.", icon: Laptop2 },
   { title: "Sign in", copy: "Sign in inside the app to connect your account.", icon: LockKeyhole },
