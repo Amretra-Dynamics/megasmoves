@@ -2,13 +2,28 @@
   <img src="worker/windows/MegasMoves.WinUI/Assets/app.png" alt="MegasMoves logo" width="128" height="128">
 </p>
 
-# MegasMoves
+# MegasMoves | Open-Source SI Agent & Multi-Device Automation
 
 **Your always-on SI agent for all your devices.**
+
+MegasMoves (also called Megas Moves) is an open-source **SI agent platform** and **developer automation runtime** that connects compatible agents to local tools, trusted workspaces, browser tabs and device-specific operations using the **Model Context Protocol (MCP)**. It is designed around observable execution, explicit permissions and human-visible work. The public builds and integrations are an evolving engineering preview.
+
+**[Website](https://megasmoves.io/)** · **[Installation & downloads](https://megasmoves.io/download/)** · **[Getting started](https://megasmoves.io/docs/getting-started/)** · **[MCP / CLI documentation](https://megasmoves.io/docs/cli-reference/)** · **[Security policy](SECURITY.md)**
+
 
 **MegasMoves** by **Amretra Dynamics** is a multi-device software automation platform built around native applications, a local execution runtime, the Model Context Protocol (MCP), and explicit device and workspace permissions.
 
 **Community:** [Join MegasMoves on Telegram](https://t.me/megasmovesSI) · [Follow on X](https://x.com/MegasMoves) · [Website](https://megasmoves.io/)
+
+## What you can explore
+
+- **Local tools and runtimes:** inspect developer workspaces, processes, service readiness and logs through typed interfaces.
+- **MCP integrations:** give compatible agent clients explicitly scoped operator capabilities, not unrestricted machine access.
+- **Browser automation:** interact with approved Chrome tabs via an opt-in extension, with operation boundaries and observable outcomes.
+- **Cross-platform engineering:** Windows native operator, Android client and platform-specific macOS/Linux components.
+- **Work continuity:** organize actions, file references, tasks and handoffs through the same operator.
+
+The release status and supported functions vary by operating system. Check [Downloads](https://megasmoves.io/download/) and [documentation](https://megasmoves.io/docs/) before depending on a capability.
 
 ## Architecture
 
