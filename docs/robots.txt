@@ -1,2 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /device-signin/
+Disallow: /android-testing/feedback/
+
+Sitemap: https://megasmoves.io/sitemap.xml
