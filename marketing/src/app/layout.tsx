@@ -5,20 +5,60 @@ import "./globals.css";
 const display = localFont({variable: "--font-display", display: "swap", src: [{path: "./fonts/barlow-condensed-600.ttf", weight: "600", style: "normal"}, {path: "./fonts/barlow-condensed-700.ttf", weight: "700", style: "normal"}, {path: "./fonts/barlow-condensed-800.ttf", weight: "800", style: "normal"}, {path: "./fonts/barlow-condensed-900.ttf", weight: "900", style: "normal"}]});
 const inter = localFont({variable: "--font-inter", display: "swap", src: [{path: "./fonts/inter-400.ttf", weight: "400", style: "normal"}, {path: "./fonts/inter-600.ttf", weight: "600", style: "normal"}, {path: "./fonts/inter-700.ttf", weight: "700", style: "normal"}, {path: "./fonts/inter-800.ttf", weight: "800", style: "normal"}, {path: "./fonts/inter-900.ttf", weight: "900", style: "normal"}]});
 
+const siteUrl = "https://megasmoves.io";
+
 export const metadata: Metadata = {
-  title: "Megas Moves — Local tools. Connected agents.",
-  description: "Megas Moves brings local actions, tasks, runtime testing and an embedded MCP interface together.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "MegasMoves | SI Agent Platform for Local Tools & Device Automation",
+    template: "%s | MegasMoves",
+  },
+  description:
+    "MegasMoves by Amretra Dynamics connects SI agents to local tools, approved browser sessions, development workspaces and devices through a permission-aware MCP runtime. Explore preview builds and documentation.",
+  applicationName: "MegasMoves",
+  category: "developer tools",
+  authors: [{ name: "Amretra Dynamics", url: "https://github.com/Amretra-Dynamics" }],
+  creator: "Amretra Dynamics",
+  publisher: "Amretra Dynamics",
   keywords: [
-    "megas moves",
-    "megas",
-    "agent",
-    "ai coding agents",
-    "remote coding agent",
-    "coding agent streaming",
-    "android coding agent",
-    "web coding agent chat",
-    "local coding agents"
+    "MegasMoves",
+    "Megas Moves",
+    "Megas WoW",
+    "SI agent",
+    "multi-device automation",
+    "local agent runtime",
+    "Model Context Protocol",
+    "MCP server",
+    "developer tools",
+    "browser automation",
+    "Windows Android Linux macOS",
+    "agent coordination",
+    "local-first automation",
+    "Amretra Dynamics",
   ],
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    siteName: "MegasMoves",
+    url: siteUrl,
+    title: "MegasMoves | Your SI Agent Across Devices",
+    description:
+      "Connect SI agents to approved local tools, developer workspaces and devices with MegasMCP. Explore the open-source engineering preview.",
+    images: [{
+      url: "/opengraph-image",
+      width: 1200,
+      height: 630,
+      alt: "MegasMoves by Amretra Dynamics: your SI agent across devices",
+    }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MegasMoves | Your SI Agent Across Devices",
+    description:
+      "Local tools. Connected agents. Explicit permissions. Explore MegasMoves and its open-source engineering preview.",
+    images: ["/opengraph-image"],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
