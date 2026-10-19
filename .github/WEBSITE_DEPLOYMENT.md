@@ -6,6 +6,8 @@ Only the generated public HTML/assets, `.nojekyll`, `CNAME`, install
 scripts, release catalogs and small Python wheel may go in `docs/`.
 This does NOT use a gh-pages branch, GitHub Actions Pages artifact,
 new repository, or hosted Node build.
+Local validation is required before publication; a hosted build is not required
+to produce the static export.
 
 From a clean, up-to-date main checkout (Node 22 and Python):
 
@@ -13,10 +15,17 @@ From a clean, up-to-date main checkout (Node 22 and Python):
 cd marketing
 npm ci --no-audit --no-fund
 npm run build
+npm test
 cd ..
 python tools/check_marketing_export.py
 python tools/publish_pages_local.py --publish
 ```
+
+Browser checks use an isolated headless Chromium profile. Set
+`MEGAS_TEST_CHROMIUM` to an existing trusted Chromium executable, or install
+the test browser once with `npx playwright install chromium` before `npm test`.
+The tests exercise desktop/mobile downloads, rejected metadata, failed fetches
+and clipboard-denied feedback without accessing the operating-system clipboard.
 
 The publisher validates links, routes, release URL pins, wheel SHA-256
 and package size, and replaces only the static website files in docs/.

@@ -19,8 +19,8 @@ const guides = {
   agents: { title: "Agent and integration reference", sections: [
     ["Discover the live contract", "Read the installed MCP schema and server metadata. Do not reuse stale tool names or claim success for unavailable capabilities. Actions, tasks, sessions and evidence share one operator."],
     ["Bounded local operation", "Use typed check, status, ports, start, stop, restart and bounded logs operations. Executable and secret references are machine configuration. Arbitrary shell commands, database queries and ADB shell input are not exposed."],
-    ["Chrome connector", "Tab discovery, observation, activation, navigation, click, fill, screenshot and clean-tab closure are supported. Reuse tabs and refresh IDs after closure. Edited forms are protected. A click is not evidence of submission."],
-    ["Browser limits", "Credential and file fields, browser-internal pages and native sign-in prompts remain protected. DOM clicks may be blocked from opening popups. Dedicated browser-runtime upload is separate from Chrome-connector upload. No universal Google sign-in or upload guarantee is made."],
+    ["Chrome connector", "Discover and reuse existing tabs, inspect controls, navigate, click, fill, select options, change checkboxes and upload a local file to a visible file input. Refresh tab IDs after closure. Edited forms are protected. Verify the resulting page before recording a submission."],
+    ["Browser limits", "Use an enrolled credential reference for secret fields. Browser-internal pages, cross-origin payment frames and native sign-in prompts can require human interaction. File upload targets a specific visible input; it does not operate the Windows file picker. The dedicated browser and Chrome connector have separate sessions."],
     ["Authorized integrations", "Chitraagni uses reviewed mounted APIs with pinned identity and backend authorization. Remote MCP authenticates and routes to the same account-owned installed operator. Credentials stop at their transport boundary."],
   ] },
   availability: { title: "Release and access status", sections: [
@@ -32,7 +32,7 @@ const guides = {
 };
 export default function CurrentManual({ guide }: { guide: keyof typeof guides }) {
   const content = guides[guide];
-  return <article className="manual-page"><p className="eyebrow">Megas Moves · Updated 14 October 2026</p><h1>{content.title}</h1>
+  return <article className="manual-page"><p className="eyebrow">Megas Moves · Updated 19 October 2026</p><h1>{content.title}</h1>
     {content.sections.map(([heading, body]) => <section key={heading}><h2>{heading}</h2><p>{body}</p></section>)}
     <nav aria-label="Manual navigation"><Link href="/docs">Manual</Link><Link href="/docs/getting-started">Getting started</Link><Link href="/docs/cli-reference">Agent reference</Link><Link href="/docs/product-plans">Release status</Link><Link href="/download">Downloads</Link><a href="https://github.com/Amretra-Dynamics/megasmoves">GitHub source</a></nav>
   </article>;

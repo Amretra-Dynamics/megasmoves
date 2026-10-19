@@ -1,42 +1,11 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Mail, MessageSquare, Users } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-interface TestingConfig {
-  whatsapp_link: string;
-}
+const whatsappLink = "https://chat.whatsapp.com/Ivc6BIPYxEVKIWhAYCPVvd";
 
 export default function TestingFeedbackPage() {
-  const [config, setConfig] = useState<TestingConfig>({
-    whatsapp_link: "https://chat.whatsapp.com/Ivc6BIPYxEVKIWhAYCPVvd",
-  });
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    async function loadTestingConfig() {
-      try {
-        const response = await fetch("/api/v1/testing/config", {
-          signal: controller.signal,
-        });
-        const contentType = response.headers.get("content-type") ?? "";
-        if (!response.ok || !contentType.includes("application/json")) return;
-
-        const data = (await response.json()) as Partial<TestingConfig>;
-        if (data.whatsapp_link) setConfig({ whatsapp_link: data.whatsapp_link });
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") return;
-      }
-    }
-
-    void loadTestingConfig();
-    return () => controller.abort();
-  }, []);
-
   const mailtoLink =
     "mailto:root@megasmoves.io?subject=Megas%20Moves%20Testing%20Feedback&body=Hey%20Megas%20Team,%20here%20is%20my%20feedback%20on%20the%20testing%20app:";
 
@@ -70,7 +39,7 @@ export default function TestingFeedbackPage() {
         <section className="px-6 py-16">
           <div className="mx-auto grid max-w-5xl gap-5 md:grid-cols-2">
             <a
-              href={config.whatsapp_link}
+              href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
               className="group rounded-[1.5rem] border border-[#172033]/12 bg-[#fffdf8] p-7 transition-transform hover:-translate-y-0.5"

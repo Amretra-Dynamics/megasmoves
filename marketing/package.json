@@ -7,17 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test tests/*.test.mjs",
+    "test": "playwright test",
     "typecheck": "tsc --noEmit",
-    "billing:env:check": "node --env-file=.env.local scripts/check-billing-env-v2.mjs test",
-    "billing:env:check:production": "node --env-file=.env.production scripts/check-billing-env-v2.mjs live",
-    "test:visual": "playwright test tests/landing.visual.spec.ts tests/authenticated-ui.visual.spec.ts",
-    "test:visual:headed": "playwright test tests/landing.visual.spec.ts tests/authenticated-ui.visual.spec.ts --headed"
+    "test:visual": "playwright test tests/downloads.spec.ts",
+    "test:visual:headed": "playwright test tests/downloads.spec.ts --headed"
   },
   "dependencies": {
-    "firebase": "^12.15.0",
     "lucide-react": "^1.21.0",
-    "next": "16.2.10",
+    "next": "16.4.2",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
@@ -28,8 +25,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.10",
-    "postcss": "8.5.15",
+    "eslint-config-next": "16.4.2",
+    "postcss": "8.5.31",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
