@@ -1,0 +1,143 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Secure Amretra Dynamics MegasMoves Ubuntu GUI and Codex host in AWS Hyderabad; no public inbound ports.
+Parameters:
+  UbuntuAmi:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/canonical/ubuntu/server/noble/stable/current/amd64/hvm/ebs-gp3/ami-id
+  InstanceType:
+    Type: String
+    Default: r6a.xlarge
+    AllowedValues: [r6a.xlarge]
+  RootDiskGiB:
+    Type: Number
+    Default: 100
+    MinValue: 60
+    MaxValue: 200
+Resources:
+  MegasVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.61.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags: [{Key: Name, Value: amretra-megas-vpc}]
+  MegasGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags: [{Key: Name, Value: amretra-megas-igw}]
+  GatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref MegasVpc
+      InternetGatewayId: !Ref MegasGateway
+  MegasSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MegasVpc
+      CidrBlock: 10.61.1.0/24
+      MapPublicIpOnLaunch: true
+      Tags: [{Key: Name, Value: amretra-megas-subnet}]
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MegasVpc
+  InternetRoute:
+    Type: AWS::EC2::Route
+    DependsOn: GatewayAttachment
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref MegasGateway
+  SubnetRoute:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref MegasSubnet
+      RouteTableId: !Ref RouteTable
+  NoInboundSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: All public inbound traffic denied; private SSM and Tailscale access only
+      VpcId: !Ref MegasVpc
+      SecurityGroupEgress:
+        - IpProtocol: '-1'
+          CidrIp: 0.0.0.0/0
+      Tags: [{Key: Name, Value: amretra-megas-no-public-inbound}]
+  SsmRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: {Service: ec2.amazonaws.com}
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+  SsmProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles: [!Ref SsmRole]
+  MegasInstance:
+    Type: AWS::EC2::Instance
+    DependsOn: InternetRoute
+    Properties:
+      ImageId: !Ref UbuntuAmi
+      InstanceType: !Ref InstanceType
+      SubnetId: !Ref MegasSubnet
+      SecurityGroupIds: [!Ref NoInboundSecurityGroup]
+      IamInstanceProfile: !Ref SsmProfile
+      Monitoring: false
+      InstanceInitiatedShutdownBehavior: stop
+      MetadataOptions:
+        HttpEndpoint: enabled
+        HttpTokens: required
+        HttpPutResponseHopLimit: 1
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeType: gp3
+            VolumeSize: !Ref RootDiskGiB
+            Encrypted: true
+            DeleteOnTermination: true
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -euxo pipefail
+          export DEBIAN_FRONTEND=noninteractive
+          exec > >(tee -a /var/log/amretra-bootstrap.log) 2>&1
+          hostnamectl set-hostname amretra-megas-hyd-01
+          apt-get update -y
+          apt-get install -y --no-install-recommends ca-certificates curl wget gnupg git jq unzip tmux htop build-essential pkg-config libssl-dev python3 python3-pip python3-venv xfce4 xfce4-terminal xrdp xorgxrdp dbus-x11 openssh-server
+          systemctl enable --now ssh xrdp
+          usermod -aG ssl-cert xrdp
+          printf 'exec startxfce4\n' > /home/ubuntu/.xsession
+          chown ubuntu:ubuntu /home/ubuntu/.xsession
+          chmod 600 /home/ubuntu/.xsession
+          curl -fsSL https://tailscale.com/install.sh -o /tmp/install-tailscale.sh
+          bash /tmp/install-tailscale.sh
+          systemctl enable --now tailscaled
+          curl -fsSL https://deb.nodesource.com/setup_22.x -o /tmp/nodesource-setup.sh
+          bash /tmp/nodesource-setup.sh
+          apt-get install -y nodejs
+          npm install -g @openai/codex
+          curl -fLsS https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /tmp/google-chrome.deb
+          apt-get install -y /tmp/google-chrome.deb
+          install -d -m 0755 -o ubuntu -g ubuntu /opt/amretra
+          sudo -u ubuntu git clone --depth 1 https://github.com/Amretra-Dynamics/megasmoves.git /opt/amretra/megasmoves || true
+          # No secret, password, or Tailscale preauthorization is stored in user data.
+          # To complete pairing, use SSM: sudo tailscale up, then set Ubuntu password.
+      Tags:
+        - {Key: Name, Value: amretra-megas-cloud-hyd}
+        - {Key: Project, Value: MegasMoves}
+        - {Key: Purpose, Value: SI-agent-development}
+Outputs:
+  InstanceId:
+    Value: !Ref MegasInstance
+    Description: Configure using Systems Manager Session Manager, then authorize Tailscale
+  PrivateIp:
+    Value: !GetAtt MegasInstance.PrivateIp
+  PublicIp:
+    Value: !GetAtt MegasInstance.PublicIp
+    Description: Outbound-only public IP; zero inbound security-group rules
+  AccessPlan:
+    Value: Windows mstsc and Android Windows App via Tailscale after SSM pairing and XRDP password
