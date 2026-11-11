@@ -123,11 +123,9 @@ class SecretReleasePolicy:
 
     def grant(self, server_reference: str, target: str) -> dict[str, str]:
         server = self.store.get_server(server_reference)
-        if server.transport != "stdio":
-            raise ValueError(
-                "secret environment release is currently enforceable only for stdio MCP servers"
-            )
         target = target.strip()
+        if server.transport != "stdio" and target != "MCP_BEARER_TOKEN":
+            raise ValueError("Remote MCP authentication supports MCP_BEARER_TOKEN. Other environment releases are only for stdio MCP servers")
         bindings = [
             binding
             for binding in self._bindings(server.id)

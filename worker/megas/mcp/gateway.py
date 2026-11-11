@@ -70,14 +70,14 @@ def _valid_sha256(value: str) -> bool:
 
 
 def _redact(value: Any, secrets: list[str]) -> Any:
-    active = [secret for secret in secrets if secret]
+    active = sorted({secret for secret in secrets if secret}, key=len, reverse=True)
     if isinstance(value, str):
         text = value
         for secret in active:
             text = text.replace(secret, REDACTED)
         return text
     if isinstance(value, dict):
-        return {str(key): _redact(item, active) for key, item in value.items()}
+        return {_redact(str(key), active): _redact(item, active) for key, item in value.items()}
     if isinstance(value, list):
         return [_redact(item, active) for item in value]
     if isinstance(value, tuple):

@@ -27,3 +27,5 @@ build/
 app/google-services.json
 app/keystores/
 **/local.properties
+
+.gradle/

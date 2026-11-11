@@ -1,7 +1,7 @@
 """MegasMCP composition for the standalone MegasMoves distribution.
 
 This module composes the original MegasActions, BrowserOperatorCatalog and
-WorkspaceCapabilityCatalog implementations. No external product authority or account transport is mounted.
+WorkspaceCapabilityCatalog implementations. Installed native capabilities retain their local owner checks.
 """
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from typing import Any, TextIO
 from megas.actions import MegasActions, tools as megas_action_tools
 from megas.chrome_bridge import chrome_tools, chrome_tool_call
 from megas.mcp.browser_operator import BrowserOperatorCatalog
+from megas.mcp.installed_operator import InstalledOperator
 from megas.mcp.workspace_server import WorkspaceCapabilityCatalog
 
 PROTOCOL = "2025-06-18"
@@ -20,6 +21,7 @@ MAX_RPC_BYTES = 1_048_576
 
 class MegasMCP:
     def __init__(self) -> None:
+        self.native = InstalledOperator()
         self.actions = MegasActions()
         self.browser = BrowserOperatorCatalog()
         self.workspaces = WorkspaceCapabilityCatalog()
@@ -28,6 +30,7 @@ class MegasMCP:
             *self.browser.tools(),
             *self.workspaces.tools(),
             *chrome_tools(),
+            *self.native.definitions.values(),
         ]
         self._tools = {tool["name"]: tool for tool in tool_definitions}
         if len(self._tools) != len(tool_definitions):
@@ -41,6 +44,7 @@ class MegasMCP:
 
     def dispatch(self, method: str, params: Any) -> Any:
         if method == "initialize":
+            self.native.initialize(params)
             return {
                 "protocolVersion": PROTOCOL,
                 "serverInfo": {"name": "MegasMoves", "version": "0.5.0"},
@@ -72,6 +76,8 @@ class MegasMCP:
                 "browser": self.browser.status(),
             }
             return {"content": [{"type": "text", "text": json.dumps(status, sort_keys=True)}], "isError": False}
+        if name in self.native.definitions:
+            return self.native.call(name, arguments)
         if name.startswith("megas_action_"):
             return self.actions.call(name, arguments)
         if name.startswith("browser_"):
@@ -83,6 +89,7 @@ class MegasMCP:
         raise LookupError("unknown capability")
 
     def close(self) -> None:
+        self.native.close()
         self.browser.host.shutdown()
 
 
