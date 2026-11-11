@@ -1,0 +1,58 @@
+name: Publish Android direct-install feed
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Published Android preview release tag
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: android-direct-install-feed
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: >-
+      github.repository == 'Amretra-Dynamics/megasmoves' &&
+      ((github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'release' && github.event.release.prerelease &&
+      startsWith(github.event.release.tag_name, 'preview-') &&
+      contains(github.event.release.tag_name, '-android-')))
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - run: python3 -m unittest discover -s tools/android -p 'test_preview_feed.py'
+      - name: Verify released APK and update public feeds
+        run: |
+          if [ ! -x "$ANDROID_HOME/build-tools/36.0.0/apksigner" ]; then
+            "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "build-tools;36.0.0"
+          fi
+          python3 tools/android/update_preview_feed.py --tag "$RELEASE_TAG" --build-tools "$ANDROID_HOME/build-tools/36.0.0"
+      - name: Publish validated metadata to Pages
+        run: |
+          for root in marketing/public docs; do
+            git add -- "$root/downloads.json" "$root/mobile/releases/latest.json" \
+              "$root/api/v1/mobile/latest-version/index.html" "$root/v1/mobile/latest-version/index.html" \
+              "$root/api/v1/update/check/index.html"
+          done
+          if ! git diff --cached --quiet; then
+            git diff --cached --check
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m "Publish Android preview feed for $RELEASE_TAG"
+            git push origin HEAD:main
+          fi
+          gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds" --silent
+      - name: Check public website and app feeds
+        run: python3 tools/android/update_preview_feed.py --verify-live --tag "$RELEASE_TAG"
