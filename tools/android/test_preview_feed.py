@@ -67,6 +67,25 @@ class PreviewFeedTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "package"):
                 feed.verify_apk(apk, asset, self.tag, self.root)
 
+    def test_original_public_updater_size_ceiling(self):
+        apk = self.root / self.name
+        limit = 150 * 1024 * 1024
+        asset = dict(name=self.name, browser_download_url=self.url, state="uploaded",
+                     size=limit, digest="sha256:" + "d" * 64)
+        with apk.open("wb") as stream:
+            stream.truncate(limit)
+        badging = (f"package: name='{feed.PACKAGE}' versionCode='{self.new['versionCode']}' "
+                   f"versionName='{self.new['versionName']}'\nsdkVersion:'24'\ntargetSdkVersion:'36'")
+        with patch.object(feed.hashlib, "file_digest") as digest, patch.object(feed, "run") as tool:
+            digest.return_value.hexdigest.return_value = "d" * 64
+            tool.side_effect = ["Signer #1 certificate SHA-256 digest: " + feed.DIRECT_SIGNER, badging]
+            self.assertEqual(feed.verify_apk(apk, asset, self.tag, self.root)["sizeBytes"], limit)
+            with apk.open("ab") as stream:
+                stream.write(b"x")
+            with self.assertRaisesRegex(ValueError, "size"):
+                feed.verify_apk(apk, dict(asset, size=limit + 1), self.tag, self.root)
+            self.assertEqual(digest.call_count, 1)
+
 
 if __name__ == "__main__":
     unittest.main()

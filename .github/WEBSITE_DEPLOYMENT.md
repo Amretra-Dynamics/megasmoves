@@ -75,5 +75,7 @@ git diff --check
 An optional `--apk PATH` uses verified local bytes after checking GitHub's digest.
 Review and commit the generated metadata to `main`, let Pages build, then run
 `python3 tools/android/update_preview_feed.py --verify-live --tag "$RELEASE_TAG"`.
-Clients whose older built-in size limit excludes the new universal APK can
-use the signed website APK for an owner-confirmed in-place update.
+The public feed accepts universal APKs up to 150 MiB (157,286,400 bytes), the
+limit enforced by v1.0.548. The historical v1.0.573 asset is 159,667,244 bytes.
+A v1.0.548 user installing that particular release must download its signed APK
+and confirm the in-place update through the Android installer.

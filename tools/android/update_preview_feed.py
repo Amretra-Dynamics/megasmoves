@@ -16,7 +16,8 @@ REPO = "Amretra-Dynamics/megasmoves"
 PACKAGE = "com.amretra.megasmoves"
 # SHA-256 of the public Android signing certificate used by the direct-install channel.
 DIRECT_SIGNER = "9c71b2c39a4a0b44d642d852407e6786d489a9e334ecec4e298f414dd8e096f8"
-MAX_BYTES = 200 * 1024 * 1024
+# The original public v548 updater and later direct installs share this feed.
+MAX_BYTES = 150 * 1024 * 1024
 ROOT = Path(__file__).resolve().parents[2]
 CATALOG = Path("downloads.json")
 FEEDS = (
