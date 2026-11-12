@@ -97,7 +97,7 @@ case "$ACTION" in
       echo "Local port $PORT is already in use. Check the existing tunnel." >&2; exit 5
     fi
     echo "Starting secure AWS SSM RDP tunnel: Android 127.0.0.1:$PORT -> Ubuntu 127.0.0.1:3389"
-    echo "Keep this Termux session running, then open Windows App: PC 127.0.0.1:$PORT, user devone."
+    echo "Keep this Termux session running, then connect Windows App to 127.0.0.1:$PORT with your configured desktop login."
     exec aws ssm start-session --target "$ID" --region "$REGION" \
       --profile "$PROFILE" --document-name AWS-StartPortForwardingSession \
       --parameters "portNumber=3389,localPortNumber=$PORT"

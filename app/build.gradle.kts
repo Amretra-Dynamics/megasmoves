@@ -130,6 +130,8 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(":app:voice-history"))
+    implementation(project(":app:android-mcp"))
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
     val composeBom = platform(libs.androidx.compose.bom)

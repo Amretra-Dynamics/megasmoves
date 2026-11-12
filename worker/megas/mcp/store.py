@@ -35,8 +35,8 @@ class MCPStore:
     """
 
     def __init__(self, home: str | os.PathLike[str] | None = None) -> None:
-        configured = home or os.environ.get("MEGAS_HOME")
-        self.home = Path(configured).expanduser() if configured else Path.home() / ".megas"
+        from ..operator_paths import operator_home
+        self.home = Path(home).expanduser() if home is not None else operator_home()
         self.mcp_dir = self.home / "mcp"
         self.runtime_dir = self.mcp_dir / "runtime"
         self.logs_dir = self.mcp_dir / "logs"
@@ -297,6 +297,19 @@ class MCPStore:
         if other_same_name is not None:
             raise ValueError(f"server name already exists: {server.name}")
 
+        prior = by_id.get(server.id)
+        target_fields = ("transport", "command", "args", "url", "cwd")
+        if prior and prior.source == "owner-plugin":
+            target_fields += ("env",)
+        if prior and any(getattr(prior, field) != getattr(server, field) for field in target_fields):
+            # A stable registry ID or display name does not transfer the human's
+            # tool or credential approvals to another executable or endpoint.
+            from .secret_release import SecretReleasePolicy
+            permissions = self.list_permissions()
+            self._write_permissions([row for row in permissions if row["server_id"] != server.id])
+            secrets = SecretReleasePolicy(self)
+            for binding in self.list_secret_bindings(server.id):
+                secrets.revoke(server.id, binding.target)
         server.updated_at = utc_now()
         server.env_refs = {}
         by_id[server.id] = server

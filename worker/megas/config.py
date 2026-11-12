@@ -25,8 +25,7 @@ _AUTO_HOST_RE = re.compile(
 def default_owner_label() -> str:
     """Human label for Connected Agents: OS login name, not random PC hostname.
 
-    Product display is ``{label}'s Codex CLI``. Users expect their Windows/macOS
-    account name (e.g. hoids), not COMPUTERNAME (e.g. LAPTOP-E88LAUSQ).
+    Connected Agents displays the configured label or the current OS login name.
     """
     for key in ("MEGAS_MACHINE_NAME", "USERNAME", "USER", "LOGNAME"):
         raw = str(os.environ.get(key) or "").strip()
