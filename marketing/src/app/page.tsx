@@ -271,6 +271,12 @@ export default function Home() {
             <span><CheckCircle2 aria-hidden="true" /> Public ChatGPT plugin coming soon</span>
           </div>
         </section>
+        <section aria-labelledby="founding-team-heading" className="mx-auto my-16 w-[calc(100%_-_40px)] max-w-[1280px] border-t border-[var(--line)] pt-12 md:w-[calc(100%_-_56px)]">
+          <p className="eyebrow">Company and founding team</p>
+          <h2 id="founding-team-heading" className="mt-3 text-2xl font-extrabold text-[var(--text)] md:text-3xl">Built by Amretra Dynamics</h2>
+          <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--muted)]">MegasMoves is developed by Amretra Dynamics, founded by software engineer Musrif Abhinav in Hyderabad, India.</p>
+          <Link href="/team/" className="mt-5 inline-block text-sm font-semibold text-[var(--accent)] underline underline-offset-4">Meet the founder and public leadership</Link>
+        </section>
       </main>
       <Footer />
     </div>
