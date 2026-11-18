@@ -29,6 +29,7 @@ const linkGroups = [
   {
     title: "Company",
     links: [
+      { href: "/team/", label: "Founder & team" },
       { href: "/legal", label: "Legal center" },
       { href: "/privacy", label: "Privacy" },
       { href: "/legal/acceptable-use", label: "Trust and safety" },
