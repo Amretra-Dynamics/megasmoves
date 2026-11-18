@@ -8,6 +8,7 @@ const publicRoutes = [
   "/",
   "/download/",
   "/wow/",
+  "/team/",
   "/pricing/",
   "/docs/",
   "/docs/getting-started/",
