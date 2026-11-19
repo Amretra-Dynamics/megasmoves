@@ -656,6 +656,7 @@ def _run(args: argparse.Namespace, store: MCPStore, runtime: MCPRuntime) -> Any:
             if existing is not None:
                 _stop_running_stdio(runtime, existing)
             server = MCPServer(
+                source="owner-plugin" if getattr(args, "owner_plugin", False) else "local",
                 name=args.name,
                 transport=transport,
                 command=args.server_command,
@@ -1257,7 +1258,7 @@ def _recover_state(store: MCPStore) -> dict[str, Any] | None:
     return recovered
 
 
-def main(argv: list[str] | None = None) -> None:
+def main(argv: list[str] | None = None, *, home: Path | None = None, owner_plugin: bool = False) -> None:
     actual_argv = list(sys.argv[1:] if argv is None else argv)
     if actual_argv and actual_argv[0] == "--runtime-worker":
         from .runtime_worker import main as runtime_worker_main
@@ -1266,7 +1267,8 @@ def main(argv: list[str] | None = None) -> None:
 
     parser = _parser()
     args = parser.parse_args(actual_argv)
-    store = MCPStore()
+    args.owner_plugin = owner_plugin
+    store = MCPStore(home)
     runtime = MCPRuntime(store)
     try:
         _recover_state(store)

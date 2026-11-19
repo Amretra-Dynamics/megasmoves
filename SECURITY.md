@@ -5,7 +5,9 @@ This is a pre-release Community candidate. No production-security support SLA is
 ## Security boundaries
 
 - The human CLI alone can approve or revoke local workspace roots.
-- MCP exposes read-only typed tools, not arbitrary shell, network operations, state changes, process starts, or file reads.
+- The workspace catalog is read-only. Actions and Tasks have typed local write operations. The installed native operator enforces its device permissions for native operations.
+- Custom MCP servers are registered by the owner. Review each tool grant and any credential binding. A stdio plugin runs with the OS account of the local operator. A remote bearer is bound to its approved origin.
+- Scheduled work uses a signed-in owner and an exact skill revision. Sensitive actions retain the approval requirements of the executing host.
 - Workspaces are identified by stable IDs and restricted to approved canonical paths.
 - The service rejects symlink retargeting and bounds the size of parsed manifests.
 - Manifest values are never used to execute scripts or subprocesses.

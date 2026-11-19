@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from megas.adapters.base import windows_subprocess_kwargs
+
 import json
 import os
 import queue
@@ -9,7 +11,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from typing import Any, Iterator
+from typing import Any, Callable, Iterator
 
 from .model import MCPServer
 from .validation import validate_tool_arguments
@@ -35,13 +37,14 @@ def _reader(stream: Any, out: "queue.Queue[dict[str, Any] | None]") -> None:
         out.put(None)
 
 
-def _json_result(message: dict[str, Any], request_id: int) -> dict[str, Any]:
+def _json_result(message: dict[str, Any], request_id: int, server: MCPServer) -> dict[str, Any]:
     if message.get("id") != request_id:
         raise RuntimeError(
-            f"MCP response id mismatch: expected {request_id}, got {message.get('id')}"
+            f"MCP response id mismatch for request {request_id}"
         )
     if "error" in message:
-        raise RuntimeError(f"MCP request failed: {message['error']}")
+        error = _redact_bound_values(server, message["error"])
+        raise RuntimeError(f"MCP request failed: {error}")
     result = message.get("result")
     return result if isinstance(result, dict) else {"value": result}
 
@@ -89,6 +92,59 @@ def _origin(url: str) -> tuple[str, str, int]:
     return parsed.scheme, parsed.hostname.lower(), port
 
 
+def _redact_bound_values(server, value):
+    from .gateway import _redact
+    return _redact(value, [os.getenv(ref, "") for ref in server.env_refs.values()]) if server.env_refs else value
+
+
+class _SameOriginRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if _origin(newurl) != _origin(req.full_url):
+            raise PermissionError("Configure the destination MCP endpoint directly")
+        next_request = super().redirect_request(req, fp, code, msg, headers, newurl)
+        if next_request is not None and req.get_header("Authorization"):
+            next_request.add_unredirected_header("Authorization", req.get_header("Authorization"))
+        return next_request
+
+
+def _remote_open(request, server, *, timeout):
+    # Environment references have already passed the host's secret-release policy.
+    reference = server.env_refs.get("MCP_BEARER_TOKEN")
+    if reference:
+        scheme, host, _port = _origin(request.full_url)
+        if scheme != "https" and host not in {"localhost", "127.0.0.1", "::1"}:
+            raise PermissionError("Remote MCP bearer authentication requires HTTPS")
+        token = os.environ.get(reference, "")
+        if not token or not token.isascii() or any(ord(ch) < 33 or ord(ch) > 126 for ch in token):
+            raise PermissionError("The configured MCP bearer reference is unavailable or invalid")
+        request.add_unredirected_header("Authorization", "Bearer " + token)
+    return urllib.request.build_opener(_SameOriginRedirect()).open(request, timeout=timeout)
+
+
+def _listed(request, method, key, timeout):
+    """Read a bounded paginated MCP collection within one deadline."""
+    end = time.monotonic() + timeout
+    items = []
+    params = {}
+    seen = set()
+    while True:
+        remaining = end - time.monotonic()
+        if remaining <= 0:
+            raise TimeoutError("MCP list deadline expired")
+        page = request(method, params, timeout=remaining)
+        values = page.get(key, [])
+        if not isinstance(values, list) or len(values) + len(items) > 4096:
+            raise RuntimeError("MCP list is invalid or exceeds the catalog limit")
+        items.extend(item for item in values if isinstance(item, dict))
+        cursor = page.get("nextCursor")
+        if cursor is None:
+            return items
+        if not isinstance(cursor, str) or not cursor or len(cursor) > 2048 or cursor in seen or len(seen) >= 63:
+            raise RuntimeError("MCP list returned an invalid or excessive continuation")
+        seen.add(cursor)
+        params = {"cursor": cursor}
+
+
 class StdioMCPClient:
     """Deterministic MCP stdio client session."""
 
@@ -98,6 +154,7 @@ class StdioMCPClient:
         *,
         timeout: float = 10.0,
         stderr: Any = subprocess.DEVNULL,
+        client_info: dict[str, str] | None = None,
     ) -> None:
         server.validate()
         if server.transport != "stdio":
@@ -105,6 +162,7 @@ class StdioMCPClient:
         self.server = server
         self.timeout = timeout
         self.stderr = stderr
+        self.client_info = dict(client_info) if client_info else {"name": "Megas", "version": "0.3.0"}
         self.proc: subprocess.Popen[str] | None = None
         self.inbox: "queue.Queue[dict[str, Any] | None]" = queue.Queue()
         self.next_id = 1
@@ -114,7 +172,14 @@ class StdioMCPClient:
         self.instructions: str = ""
 
     def _resolved_env(self) -> dict[str, str]:
-        env = os.environ.copy()
+        if self.server.source == "owner-plugin":
+            # User-added programs receive their declared settings and granted bindings.
+            system_vars = {"PATH", "HOME", "USERPROFILE", "SYSTEMROOT", "WINDIR", "PATHEXT",
+                           "TEMP", "TMP", "TMPDIR", "LANG", "LC_ALL", "LC_CTYPE"}
+            env = {key: value for key, value in os.environ.items() if key.upper() in system_vars}
+        else:
+            env = os.environ.copy()
+        env.pop("MEGAS_RUNTIME_TOKEN", None)
         env.update(self.server.env)
         for target, source in self.server.env_refs.items():
             if source not in os.environ:
@@ -132,11 +197,16 @@ class StdioMCPClient:
             bufsize=1,
             cwd=self.server.cwd or None,
             env=self._resolved_env(),
+            **windows_subprocess_kwargs(),
         )
         assert self.proc.stdin is not None
         assert self.proc.stdout is not None
         threading.Thread(target=_reader, args=(self.proc.stdout, self.inbox), daemon=True).start()
-        self.initialize()
+        try:
+            self.initialize()
+        except Exception:
+            self.close()
+            raise
         return self
 
     def _send(
@@ -172,7 +242,7 @@ class StdioMCPClient:
                 code = None if self.proc is None else self.proc.poll()
                 raise RuntimeError(f"MCP server exited before replying (code={code})")
             if item.get("id") == request_id:
-                return _json_result(item, request_id)
+                return _json_result(item, request_id, self.server)
         raise TimeoutError(f"MCP server did not answer request {request_id} within the timeout")
 
     def request(
@@ -192,7 +262,7 @@ class StdioMCPClient:
             {
                 "protocolVersion": DEFAULT_PROTOCOL_VERSION,
                 "capabilities": {},
-                "clientInfo": {"name": "Megas", "version": "0.3.0"},
+                "clientInfo": self.client_info,
             },
         )
         self.protocol_version = result.get("protocolVersion")
@@ -244,7 +314,11 @@ class HTTPMCPClient:
         self.instructions: str = ""
 
     def __enter__(self) -> "HTTPMCPClient":
-        self.initialize()
+        try:
+            self.initialize()
+        except Exception:
+            self.close()
+            raise
         return self
 
     def _headers(self) -> dict[str, str]:
@@ -276,13 +350,13 @@ class HTTPMCPClient:
             method="POST",
         )
         try:
-            response = urllib.request.urlopen(request, timeout=timeout)
+            response = _remote_open(request, self.server, timeout=timeout)
         except urllib.error.HTTPError as exc:
             detail = exc.read(65536).decode("utf-8", errors="replace").strip()
-            suffix = f": {detail}" if detail else ""
-            raise RuntimeError(f"remote MCP HTTP {exc.code}{suffix}") from exc
+            suffix = f": {_redact_bound_values(self.server, detail)}" if detail else ""
+            raise RuntimeError(f"remote MCP HTTP {exc.code}{suffix}") from None
         except urllib.error.URLError as exc:
-            raise RuntimeError(f"remote MCP connection failed: {exc.reason}") from exc
+            raise RuntimeError(f"remote MCP connection failed: {_redact_bound_values(self.server, str(exc.reason))}") from None
 
         with response:
             session_id = response.headers.get("Mcp-Session-Id")
@@ -341,7 +415,7 @@ class HTTPMCPClient:
             return None
         if response is None or request_id is None:
             raise RuntimeError("remote MCP request returned no response")
-        return _json_result(response, request_id)
+        return _json_result(response, request_id, self.server)
 
     def request(
         self,
@@ -379,7 +453,7 @@ class HTTPMCPClient:
             method="DELETE",
         )
         try:
-            with urllib.request.urlopen(request, timeout=min(self.timeout, 2.0)) as response:
+            with _remote_open(request, self.server, timeout=min(self.timeout, 2.0)) as response:
                 _read_bounded(response, 65536)
         except Exception:
             pass
@@ -418,11 +492,15 @@ class SSEMCPClient:
             raise TimeoutError("SSE MCP server did not advertise a message endpoint")
         if self._error is not None:
             self.close()
-            raise RuntimeError(f"SSE MCP connection failed: {self._error}")
+            raise RuntimeError(f"SSE MCP connection failed: {_redact_bound_values(self.server, str(self._error))}")
         if not self.message_url:
             self.close()
             raise RuntimeError("SSE MCP server did not provide a message endpoint")
-        self.initialize()
+        try:
+            self.initialize()
+        except Exception:
+            self.close()
+            raise
         return self
 
     def _listen(self) -> None:
@@ -433,7 +511,7 @@ class SSEMCPClient:
             method="GET",
         )
         try:
-            response = urllib.request.urlopen(request, timeout=max(self.timeout, 60.0))
+            response = _remote_open(request, self.server, timeout=max(self.timeout, 60.0))
             self._response = response
             with response:
                 content_type = (response.headers.get("Content-Type") or "").lower()
@@ -476,14 +554,14 @@ class SSEMCPClient:
             method="POST",
         )
         try:
-            with urllib.request.urlopen(request, timeout=timeout) as response:
+            with _remote_open(request, self.server, timeout=timeout) as response:
                 _read_bounded(response, 65536)
         except urllib.error.HTTPError as exc:
             detail = exc.read(65536).decode("utf-8", errors="replace").strip()
-            suffix = f": {detail}" if detail else ""
-            raise RuntimeError(f"SSE MCP HTTP {exc.code}{suffix}") from exc
+            suffix = f": {_redact_bound_values(self.server, detail)}" if detail else ""
+            raise RuntimeError(f"SSE MCP HTTP {exc.code}{suffix}") from None
         except urllib.error.URLError as exc:
-            raise RuntimeError(f"SSE MCP connection failed: {exc.reason}") from exc
+            raise RuntimeError(f"SSE MCP connection failed: {_redact_bound_values(self.server, str(exc.reason))}") from None
 
     def _send(
         self,
@@ -514,10 +592,10 @@ class SSEMCPClient:
                 break
             if item is None:
                 if self._error is not None:
-                    raise RuntimeError(f"SSE MCP stream failed: {self._error}")
+                    raise RuntimeError(f"SSE MCP stream failed: {_redact_bound_values(self.server, str(self._error))}")
                 raise RuntimeError("SSE MCP stream closed before the response arrived")
             if item.get("id") == request_id:
-                return _json_result(item, request_id)
+                return _json_result(item, request_id, self.server)
         raise TimeoutError(f"SSE MCP server did not answer request {request_id} within the timeout")
 
     def request(
@@ -614,8 +692,7 @@ def probe_server(server: MCPServer, *, timeout: float = 5.0) -> dict[str, Any]:
             ("prompts", "prompts/list", "prompts", _summarize_prompt),
         ):
             try:
-                result = client.request(method, {}, timeout=timeout)
-                items = [item for item in (result.get(value_key) or []) if isinstance(item, dict)]
+                items = _listed(client.request, method, value_key, timeout)
                 collected[key] = {
                     "supported": True,
                     "count": len(items),
@@ -629,13 +706,13 @@ def probe_server(server: MCPServer, *, timeout: float = 5.0) -> dict[str, Any]:
                     "error": str(exc),
                 }
 
-        return {
+        return _redact_bound_values(server, {
             "protocol_version": client.protocol_version,
             "server_info": client.server_info,
             "capabilities": client.capabilities,
             "instructions": client.instructions,
             **collected,
-        }
+        })
 
 
 def call_tool(
@@ -644,6 +721,7 @@ def call_tool(
     arguments: dict[str, Any],
     *,
     timeout: float = 30.0,
+    verify: Callable[[dict[str, Any]], None] | None = None,
 ) -> dict[str, Any]:
     """Call one explicitly approved MCP tool through the server's configured transport."""
 
@@ -653,8 +731,7 @@ def call_tool(
         raise ValueError("tool arguments must be a JSON object")
 
     with _client_for(server, timeout=timeout) as client:
-        listed = client.request("tools/list", {}, timeout=timeout)
-        tools = [item for item in (listed.get("tools") or []) if isinstance(item, dict)]
+        tools = _listed(client.request, "tools/list", "tools", timeout)
         selected = next(
             (item for item in tools if str(item.get("name") or "") == tool),
             None,
@@ -665,18 +742,20 @@ def call_tool(
         if not isinstance(schema, dict):
             raise ValueError(f"MCP server {server.name} reported invalid inputSchema for {tool}")
         validate_tool_arguments(tool, schema, arguments)
+        if verify is not None:
+            verify(selected)
         result = client.request(
             "tools/call",
             {"name": tool, "arguments": arguments},
             timeout=timeout,
         )
-        return {
+        return _redact_bound_values(server, {
             "server": server.name,
             "tool": tool,
             "is_error": bool(result.get("isError", False)),
             "content": result.get("content") or [],
             "structured_content": result.get("structuredContent"),
-        }
+        })
 
 
 def probe_stdio(server: MCPServer, *, timeout: float = 5.0) -> dict[str, Any]:

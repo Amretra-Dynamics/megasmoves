@@ -37,8 +37,8 @@ def _now() -> str:
 
 
 def _home() -> Path:
-    configured = os.environ.get("MEGAS_HOME", "").strip()
-    return Path(configured).expanduser() if configured else Path.home() / ".megas"
+    from .operator_paths import operator_home
+    return operator_home()
 
 
 def _task_id() -> str:

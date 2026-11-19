@@ -88,10 +88,11 @@ def main(argv: list[str] | None = None) -> int:
         return _desktop()
     if argv in (["--help"], ["-h"], ["help"]):
         print("MegasMoves | your always-on SI agent for all your devices")
-        print("Usage: megas [connect | gui | actions | browser | status | workspace | --version]")
+        print("Usage: megas [connect | gui | actions | plugins | browser | status | workspace | --version]")
         print("  connect             Serve native MegasMCP over stdio")
         print("  gui                 Open installed native MegasMoves application")
         print("  actions ...         Manage local Megas actions")
+        print("  plugins ...         Manage signed-in custom MCP servers on installed Linux")
         print("  browser status      Inspect dedicated browser capability")
         print("  workspace ...       Use the original local workspace CLI")
         return 0
@@ -105,6 +106,14 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if argv == ["gui"]:
         return _desktop()
+    if argv[0] == "plugins":
+        from megas.mcp.installed_operator import installed_linux_core
+
+        core = installed_linux_core()
+        if core is None:
+            print("This command requires an installed Megas Moves Linux operator.", file=sys.stderr)
+            return 2
+        return subprocess.run([str(core), "plugins", *argv[1:]], check=False).returncode
     if argv[0] == "actions":
         return _action_cli(argv[1:])
     if argv == ["browser", "status"] or argv == ["status"]:

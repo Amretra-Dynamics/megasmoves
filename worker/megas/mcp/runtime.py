@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from megas.adapters.base import windows_subprocess_kwargs
+
 import ctypes
 import hashlib
 import json
@@ -11,11 +13,12 @@ import socket
 import subprocess
 import sys
 import time
+from functools import partial
 from pathlib import Path
 from typing import Any
 
 from .model import MCPServer
-from .protocol import _summarize_prompt, _summarize_resource, _summarize_tool
+from .protocol import _listed, _summarize_prompt, _summarize_resource, _summarize_tool
 from .store import MCPStore
 
 
@@ -61,6 +64,7 @@ def _terminate_process_tree(pid: int, *, timeout: float = 5.0) -> None:
             check=False,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
+            **windows_subprocess_kwargs(),
         )
         return
 
@@ -388,10 +392,7 @@ class MCPRuntime:
             "close_fds": os.name != "nt",
         }
         if os.name == "nt":
-            kwargs["creationflags"] = (
-                getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
-                | getattr(subprocess, "CREATE_NO_WINDOW", 0)
-            )
+            kwargs.update(windows_subprocess_kwargs(new_group=True))
         else:
             kwargs["start_new_session"] = True
 
@@ -515,8 +516,7 @@ class MCPRuntime:
             ("prompts", "prompts/list", "prompts", _summarize_prompt),
         ):
             try:
-                result = self.request(server, method, {}, timeout=timeout)
-                items = [item for item in (result.get(value_key) or []) if isinstance(item, dict)]
+                items = _listed(partial(self.request, server), method, value_key, timeout)
                 collected[key] = {
                     "supported": True,
                     "count": len(items),
@@ -549,8 +549,7 @@ class MCPRuntime:
             raise ValueError("tool name must be non-empty")
         if not isinstance(arguments, dict):
             raise ValueError("tool arguments must be a JSON object")
-        listed = self.request(server, "tools/list", {}, timeout=timeout)
-        tools = [item for item in (listed.get("tools") or []) if isinstance(item, dict)]
+        tools = _listed(partial(self.request, server), "tools/list", "tools", timeout)
         known = {str(item.get("name")) for item in tools if item.get("name")}
         if tool not in known:
             raise ValueError(f"MCP server {server.name} does not report tool: {tool}")

@@ -1,0 +1,947 @@
+[
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "description": "Inspect the current owner graphical session, native dependencies, Operate gate and session lock readiness without reading window content or changing focus. Session readiness does not certify application accessibility. X11 only; no Wayland or simulated fallback.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {},
+      "required": [],
+      "type": "object"
+    },
+    "name": "linux_desktop_status",
+    "title": "Linux desktop capability status"
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "openWorldHint": true,
+      "readOnlyHint": false
+    },
+    "description": "Create a real Megas work-notes window on the owner desktop without taking focus. Default open with no arguments creates one window. To reuse that exact window, pass its private resume_token, including across MCP reconnects. To replace and verify its plain-text note use action=write with token and text. To read back the actual note through native accessibility, use action=read with the token. To close use action=release with token. The owner can close it, or it expires after one hour unused. List other windows and their background-use options with linux_ui_windows. Generic application windows can be inspected using linux_ui_inspect_window. Keep tokens out of user-visible summaries.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "enum": [
+            "open",
+            "read",
+            "write",
+            "release"
+          ],
+          "type": "string"
+        },
+        "resume_token": {
+          "pattern": "^[A-Za-z0-9_-]{43}$",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 8192,
+          "type": "string"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "name": "linux_ui_agent_window",
+    "title": "Open, reuse, update or release a background agent work window"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "description": "Inspect bounded accessibility controls from one exact, freshly listed OS window without activating it. The installed operator rechecks the desktop session, process birth and window geometry.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "max_nodes": {
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "window_index": {
+          "maximum": 99,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "window_list_id": {
+          "maxLength": 128,
+          "minLength": 20,
+          "type": "string"
+        }
+      },
+      "required": [
+        "window_list_id",
+        "window_index"
+      ],
+      "type": "object"
+    },
+    "name": "linux_ui_inspect_window",
+    "title": "Inspect one listed Linux window without focus"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "description": "List owner X11 windows without activation. Each row carries its own window_ref, occupancy, operations and background_use. Managed windows also carry the public agent_window_id and creating client when known. Pass agent_window_id or window_ref from a work-window receipt to find that exact live window regardless of title. To inspect it, pass window_list_id and the matching row’s index as window_index to linux_ui_inspect_window before the listing expires. Resume or update your managed window with its private token. Recent session input has no actor attribution. Requires owner-enabled Operate.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "agent_window_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "type": "string"
+        },
+        "window_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "name": "linux_ui_windows",
+    "title": "List Linux windows"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "description": "Pause or resume this goal at its expected revision. Pause stops new effects; work already delivered has a separate receipt.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "expected_revision": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "goal_id": {
+          "pattern": "^[a-zA-Z0-9_-]{1,80}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "goal_id",
+        "enabled",
+        "expected_revision"
+      ],
+      "type": "object"
+    },
+    "name": "megas_auto_routine_control"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "description": "Read this owner's routine settings, goals, interruptions and recent day/overnight receipts. For the latest 12 goal-directed reviews, agent_brief appears when a matching reply is available and includes its bounded text and matching repository evidence.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {},
+      "required": [],
+      "type": "object"
+    },
+    "name": "megas_auto_routine_report"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "description": "Grant an enabled, exact saved-skill revision for day and/or overnight work toward a local goal. The owner-authored objective is delivered to each named local review worker in the pinned skill for its registered repository. A null phase grants nothing. Defaults to once per phase. Optionally repeat every requested number of minutes in a phase; missed cycles do not backfill. An explicit local until_task_id ends the goal when its completion is recorded. Runs while this operator is online.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "day": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "revision": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "skill_id": {
+                  "pattern": "^[a-zA-Z0-9_-]{1,80}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "skill_id",
+                "revision"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "day_every_minutes": {
+          "maximum": 1440,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "expected_revision": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "goal_id": {
+          "pattern": "^[a-zA-Z0-9_-]{1,80}$",
+          "type": "string"
+        },
+        "objective": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "type": "string"
+        },
+        "overnight": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "revision": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "skill_id": {
+                  "pattern": "^[a-zA-Z0-9_-]{1,80}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "skill_id",
+                "revision"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "overnight_every_minutes": {
+          "maximum": 1440,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "unattended_granted": {
+          "const": true
+        },
+        "until_task_id": {
+          "pattern": "^task_[a-f0-9]{32}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "goal_id",
+        "objective",
+        "day",
+        "overnight",
+        "unattended_granted",
+        "expected_revision"
+      ],
+      "type": "object"
+    },
+    "name": "megas_auto_routine_save"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "description": "Save the owner's local timezone and manual sleep/wake times. Adaptive activity sampling is opt-in and remembers only recent-input half-hour buckets for 14 days. Changing settings clears previous samples.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "adaptive": {
+          "type": "boolean"
+        },
+        "sleep_start": {
+          "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]$",
+          "type": "string"
+        },
+        "timezone": {
+          "maxLength": 80,
+          "minLength": 1,
+          "type": "string"
+        },
+        "wake_time": {
+          "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "timezone",
+        "sleep_start",
+        "wake_time",
+        "adaptive"
+      ],
+      "type": "object"
+    },
+    "name": "megas_auto_routine_settings"
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "openWorldHint": true,
+      "readOnlyHint": false
+    },
+    "description": "Call one tool on a custom MCP server added and granted by the current Megas user. Find names and schemas with megas_skill_capabilities. A call may change the external service.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "maxProperties": 64,
+          "type": "object"
+        },
+        "name": {
+          "pattern": "^mcp_[0-9a-f]{32}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "arguments"
+      ],
+      "type": "object"
+    },
+    "name": "megas_plugin_call"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "description": "Discover the current owner’s granted Chitraagni and custom MCP tools. Use plugin_read for read-only tools and plugin_call for a granted external action at any point in the sequence. Use when.path and equals or count_at_least to test the previous plugin result before a step. use_skill composes a saved revision for the same Action.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {},
+      "required": [],
+      "type": "object"
+    },
+    "name": "megas_skill_capabilities"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "description": "Read the most recent 100 durable local run receipts for this owner's saved skill.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "skill_id": {
+          "pattern": "^[a-zA-Z0-9_-]{1,80}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "skill_id"
+      ],
+      "type": "object"
+    },
+    "name": "megas_skill_history"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "description": "Read reusable skills saved by the signed-in owner on this installation.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {},
+      "required": [],
+      "type": "object"
+    },
+    "name": "megas_skill_list"
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "openWorldHint": true,
+      "readOnlyHint": false
+    },
+    "description": "Run a saved skill manually. Optional review_instructions focus the named read-only reviewer on a question about the registered project. Retry with the same request_id to return the original run receipt without duplicating saved tasks.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "request_id": {
+          "pattern": "^[a-zA-Z0-9_-]{1,80}$",
+          "type": "string"
+        },
+        "review_instructions": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "type": "string"
+        },
+        "skill_id": {
+          "pattern": "^[a-zA-Z0-9_-]{1,80}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "skill_id",
+        "request_id"
+      ],
+      "type": "object"
+    },
+    "name": "megas_skill_run"
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "openWorldHint": true,
+      "readOnlyHint": false
+    },
+    "description": "Create or revise a sequence of granted plugin reads, conditional local Task operations, pinned saved skills, local agent reviews and granted custom MCP actions. Use megas_skill_capabilities for plugin inputs. Revision 0 creates a skill. Pause with enabled=false. Triggers support manual, scheduled, task state and local worker turn completion.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {
+          "pattern": "^action_[a-f0-9]{32}$",
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "expected_revision": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "name": {
+          "maxLength": 512,
+          "minLength": 1,
+          "pattern": "\\S",
+          "type": "string"
+        },
+        "skill_id": {
+          "pattern": "^[a-zA-Z0-9_-]{1,80}$",
+          "type": "string"
+        },
+        "steps": {
+          "items": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "tool": {
+                    "const": "chitraagni_health"
+                  },
+                  "when": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "equals",
+                          "count_at_least"
+                        ]
+                      },
+                      "path": {
+                        "items": {
+                          "oneOf": [
+                            {
+                              "maxLength": 80,
+                              "type": "string"
+                            },
+                            {
+                              "maximum": 1023,
+                              "minimum": 0,
+                              "type": "integer"
+                            }
+                          ]
+                        },
+                        "maxItems": 8,
+                        "type": "array"
+                      },
+                      "value": {
+                        "maxLength": 256,
+                        "type": [
+                          "string",
+                          "number",
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tool"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "arguments": {
+                    "maxProperties": 64,
+                    "type": "object"
+                  },
+                  "name": {
+                    "pattern": "^(chitraagni_[a-z0-9_]{1,96}|mcp_[0-9a-f]{32})$",
+                    "type": "string"
+                  },
+                  "tool": {
+                    "const": "plugin_read"
+                  },
+                  "when": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "equals",
+                          "count_at_least"
+                        ]
+                      },
+                      "path": {
+                        "items": {
+                          "oneOf": [
+                            {
+                              "maxLength": 80,
+                              "type": "string"
+                            },
+                            {
+                              "maximum": 1023,
+                              "minimum": 0,
+                              "type": "integer"
+                            }
+                          ]
+                        },
+                        "maxItems": 8,
+                        "type": "array"
+                      },
+                      "value": {
+                        "maxLength": 256,
+                        "type": [
+                          "string",
+                          "number",
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tool",
+                  "name",
+                  "arguments"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "arguments": {
+                    "maxProperties": 64,
+                    "type": "object"
+                  },
+                  "name": {
+                    "pattern": "^mcp_[0-9a-f]{32}$",
+                    "type": "string"
+                  },
+                  "tool": {
+                    "const": "plugin_call"
+                  },
+                  "when": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "equals",
+                          "count_at_least"
+                        ]
+                      },
+                      "path": {
+                        "items": {
+                          "oneOf": [
+                            {
+                              "maxLength": 80,
+                              "type": "string"
+                            },
+                            {
+                              "maximum": 1023,
+                              "minimum": 0,
+                              "type": "integer"
+                            }
+                          ]
+                        },
+                        "maxItems": 8,
+                        "type": "array"
+                      },
+                      "value": {
+                        "maxLength": 256,
+                        "type": [
+                          "string",
+                          "number",
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tool",
+                  "name",
+                  "arguments"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "revision": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "skill_id": {
+                    "pattern": "^[a-zA-Z0-9_-]{1,80}$",
+                    "type": "string"
+                  },
+                  "tool": {
+                    "const": "use_skill"
+                  }
+                },
+                "required": [
+                  "tool",
+                  "skill_id",
+                  "revision"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "tool": {
+                    "const": "megas_action_local_tasks"
+                  },
+                  "when": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "equals",
+                          "count_at_least"
+                        ]
+                      },
+                      "path": {
+                        "items": {
+                          "oneOf": [
+                            {
+                              "maxLength": 80,
+                              "type": "string"
+                            },
+                            {
+                              "maximum": 1023,
+                              "minimum": 0,
+                              "type": "integer"
+                            }
+                          ]
+                        },
+                        "maxItems": 8,
+                        "type": "array"
+                      },
+                      "value": {
+                        "maxLength": 256,
+                        "type": [
+                          "string",
+                          "number",
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tool"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "title": {
+                    "maxLength": 512,
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "type": "string"
+                  },
+                  "tool": {
+                    "const": "megas_action_task_create"
+                  },
+                  "when": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "equals",
+                          "count_at_least"
+                        ]
+                      },
+                      "path": {
+                        "items": {
+                          "oneOf": [
+                            {
+                              "maxLength": 80,
+                              "type": "string"
+                            },
+                            {
+                              "maximum": 1023,
+                              "minimum": 0,
+                              "type": "integer"
+                            }
+                          ]
+                        },
+                        "maxItems": 8,
+                        "type": "array"
+                      },
+                      "value": {
+                        "maxLength": 256,
+                        "type": [
+                          "string",
+                          "number",
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tool",
+                  "title"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "recipient_agent": {
+                    "maxLength": 128,
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "type": "string"
+                  },
+                  "tool": {
+                    "const": "local_agent_review"
+                  },
+                  "when": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "equals",
+                          "count_at_least"
+                        ]
+                      },
+                      "path": {
+                        "items": {
+                          "oneOf": [
+                            {
+                              "maxLength": 80,
+                              "type": "string"
+                            },
+                            {
+                              "maximum": 1023,
+                              "minimum": 0,
+                              "type": "integer"
+                            }
+                          ]
+                        },
+                        "maxItems": 8,
+                        "type": "array"
+                      },
+                      "value": {
+                        "maxLength": 256,
+                        "type": [
+                          "string",
+                          "number",
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "workspace_project": {
+                    "maxLength": 128,
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tool",
+                  "recipient_agent",
+                  "workspace_project"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "maxItems": 12,
+          "minItems": 1,
+          "type": "array"
+        },
+        "trigger": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "manual"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "agent": {
+                  "maxLength": 128,
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "type": "string"
+                },
+                "kind": {
+                  "const": "agent_turn_completed"
+                }
+              },
+              "required": [
+                "kind",
+                "agent"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "at": {
+                  "maxLength": 40,
+                  "type": "string"
+                },
+                "every_seconds": {
+                  "maximum": 31536000,
+                  "minimum": 60,
+                  "type": "integer"
+                },
+                "kind": {
+                  "const": "schedule"
+                }
+              },
+              "required": [
+                "kind",
+                "at"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "task_state"
+                },
+                "state": {
+                  "enum": [
+                    "assigned",
+                    "cancelled",
+                    "completed",
+                    "failed",
+                    "open",
+                    "paused",
+                    "recovering",
+                    "running",
+                    "waiting_approval",
+                    "waiting_capacity"
+                  ]
+                },
+                "task_id": {
+                  "pattern": "^task_[a-f0-9]{32}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "task_id",
+                "state"
+              ],
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "required": [
+        "skill_id",
+        "name",
+        "action_id",
+        "steps",
+        "trigger",
+        "enabled",
+        "expected_revision"
+      ],
+      "type": "object"
+    },
+    "name": "megas_skill_save"
+  }
+]

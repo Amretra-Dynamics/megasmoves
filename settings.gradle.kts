@@ -30,4 +30,4 @@ plugins {
 }
 
 rootProject.name = "Megas Moves"
-include(":app")
+include(":app", ":app:voice-history", ":app:android-mcp")
