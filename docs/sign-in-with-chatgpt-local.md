@@ -82,3 +82,41 @@ These tests use synthetic provider responses. Claim a live connection only
 after a real browser callback, signed identity, granted scope, account-specific
 model listing and completed Responses stream. The installed native
 MegasMoves executable requires separate release smoke tests.
+
+## Agent Leader coordination preview
+
+The local open-source client also supports a **read-only Agent Leader** that
+uses the account-authorized ChatGPT model to propose work for existing Megas
+coding agents. It is not a separate API billing route.
+
+Discover verified, connected targets:
+
+~~~sh
+PYTHONPATH=worker python -m megas.siwc_oss agents
+~~~
+
+After a successful OAuth sign-in, select a model from `models` and submit a
+goal on standard input:
+
+~~~sh
+printf '%s\n' 'Review the existing tests and propose the next verified steps' |
+  PYTHONPATH=worker python -m megas.siwc_oss plan \
+    --account 'you@example.com' --model 'MODEL_FROM_LIST'
+~~~
+
+The plan contains only agent IDs reported as **detected and configured** by
+the local Megas agent registry. Every step is marked `awaiting_review`;
+nothing is executed or assigned automatically. An actual task requires
+separate human approval and the existing Megas permissions and execution
+path. If no connected agent is available, planning refuses to spend a model
+request.
+
+This public source preview does not yet provide trusted WebMCP tool discovery.
+It therefore cannot delegate directly to arbitrary websites; the model is
+not allowed to fabricate WebMCP tool IDs or impersonate browser permissions.
+
+Additional offline tests:
+
+~~~sh
+PYTHONPATH=worker python -m unittest discover -s worker/tests -p 'test_siwc_leader_public.py' -v
+~~~

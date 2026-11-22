@@ -906,6 +906,10 @@ def main(argv: list[str] | None = None) -> int:
     ask = command.add_parser("ask")
     ask.add_argument("--account", required=True)
     ask.add_argument("--model", required=True)
+    plan = command.add_parser("plan", help="Propose reviewed tasks for connected Megas agents")
+    plan.add_argument("--account", required=True)
+    plan.add_argument("--model", required=True)
+    command.add_parser("agents", help="List connected, reviewable Megas agent targets")
     disconnect = command.add_parser("disconnect")
     disconnect.add_argument("--account", required=True)
     args = parser.parse_args(argv)
@@ -927,6 +931,14 @@ def main(argv: list[str] | None = None) -> int:
             prompt = sys.stdin.read(MAX_TEXT)
             output = client.infer(email=args.account, model=args.model,
                                   prompt=prompt)
+        elif args.command == "agents":
+            from .siwc_leader import connected_agents
+            output = {"agents": connected_agents(), "read_only": True}
+        elif args.command == "plan":
+            from .siwc_leader import preview
+            goal = sys.stdin.read(4001)
+            output = preview(account_email=args.account,
+                             model=args.model, goal=goal, client=client)
         else:
             output = client.disconnect(email=args.account)
         print(json.dumps(output, ensure_ascii=False))
