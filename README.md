@@ -8,7 +8,7 @@
 
 MegasMoves (also called Megas Moves) is an open-source **SI agent platform** and **developer automation runtime** that connects compatible agents to local tools, trusted workspaces, browser tabs and device-specific operations using the **Model Context Protocol (MCP)**. It is designed around observable execution, explicit permissions and human-visible work. The public builds and integrations are an evolving engineering preview.
 
-**[Website](https://megasmoves.io/)** · **[Installation & downloads](https://megasmoves.io/download/)** · **[Getting started](https://megasmoves.io/docs/getting-started/)** · **[MCP / CLI documentation](https://megasmoves.io/docs/cli-reference/)** · **[Security policy](SECURITY.md)**
+**[Website](https://megasmoves.io/)** · **[Installation & downloads](https://megasmoves.io/download/)** · **[Getting started](https://megasmoves.io/docs/getting-started/)** · **[MCP / CLI documentation](https://megasmoves.io/docs/cli-reference/)** · **[Security policy](SECURITY.md)** · **[Local Sign in with ChatGPT](docs/sign-in-with-chatgpt-local.md)**
 
 
 **MegasMoves** by **Amretra Dynamics** is a multi-device software automation platform built around native applications, a local execution runtime, the Model Context Protocol (MCP), and explicit device and workspace permissions.
