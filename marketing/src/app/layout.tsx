@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: "%s | MegasMoves",
   },
   description:
-    "MegasMoves by Amretra Dynamics connects SI agents to local tools, approved browser sessions, development workspaces and devices through a permission-aware MCP runtime. Explore preview builds and documentation.",
+    "Megas Moves connects AI agents to local computer tools, approved browser automation, tasks and devices with a permission-aware MCP runtime. Discover Windows, Android, Linux and Mac releases.",
   applicationName: "MegasMoves",
   category: "developer tools",
   authors: [{ name: "Amretra Dynamics", url: "https://github.com/Amretra-Dynamics" }],
@@ -34,6 +34,10 @@ export const metadata: Metadata = {
     "Windows Android Linux macOS",
     "agent coordination",
     "local-first automation",
+    "AI agent automation software",
+    "cross-device AI assistant",
+    "always-on AI agent workflow",
+    "AI browser automation tools",
     "Amretra Dynamics",
   ],
   openGraph: {

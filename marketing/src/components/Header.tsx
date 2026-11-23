@@ -11,6 +11,7 @@ type Theme = "dark" | "light";
 const navigation = [
   { href: "/#features", label: "Features" },
   { href: "/wow", label: "Megas WoW" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/download", label: "Downloads" },
   { href: "https://github.com/Amretra-Dynamics/megasmoves", label: "GitHub" },
   { href: "https://t.me/megasmovesSI", label: "Community" },
@@ -78,9 +79,9 @@ export default function Header() {
             <Sun className="theme-icon theme-icon--sun" aria-hidden="true" />
             <Moon className="theme-icon theme-icon--moon" aria-hidden="true" />
           </button>
-          <Link href="/docs/getting-started" className="button button--quiet site-header__login">
-            Setup
-          </Link>
+          <a href="https://pay.megasmoves.io/account" className="button button--quiet site-header__login">
+            Sign in
+          </a>
           <Link href="/download" className="button button--primary site-header__cta">
             Get started free
             <ArrowRight aria-hidden="true" />
@@ -106,10 +107,10 @@ export default function Header() {
               <ArrowRight aria-hidden="true" />
             </Link>
           ))}
-          <Link href="/docs/getting-started" onClick={() => setMenuOpen(false)}>
-            Setup
+          <a href="https://pay.megasmoves.io/account" onClick={() => setMenuOpen(false)}>
+            Sign in
             <ArrowRight aria-hidden="true" />
-          </Link>
+          </a>
           <Link href="/download" onClick={() => setMenuOpen(false)}>
             Get started free
             <ArrowRight aria-hidden="true" />

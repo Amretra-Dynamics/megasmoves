@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
+  title: "Megas Moves | Local AI Agent Automation Across Windows, Android, Linux & Mac",
+  description: "Connect supported AI agents to your own computer, browser, tasks and approved tools using Megas Moves. Explore local-first MCP automation, Android access and transparent preview downloads.",
 };
 
 const softwareSchema = {
@@ -13,6 +15,9 @@ const softwareSchema = {
   description:
     "Multi-device SI agent and local software automation platform with permission-aware MCP tools, browser operations and development workspaces.",
   applicationCategory: "DeveloperApplication",
+  operatingSystem: "Windows, Android, Linux, macOS",
+  isAccessibleForFree: true,
+  featureList: ["Local MCP operator", "Permission-scoped browser actions", "Task and project context", "Cross-device agent access", "Local system diagnostics"],
   downloadUrl: "https://megasmoves.io/download/",
   creator: {
     "@type": "Organization",
@@ -130,8 +135,8 @@ export default function Home() {
                   Get started free
                   <ArrowRight aria-hidden="true" />
                 </Link>
-                <Link href="#features" className="button button--quiet button--large">
-                  Explore the features
+                <Link href="/pricing" className="button button--quiet button--large">
+                  See plans & pricing
                   <ArrowRight aria-hidden="true" />
                 </Link>
               </div>
