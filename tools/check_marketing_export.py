@@ -31,6 +31,14 @@ def main():
             if not target.exists(): broken.append((str(page.relative_to(ROOT)),href))
             checked.add(path)
     assert not broken, broken
+    # Pages is static: it has no binary latest.apk alias or checkout backend.
+    html = "\n".join(page.read_text(encoding="utf-8") for page in pages)
+    assert 'href="/mobile/releases/latest.apk"' not in html
+    assert 'href="/api/billing/checkout"' not in html
+    help_page = ROOT / 'android-testing/index.html'
+    assert help_page.is_file()
+    assert 'Google Play listing' in help_page.read_text(encoding="utf-8")
+    assert '/mobile/releases/latest.json' in help_page.read_text(encoding="utf-8")
     catalog=json.loads((ROOT/'downloads.json').read_text())
     assert catalog['scope']=='public-release' and catalog['channel']=='preview'
     for row in catalog['artifacts']:

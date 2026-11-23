@@ -32,6 +32,15 @@ test("desktop platform downloads, ISO dates and copy state", async ({ page }, in
   await expect(page.getByRole("button", { name: "Copy Windows command" })).toContainText("Copied");
   await expect(page.locator("#terminal-install")).toContainText("irm https://megasmoves.io/install.ps1 | iex");
   await expect(page.locator("#terminal-install")).not.toContainText("127.0.0.1");
+  await expect(page.getByRole("heading", { name: "Android on Google Play" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Check Google Play listing" })).toHaveAttribute(
+    "href", "https://play.google.com/store/apps/details?id=com.amretra.megasmoves"
+  );
+  await expect(page.getByRole("link", { name: "Direct APK installation and update help" })).toHaveAttribute(
+    "href", "/android-testing/"
+  );
+  await expect(page.locator("a[href='/mobile/releases/latest.apk']")).toHaveCount(0);
+
   await page.evaluate(() => { scrollTo({ top: 0, left: 0, behavior: "instant" }); });
   await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
   await page.evaluate(() => document.fonts.ready);

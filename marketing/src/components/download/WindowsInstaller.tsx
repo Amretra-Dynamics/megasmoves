@@ -51,9 +51,23 @@ export default function WindowsInstaller() {
         {item ? <><div className="platform-download__action">{download(item)}<span>v{item.version}<br/>{(item.size_bytes/1024/1024).toFixed(1)} MB</span></div><dl className="artifact-dates"><div><dt>Code updated</dt><dd>{item.source_updated_at ? date(item.source_updated_at) : "Not recorded"}</dd></div>{item.built_at ? <div><dt>Build date</dt><dd>{date(item.built_at)}</dd></div> : null}</dl>{verification(item)}</> : <p className="artifact-note">{failed ? 'Unavailable' : artifacts.length ? 'No download listed for this platform.' : 'Loading…'}</p>}
       </article>;
     })}</div>
+    <section className="mt-8 grid gap-4 md:grid-cols-2" aria-label="Android installation channels">
+      <article className="rounded-xl border border-[var(--line)] bg-[var(--site-bg-raised)] p-5">
+        <h3 className="text-lg font-semibold">Android on Google Play</h3>
+        <p className="mt-2 text-sm leading-6 text-[var(--muted)]">Google Play manages updates for Play-installed versions. Public listing availability is not yet verified.</p>
+        <a className="text-link mt-3 inline-flex" href="https://play.google.com/store/apps/details?id=com.amretra.megasmoves" rel="noopener noreferrer">Check Google Play listing</a>
+        <p className="artifact-note">A listing unavailable to your account is not a public download.</p>
+      </article>
+      <article className="rounded-xl border border-[var(--line)] bg-[var(--site-bg-raised)] p-5">
+        <h3 className="text-lg font-semibold">Android direct APK</h3>
+        <p className="mt-2 text-sm leading-6 text-[var(--muted)]">Use the versioned APK in the Android card above. Updates follow the separately signed direct-install feed, not Google Play.</p>
+        <a className="text-link mt-3 inline-flex" href="/android-testing/">Direct APK installation and update help</a>
+        <p className="artifact-note">Verify package, signature, version and SHA-256 before replacing an existing install. Never uninstall to bypass a signature mismatch.</p>
+      </article>
+    </section>
     <details className="additional-downloads"><summary>Windows application · Direct executable</summary>
       {artifacts.filter(item=>item.title==='Windows application').map(item=><article key={item.filename}><div><h3>{item.title}</h3><p>v{item.version} · {(item.size_bytes/1024/1024).toFixed(1)} MB</p></div>{download(item)}{verification(item)}</article>)}
     </details>
-    <p className="artifact-note">Preview builds. Windows downloads are unsigned; the Android APK is debug-signed.</p>
+    <p className="artifact-note">These are preview builds, not production-certified releases. See each artifact's signing status and SHA-256 above.</p>
   </div>;
 }
