@@ -29,16 +29,16 @@
     },
     {
       "title": "Android APK",
-      "version": "1.0.548",
-      "status": "Debug-signed Android standalone terminal and app-testing preview",
-      "size_bytes": 79237751,
-      "sha256": "71e3dbf13349912237ab823b6bd2a19f824d97e7e23e980b65ced440acd9b761",
-      "filename": "megas-moves-debug-v1.0.548.apk",
-      "href": "https://github.com/Amretra-Dynamics/megasmoves/releases/download/preview-2026-10-15-android-548/megas-moves-debug-v1.0.548.apk",
-      "source_updated_at": "2026-10-15",
-      "built_at": "2026-10-15",
+      "version": "1.0.593",
+      "status": "Signed Android direct-install preview",
+      "size_bytes": 57153884,
+      "sha256": "59391efdfa834181df47ecee0f8b7ae1eec28ab4c2fe071a2f7dd5df3d92bced",
+      "filename": "megas-moves-debug-v1.0.593.apk",
+      "href": "https://github.com/Amretra-Dynamics/megasmoves/releases/download/preview-2026-11-24-android-593/megas-moves-debug-v1.0.593.apk",
+      "source_updated_at": null,
+      "built_at": "2026-11-24",
       "source_revision": null,
-      "source_note": "Local private Android development worktree build with Android shell, installer flow, Accessibility smoke tests and existing browser; not a reproducible public source build."
+      "source_note": "Verified APK from the Megas Moves Android preview release."
     },
     {
       "title": "macOS CLI (Apple Silicon)",
@@ -65,5 +65,5 @@
     }
   ],
   "channel": "preview",
-  "published_at": "2026-10-15"
+  "published_at": "2026-11-24"
 }
