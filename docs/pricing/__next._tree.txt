@@ -1,4 +1,4 @@
-:HL["/_next/static/chunks/1i6dqa1d_xfm4.css","style"]
+:HL["/_next/static/chunks/2n0khx7xgwmdd.css","style"]
 :HL["/_next/static/media/barlow_condensed_600-s.p.0fa85icsp3e0f.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
 :HL["/_next/static/media/barlow_condensed_700-s.p.2y9nqhh6agb7q.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
 :HL["/_next/static/media/barlow_condensed_800-s.p.0c_jbugc6s9d-.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
@@ -10,4 +10,4 @@
 :HL["/_next/static/media/inter_900-s.p.3o2q7bv3-e6w1.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"pricing","h":96,"c":"$Q2"}]]
-0:{"b":"5_79xFACV1l0OWErG5JS9","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"Fo42rTZtt9i6MXlQvwPke","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
