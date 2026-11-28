@@ -24,6 +24,7 @@ export default function Pricing(){return <div className="site-surface min-h-scre
 {["Account-linked subscription and billing status","Compatible device and agent coordination","Shared Actions, task history and context"].map(t=><div key={t} className="mt-5 flex gap-3"><CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-[var(--accent)]"/>{t}</div>)}
 <h3 className="mt-12 font-bold text-[var(--text)]">Subscription details</h3>
 <p><Link href="/legal/subscription-terms/">Subscription terms</Link> · <Link href="/legal/offer-terms/">India offer</Link></p>
+<p><Link href="/legal/delivery/">Service delivery and access</Link></p>
 <p><Link href="/legal/cancellation/">Cancellation</Link> · <Link href="/legal/refunds/">Refunds</Link> · <Link href="/legal/service-privacy/">Service privacy</Link></p>
 <p className="mt-4">Billing assistance: <a href="mailto:master@megasmoves.io">master@megasmoves.io</a></p>
 </section></div></main><Footer/></div>}

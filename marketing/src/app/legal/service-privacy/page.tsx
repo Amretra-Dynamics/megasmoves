@@ -18,7 +18,7 @@ const sections = [
   {
     "title": "Security, retention and customer rights",
     "paragraphs": [
-      "We use authentication, scoped permissions and transaction verification. Records may be retained as needed for service delivery, security, dispute resolution, accounting and legal obligations. Specific retention schedules must be finalized before live payments. Request access, correction or an appropriate deletion review through master@megasmoves.io."
+      "We use authentication, scoped permissions and transaction verification. Records may be retained as needed for service delivery, security, dispute resolution, accounting and legal obligations. Cancelling a test subscription does not delete your Megas account or automatically remove its billing history. Specific retention schedules must be finalized before live payments. Request access, correction or an appropriate deletion review through master@megasmoves.io."
     ]
   },
   {
@@ -41,6 +41,6 @@ export default function PolicyPage(){return <div className="site-surface min-h-s
  <nav aria-label="Related policies" className="mt-12 flex flex-wrap gap-4 border-t border-[var(--line)] pt-7 text-sm">
   <Link href="/legal/subscription-terms/">Subscription terms</Link><Link href="/legal/offer-terms/">India offer</Link>
   <Link href="/legal/cancellation/">Cancellation</Link><Link href="/legal/refunds/">Refunds</Link>
-  <Link href="/legal/service-privacy/">Service privacy</Link><Link href="/legal/">Legal center</Link>
+  <Link href="/legal/delivery/">Service delivery</Link><Link href="/legal/service-privacy/">Service privacy</Link><Link href="/legal/">Legal center</Link>
  </nav><p className="mt-8 text-sm text-[var(--muted)]">Billing support: <a href="mailto:master@megasmoves.io">master@megasmoves.io</a></p>
  </main><Footer/></div>}

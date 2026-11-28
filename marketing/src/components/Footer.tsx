@@ -97,6 +97,7 @@ export default function Footer() {
           <Link href="/privacy" className="no-underline hover:text-[var(--accent)]">Privacy</Link>
           <Link href="/legal/refunds" className="no-underline hover:text-[var(--accent)]">Refunds</Link>
           <Link href="/legal/cancellation" className="no-underline hover:text-[var(--accent)]">Cancellation</Link>
+          <Link href="/legal/delivery/" className="no-underline hover:text-[var(--accent)]">Service delivery</Link>
           <Link href="/legal/cookies" className="no-underline hover:text-[var(--accent)]">Cookies</Link>
           <Link href="/legal" className="no-underline hover:text-[var(--accent)]">Legal center</Link>
         </nav>
