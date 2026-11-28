@@ -6,19 +6,19 @@ const sections = [
   {
     "title": "Cancellation requests",
     "paragraphs": [
-      "Email master@megasmoves.io from the account email with the subject Cancel Megas WoW and the subscription reference. Never send a password or full card number. Until a verified self-service control is available, support will verify ownership and confirm the cancellation outcome."
+      "Use the cancellation control for your subscription in the Megas billing account or the selected provider’s customer portal when available. If a control is unavailable or cancellation is not confirmed, email master@megasmoves.io from the account email with the subject Cancel Megas WoW, the provider name and subscription reference. Support will verify ownership and confirm the outcome. Never send a password or full card number."
     ]
   },
   {
     "title": "Recurring mandates",
     "paragraphs": [
-      "When cancellation is processed and confirmed, MegasMoves must not initiate further renewals. Customers can separately inspect or revoke payment mandates through their bank, UPI app or Razorpay when supported. Confirmation should state any remaining access through the already-paid period."
+      "After cancellation is confirmed and effective, no further subscription renewals will be initiated. An already-paid period may continue as stated in the confirmation. Check the confirmation for the effective date and remaining access. Razorpay subscriptions and Dodo merchant-of-record subscriptions use the respective provider’s supported cancellation process. Where supported, customers can also inspect or revoke mandates through their bank or UPI app."
     ]
   },
   {
     "title": "Billing issues",
     "paragraphs": [
-      "Report charges after confirmed cancellation with the transaction reference. Cancellation of future renewals and refunds of earlier charges are separate processes. Test Mode never moves real money."
+      "Report charges after confirmed cancellation with the provider and transaction reference. Cancellation of future renewals and refunds of earlier charges are separate processes. The current Razorpay checkout is in Test Mode; Dodo test billing setup is in progress. Test Mode does not move real money."
     ]
   }
 ];
@@ -26,7 +26,7 @@ export default function PolicyPage(){return <div className="site-surface min-h-s
  <p className="eyebrow">AMRETRA DYNAMICS / INDIA / POLICY</p>
  <h1 className="mt-5 text-4xl font-extrabold tracking-[-0.05em] md:text-6xl">Megas WoW cancellation policy</h1>
  <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--text-soft)]">How India customers can stop recurring subscription renewals.</p>
- <p className="mt-4 text-sm text-[var(--muted)]">Updated 17 October 2026</p>
+ <p className="mt-4 text-sm text-[var(--muted)]">Updated 28 November 2026</p>
  <div className="mt-14 space-y-9">{sections.map((section,index)=><section key={section.title} className="border-t border-[var(--line)] pt-7">
   <p className="text-xs font-extrabold text-[var(--accent)]">{String(index+1).padStart(2,"0")}</p>
   <h2 className="mt-3 text-2xl font-bold">{section.title}</h2>

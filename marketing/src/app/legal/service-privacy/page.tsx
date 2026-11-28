@@ -6,7 +6,7 @@ const sections = [
   {
     "title": "Account and payments",
     "paragraphs": [
-      "Firebase Authentication verifies accounts and may provide an account identifier and profile email. Razorpay handles payment details; MegasMoves does not ask for full card credentials on its own checkout. We may process provider subscription references, billing state and webhook verification for customer entitlements."
+      "Firebase Authentication verifies accounts and may provide an account identifier and profile email. The current test checkout sends payment details to Razorpay. Dodo Payments billing is being prepared; when available, Dodo handles billing as merchant of record for purchases through its checkout. MegasMoves does not request full card credentials on its own site. We may process the selected provider’s customer, payment and subscription references, billing state and verified transaction updates to manage account access."
     ]
   },
   {
@@ -24,7 +24,7 @@ const sections = [
   {
     "title": "Test environment",
     "paragraphs": [
-      "The current checkout is a test integration. Test transaction artifacts are not real-money purchases. This service notice supplements the separate marketing website privacy notice."
+      "The current Razorpay checkout is a test integration. Dodo Payments test billing setup is in progress. Test transactions are not real-money purchases. This service notice supplements the separate marketing website privacy notice."
     ]
   }
 ];
@@ -32,7 +32,7 @@ export default function PolicyPage(){return <div className="site-surface min-h-s
  <p className="eyebrow">AMRETRA DYNAMICS / INDIA / POLICY</p>
  <h1 className="mt-5 text-4xl font-extrabold tracking-[-0.05em] md:text-6xl">Megas WoW service privacy notice</h1>
  <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--text-soft)]">Privacy information for the managed Megas WoW account, payment and connected-device service, separate from the static website.</p>
- <p className="mt-4 text-sm text-[var(--muted)]">Updated 17 October 2026</p>
+ <p className="mt-4 text-sm text-[var(--muted)]">Updated 28 November 2026</p>
  <div className="mt-14 space-y-9">{sections.map((section,index)=><section key={section.title} className="border-t border-[var(--line)] pt-7">
   <p className="text-xs font-extrabold text-[var(--accent)]">{String(index+1).padStart(2,"0")}</p>
   <h2 className="mt-3 text-2xl font-bold">{section.title}</h2>

@@ -6,13 +6,19 @@ const sections = [
   {
     "title": "Scope and availability",
     "paragraphs": [
-      "Megas WoW is an account-based SI-agent service intended for India. Only capabilities in the customer's purchase summary are included; preview features are not guaranteed. The current checkout operates in Razorpay Test Mode and collects no real funds."
+      "Megas WoW is an account-based SI-agent service intended for India. Only capabilities in the customer's purchase summary are included; preview features are not guaranteed. The current India checkout uses Razorpay Test Mode. Dodo Payments test billing setup is in progress. Real-money purchases are not available on this site."
     ]
   },
   {
     "title": "Pricing and promotional offer",
     "paragraphs": [
-      "Regular price: ₹1,999 per month. A limited-time price of ₹999 per month is advertised for eligible India customers. The current Razorpay monthly subscription authorization covers 12 billing cycles; further payments require the appropriate authorization. International checkout is not offered. The promotion period, number of discounted cycles, taxes and renewal price must be disclosed before authorization. The renewal amount cannot be silently changed."
+      "The current Razorpay test checkout displays ₹999 per month for 12 billing cycles. Test settings do not establish a live price or promotional offer. Before any real purchase, the selected checkout must show the price, currency, taxes, billing interval, duration of any discount and renewal terms. A test transaction does not authorize a future live charge or a price increase."
+    ]
+  },
+  {
+    "title": "Billing providers",
+    "paragraphs": [
+      "For payments through Razorpay, Amretra Dynamics is the seller and Razorpay provides payment processing. When Dodo Payments checkout becomes available, Dodo acts as merchant of record for purchases through that checkout, with its applicable sale and billing terms. Amretra Dynamics provides the Megas Moves service and account support."
     ]
   },
   {
@@ -38,7 +44,7 @@ export default function PolicyPage(){return <div className="site-surface min-h-s
  <p className="eyebrow">AMRETRA DYNAMICS / INDIA / POLICY</p>
  <h1 className="mt-5 text-4xl font-extrabold tracking-[-0.05em] md:text-6xl">Megas WoW subscription terms</h1>
  <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--text-soft)]">Terms for Megas WoW customers in India, separate from the public marketing website.</p>
- <p className="mt-4 text-sm text-[var(--muted)]">Updated 17 October 2026</p>
+ <p className="mt-4 text-sm text-[var(--muted)]">Updated 28 November 2026</p>
  <div className="mt-14 space-y-9">{sections.map((section,index)=><section key={section.title} className="border-t border-[var(--line)] pt-7">
   <p className="text-xs font-extrabold text-[var(--accent)]">{String(index+1).padStart(2,"0")}</p>
   <h2 className="mt-3 text-2xl font-bold">{section.title}</h2>
